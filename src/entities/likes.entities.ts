@@ -1,20 +1,31 @@
-import { Column, PrimaryGeneratedColumn, Entity, ManyToOne } from 'typeorm';
-import { User } from './user.entities.ts';
-import { Posts } from './post.entities.ts';
+import {
+  PrimaryGeneratedColumn,
+  Entity,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
+import Post from './posts.entities';
+import User from './user.entities';
 
 @Entity('likes')
 class Likes {
   @PrimaryGeneratedColumn('uuid')
-    id: string;
+  id: string;
 
-  @Column({ type: 'date' })
-    createdat: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.likes)
-    user: string;
+  @ManyToOne(() => User, (user) => user.likes, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  user: User;
 
-  @ManyToOne(() => Posts, (posts) => posts.likes)
-    posts: string;
+  @ManyToOne(() => Post, (post) => post.likes, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  post: Post;
 }
 
 export default Likes;
