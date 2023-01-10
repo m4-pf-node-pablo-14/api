@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import CommentToLikes from './commentToLikes.entities';
 import Post from './post.entities.ts';
-import User from './user.entities.ts';
+import User from './user.entities';
 
 @Entity('comments')
 class Comment {
