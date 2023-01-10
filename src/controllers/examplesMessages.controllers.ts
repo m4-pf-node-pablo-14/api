@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import createMessageService from '../services/examples/createMessage.service';
-import deleteMessageService from '../services/examples/deleteMessage.service';
-import listMessageService from '../services/examples/listMessage.service';
-import updateMessageService from '../services/examples/updateMessage.service';
+import createMessageService from '../services/examples/messages/createMessage.service';
+import deleteMessageService from '../services/examples/messages/deleteMessage.service';
+import listMessageService from '../services/examples/messages/listMessage.service';
+import updateMessageService from '../services/examples/messages/updateMessage.service';
 
 const createMessageController = async (req: Request, res: Response) => {
-  const message = await createMessageService(req.body);
+  const message = await createMessageService(req.body,req.user.id);
   return res.status(201).json(message);
 };
 
