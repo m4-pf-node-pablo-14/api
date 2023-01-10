@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Comment from './comments.entities';
-import User from './user.entities.ts';
+import User from './user.entities';
 
 @Entity('comment_likes')
 class CommentToLikes {

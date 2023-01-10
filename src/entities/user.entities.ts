@@ -1,45 +1,77 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { getRounds, hashSync } from 'bcryptjs';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeUpdate,
+  BeforeInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  OneToMany,
+} from 'typeorm';
+import Comment from './comments.entities';
+import CommentToLikes from './commentToLikes.entities';
+import Follow from './follow.entities';
 
 @Entity('users')
-export class User {
+class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+    id: string;
 
   @Column({ length: 60 })
-  name: string
+    name: string;
 
   @Column({ length: 60 })
-  last_name: string
+    last_name: string;
 
   @Column({ length: 60 })
-  password: string
+    password: string;
 
   @Column({ length: 60, unique: true })
-  email: string
+    email: string;
 
   @Column({ length: 60, unique: true })
-  username: string
+    username: string;
 
   @Column({ length: 200 })
-  bio: string
+    bio: string;
 
   @Column()
-  interest_one: string
+    interest_one: string;
 
   @Column()
-  interest_two: string
+    interest_two: string;
+
+  @CreateDateColumn()
+    createdAt: Date;
+
+  @UpdateDateColumn()
+    updateAt: Date;
+
+  @DeleteDateColumn()
+    deleteAt: Date;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
+
+  @OneToMany(() => Follow, (follow) => follow.following)
+    following: Follow[];
+
+  @OneToMany(() => Follow, (follow) => follow.followers)
+    followers: Follow[];
+
+  @OneToMany(() => CommentToLikes, (likes) => likes.comment)
+    commentLikes: CommentToLikes[];
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  hashPassword() {
+    const numberRounds = getRounds(this.password);
+    if (!numberRounds) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
 }
 
-function Entity(arg0: string) {
-  throw new Error("Function not implemented.")
-}
-
-
-function PrimaryGeneratedColumn(arg0: string) {
-  throw new Error("Function not implemented.")
-}
-
-
-function Column(arg0: { length: number }) {
-  throw new Error("Function not implemented.")
-}
+export default User;
