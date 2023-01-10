@@ -1,16 +1,20 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import Post from './post.entities.ts';
+import User from './user.entities.ts';
 
 @Entity('comments')
-export class Comment {
-    @PrimaryGeneratedColumn('uuid')
+class Comment {
+  @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({length: 160})
+  @Column({ length: 160 })
     text: string;
 
-    @ManyToOne(() => Post)
-    post: Post
+  @ManyToOne(() => Post, (post) => post.comments)
+    post: Post;
 
-    @ManyToOne(() => User)
-    user: User
+  @ManyToOne(() => User, (user) => user.comments)
+    user: User;
 }
+
+export default Comment;
