@@ -7,10 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import CommentToLikes from './commentToLikes.entities';
-import Post from './posts.entities';
-
 import User from './user.entities';
+import Post from './posts.entities';
+import CommentToLikes from './commentToLikes.entities';
 
 @Entity('comments')
 class Comment {
@@ -26,17 +25,17 @@ class Comment {
   @UpdateDateColumn()
     updatedAt: Date;
 
-  @ManyToOne(() => Post, (post) => post.comments, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-    post: Post;
-
   @ManyToOne(() => User, (user) => user.comments, {
     cascade: true,
     onDelete: 'CASCADE',
   })
     user: User;
+
+  @ManyToOne(() => Post, (post) => post.comments, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+    post: Post;
 
   @OneToMany(() => CommentToLikes, (like) => like.comment)
     likes: CommentToLikes[];
