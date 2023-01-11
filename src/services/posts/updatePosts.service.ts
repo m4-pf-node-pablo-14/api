@@ -4,24 +4,20 @@ import User from "../../entities/user.entities";
 import AppError from "../../errors/AppError";
 import { IPostRequest } from "../../interfaces/posts";
 
-const updatePostsService = async (
-  data: IPostRequest,
-  postId: string,
-  userId: string
-) => {
+export const updatePostsService = async (postData: IPostRequest, postToUpdateId: string, requesterUserId: string): Promise<Post> => {
   const postsRepository = AppDataSource.getRepository(Post);
   const userRepository = AppDataSource.getRepository(User);
 
   const findUser = await userRepository.findOneBy({
-    id: userId,
+    id: requesterUserId,
   });
   const findPost = await postsRepository
     .createQueryBuilder("Post")
     .innerJoinAndSelect("Post.users", "User")
-    .where("Post.id = :id", { id: postId })
+    .where("Post.id = :id", { id: postToUpdateId })
     .getOne();
 
-  if (userId !== findPost.user.id) {
+  if (requesterUserId !== findPost.user.id) {
     throw new AppError("You don't have permission", 400);
   }
 
@@ -34,10 +30,8 @@ const updatePostsService = async (
 
   const newPost = await postsRepository.save({
     ...findPost,
-    ...data,
+    ...postData,
   });
 
   return newPost;
 };
-
-export default updatePostsService;

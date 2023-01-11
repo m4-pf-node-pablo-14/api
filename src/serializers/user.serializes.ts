@@ -39,7 +39,7 @@ const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   id: yup.string().uuid(),
-  bio: yup.string(),
+  bio: yup.string().nullable(),
   email: yup.string().email(),
   last_name: yup.string(),
   name: yup.string(),

@@ -9,21 +9,16 @@ const createUserService = async (userData: IUserRequest) => {
   const userRepository = AppDataSource.getRepository(User);
   const addressRepository = AppDataSource.getRepository(Address)
 
-  const isEmail = await userRepository.findOne({
-    where: { email: userData.email },
-    withDeleted: true,
+  const userVerify = await userRepository.find({
+    where: [
+      { email: userData.email },
+      { username: userData.username}
+    ],
+    withDeleted: true
   });
-  if (isEmail) {
-    throw new AppError('email already exists');
-  }
-  const isUsername = await userRepository.findOne({
-    where: {
-      username: userData.username,
-    },
-    withDeleted: true,
-  });
-  if (isUsername) {
-    throw new AppError('username already exists');
+
+  if (userVerify[0]) {
+    throw new AppError('user already exists');
   }
 
   const address = addressRepository.create(userData.address)
@@ -33,10 +28,12 @@ const createUserService = async (userData: IUserRequest) => {
 
   const user = userRepository.create({...userData, address});
   await userRepository.save(user);
-  console.log(user)
-  return user
+
+  const createdUser = await userResponserSerializer.validate(user, { stripUnknown: true });
+
+  return createdUser
 };
 
 export default createUserService;
 
-/* await userResponserSerializer.validate(user, { stripUnknown: true }); */ 
+ 
