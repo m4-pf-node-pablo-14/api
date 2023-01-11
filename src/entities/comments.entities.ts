@@ -6,18 +6,18 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import CommentToLikes from './commentToLikes.entities';
-import Post from './posts.entities';
+} from "typeorm";
+import CommentToLikes from "./commentToLikes.entities";
+import Post from "./posts.entities";
 
-import User from './user.entities';
+import User from "./user.entities";
 
-@Entity('comments')
+@Entity("comments")
 class Comment {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: "text" })
   text: string;
 
   @CreateDateColumn()
@@ -28,13 +28,13 @@ class Comment {
 
   @ManyToOne(() => Post, (post) => post.comments, {
     cascade: true,
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   })
   post: Post;
 
   @ManyToOne(() => User, (user) => user.comments, {
     cascade: true,
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   })
   user: User;
 

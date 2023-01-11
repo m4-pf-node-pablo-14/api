@@ -7,7 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 const createLoginService = async (userData: IUserRequest) => {
-  const user = await AppDataSource.getRepository(ExampleUser).findOneBy({
+  const user = await AppDataSource.getRepository(User).findOneBy({
     email: userData.email,
   });
   if (!user) {
