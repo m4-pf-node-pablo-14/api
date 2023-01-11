@@ -2,35 +2,38 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
+<<<<<<< HEAD
   ManyToMany,
+=======
+>>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Comment from './comments.entities';
-import Likes from './likes.entities';
 import User from './user.entities';
+import Likes from './likes.entities';
+import Comment from './comments.entities';
 
 @Entity('posts')
 class Post {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ type: 'text', nullable: true })
-  img: string;
+    img: string;
 
-  @Column({ type: 'text', nullable: true})
-  description: string;
+  @Column({ type: 'text', nullable: true })
+    description: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updateAt: Date;
+    updateAt: Date;
 
+<<<<<<< HEAD
   @OneToMany(() => Likes, (likes) => likes.post)
   @JoinTable()
   likes: Likes[];
@@ -39,12 +42,26 @@ class Post {
   @JoinTable()
   comments: Comment[];
 
+=======
+>>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
   @ManyToOne(() => User, (user) => user.posts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinTable()
+<<<<<<< HEAD
   users: User;
+=======
+    user: User;
+
+  @OneToMany(() => Likes, (likes) => likes.post)
+  @JoinTable()
+    likes: Likes[];
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  @JoinTable()
+    comments: Comment[];
+>>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
 }
 
 export default Post;

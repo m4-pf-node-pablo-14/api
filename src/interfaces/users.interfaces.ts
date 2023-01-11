@@ -1,10 +1,19 @@
+interface IAddress {
+  district: string;
+  zipCode: string;
+  number: string;
+  city: string;
+  state: string;
+}
+
 export interface IUserRequest {
   name: string;
   last_name: string;
   password: string;
   email: string;
   username: string;
-  bio: string;
+  bio?: string;
+  address: IAddress;
 }
 
 export interface IUserLogin {
