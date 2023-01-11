@@ -4,6 +4,7 @@ import {
   deleteUserController,
   listUserCommentsController,
   listUserController,
+  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -29,6 +30,8 @@ userRouter.get(
   ensureAuthMiddleware,
   listUserCommentsController,
 );
+
+userRouter.get('/recomendedFollows/:id', ensureAuthMiddleware, listUsersWithSameFollowerController)
 
 userRouter.patch(
   '/:id',
