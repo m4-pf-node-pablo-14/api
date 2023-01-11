@@ -1,19 +1,19 @@
-import AppDataSource from '../../data-source'
-import AppError from '../../errors/AppError'
+import AppDataSource from '../../data-source';
+import AppError from '../../errors/AppError';
 
-export const listUserCommentsService = async (tokenId: string, userId: string) => {
-
-  const commentsRepo = AppDataSource.getRepository(Comment)
-  const commentsQB = commentsRepo.createQueryBuilder('comments')
+const listUserCommentsService = async (tokenId: string, userId: string) => {
+  const commentRepository = AppDataSource.getRepository(Comment);
+  const commentQueryBuilder = commentRepository.createQueryBuilder('comments');
 
   if (userId !== tokenId) {
-
-    throw new AppError('only your comments', 403)
+    throw new AppError('only your comments', 403);
   }
 
-  const comments = await commentsQB
+  const comments = await commentQueryBuilder
     .where('user = :userId', { userId })
-    .getMany()
+    .getMany();
 
-  return comments
-}
+  return comments;
+};
+
+export default listUserCommentsService;
