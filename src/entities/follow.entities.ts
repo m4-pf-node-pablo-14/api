@@ -1,16 +1,22 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import User from './user.entities.ts';
+import User from './user.entities';
 
 @Entity('follow')
 class Follow {
   @PrimaryGeneratedColumn('uuid')
-    id: string;
+  id: string;
 
-  @ManyToOne(() => User, (user) => user.following)
-    following: User;
+  @ManyToOne(() => User, (user) => user.following, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  following: User;
 
-  @ManyToOne(() => User, (user) => user.followers)
-    followers: User;
+  @ManyToOne(() => User, (user) => user.followers, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  followers: User;
 }
 
 export default Follow;
