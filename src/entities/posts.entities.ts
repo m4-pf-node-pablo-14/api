@@ -17,10 +17,10 @@ class Post {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   img: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @CreateDateColumn()
@@ -30,9 +30,11 @@ class Post {
   updateAt: Date;
 
   @OneToMany(() => Likes, (likes) => likes.post)
+  @JoinTable()
   likes: Likes[];
 
   @OneToMany(() => Comment, (comment) => comment.post)
+  @JoinTable()
   comments: Comment[];
 
   @ManyToMany(() => User, (user) => user.posts, {
