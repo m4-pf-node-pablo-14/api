@@ -10,22 +10,22 @@ import User from './user.entities';
 @Entity('comment_likes')
 class CommentToLikes {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.commentLikes, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  user: User;
+    user: User;
 
   @ManyToOne(() => Comment, (comment) => comment.likes, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  comment: Comment;
+    comment: Comment;
 }
 
 export default CommentToLikes;
