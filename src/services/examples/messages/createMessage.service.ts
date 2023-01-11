@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleUser from '../../../entities/exampleUser.entities';
 import { IMessageRequest } from '../../../interfaces/examples.interfaces';
 import { messageResponserSerializer } from '../../../serializers/exampleMessage.serializes';
@@ -20,3 +20,4 @@ const createMessageService = async (
 };
 
 export default createMessageService;
+ */

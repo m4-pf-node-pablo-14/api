@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleMessage from '../../../entities/exampleMessage.entities';
 import { IMessageUpdateRequest } from '../../../interfaces/examples.interfaces';
 import { messageResponserSerializer } from '../../../serializers/exampleMessage.serializes';
@@ -17,3 +17,4 @@ const updateMessageService = async (
 };
 
 export default updateMessageService;
+ */

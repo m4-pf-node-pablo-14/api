@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleMessage from '../../../entities/exampleMessage.entities';
 import { listMessageSerializer } from '../../../serializers/exampleMessage.serializes';
 
@@ -8,3 +8,4 @@ const listMessageService = async () => {
 };
 
 export default listMessageService;
+ */

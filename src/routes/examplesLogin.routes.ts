@@ -1,14 +1,15 @@
-import { Router } from 'express';
-import { createLoginController } from '../controllers/examplesLogin.controllers';
-import ensureExampleDataIsValidMiddleware from '../middlewares/ensureExampleDataIsValid.middleware';
-import { userSerializer } from '../serializers/exampleUser.serializes';
+/* import { Router } from "express";
+import { createLoginController } from "../controllers/examplesLogin.controllers";
+import ensureExampleDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
+import { userSerializer } from "../serializers/exampleUser.serializes";
 
 const exampleLoginRouter = Router();
 
 exampleLoginRouter.post(
-  '/login',
+  "/login",
   ensureExampleDataIsValidMiddleware(userSerializer),
-  createLoginController,
+  createLoginController
 );
 
 export default exampleLoginRouter;
+ */

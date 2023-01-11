@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+/* import { Request, Response } from 'express';
 import createLoginService from '../services/examples/login/createLogin.service';
 
 const createLoginController = async (req: Request, res: Response) => {
@@ -7,3 +7,4 @@ const createLoginController = async (req: Request, res: Response) => {
 };
 
 export { createLoginController };
+ */

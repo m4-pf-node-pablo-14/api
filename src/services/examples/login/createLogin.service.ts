@@ -1,4 +1,4 @@
-import { compareSync } from 'bcryptjs';
+/* import { compareSync } from 'bcryptjs';
 import AppDataSource from '../../../data-source';
 import ExampleUser from '../../../entities/exampleUser.entities';
 import AppError from '../../../errors/AppError';
@@ -24,4 +24,4 @@ const createLoginService = async (userData: IUserRequest) => {
   return { token };
 };
 
-export default createLoginService;
+export default createLoginService; */

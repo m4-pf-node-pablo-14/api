@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleUser from '../../../entities/exampleUser.entities';
 import { listUserSerializer } from '../../../serializers/exampleUser.serializes';
 
@@ -8,3 +8,4 @@ const listUserService = async () => {
 };
 
 export default listUserService;
+ */

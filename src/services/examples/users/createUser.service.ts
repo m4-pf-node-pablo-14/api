@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleUser from '../../../entities/exampleUser.entities';
 import { IUserRequest } from '../../../interfaces/examples.interfaces';
 import { userResponserSerializer } from '../../../serializers/exampleUser.serializes';
@@ -11,3 +11,4 @@ const createUserService = async (userData: IUserRequest) => {
 };
 
 export default createUserService;
+ */

@@ -1,4 +1,4 @@
-import AppDataSource from '../../../data-source';
+/* import AppDataSource from '../../../data-source';
 import ExampleMessage from '../../../entities/exampleMessage.entities';
 
 const deleteMessageService = async (messageId: string) => {
@@ -10,3 +10,4 @@ const deleteMessageService = async (messageId: string) => {
 };
 
 export default deleteMessageService;
+ */

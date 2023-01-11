@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+/* import { Request, Response } from 'express';
 import createUserService from '../services/examples/users/createUser.service';
 import listUserService from '../services/examples/users/listUser.service';
 
@@ -13,3 +13,4 @@ const listUserController = async (req: Request, res: Response) => {
 };
 
 export { createUserController, listUserController };
+ */

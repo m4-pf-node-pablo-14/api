@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { AnySchema } from 'yup';
 import AppError from '../errors/AppError';
 
-const ensureExampleDataIsValidMiddleware =
+const ensureDataIsValidMiddleware =
   (schema: AnySchema) =>
     async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -21,4 +21,4 @@ const ensureExampleDataIsValidMiddleware =
       }
     };
 
-export default ensureExampleDataIsValidMiddleware;
+export default ensureDataIsValidMiddleware;

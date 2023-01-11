@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+/* import { Request, Response } from 'express';
 import createMessageService from '../services/examples/messages/createMessage.service';
 import deleteMessageService from '../services/examples/messages/deleteMessage.service';
 import listMessageService from '../services/examples/messages/listMessage.service';
@@ -30,3 +30,4 @@ export {
   updateMessageController,
   deleteMessageController,
 };
+ */
