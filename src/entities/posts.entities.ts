@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -21,7 +20,7 @@ class Post {
   @Column({ type: 'text', nullable: true })
   img: string;
 
-  @Column({ type: 'text', nullable: true})
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @CreateDateColumn()
