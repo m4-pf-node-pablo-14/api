@@ -1,12 +1,12 @@
 import { compareSync } from 'bcryptjs';
-import AppDataSource from '../../../data-source';
-import ExampleUser from '../../../entities/exampleUser.entities';
-import AppError from '../../../errors/AppError';
-import { IUserRequest } from '../../../interfaces/examples.interfaces';
+import AppDataSource from '../../data-source';
+import AppError from '../../errors/AppError';
 import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import User from '../../entities/user.entities';
+import { IUserLogin } from '../../interfaces/users.interfaces';
 
-const createLoginService = async (userData: IUserRequest) => {
+const createLoginService = async (userData: IUserLogin) => {
   const user = await AppDataSource.getRepository(User).findOneBy({
     email: userData.email,
   });

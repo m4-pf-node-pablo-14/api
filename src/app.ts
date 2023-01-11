@@ -1,17 +1,19 @@
 import express from 'express';
 import 'express-async-errors';
 import handleError from './errors/handleError';
-import exampleLoginRouter from './routes/examplesLogin.routes';
-import exampleMessageRouter from './routes/examplesMessages.routes';
-import exampleUserRouter from './routes/examplesUsers.routes';
+import commentRouter from './routes/comments.routes';
+import { likePostRouter } from './routes/likePost.routes';
+import loginRouter from './routes/login.routes';
+import userRouter from './routes/users.routes';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/examples', exampleMessageRouter);
-app.use('/examples', exampleUserRouter);
-app.use('/examples', exampleLoginRouter);
+app.use('/users', userRouter);
+app.use('/login', loginRouter);
+app.use('/comments', commentRouter);
+app.use('/like/post', likePostRouter);
 
 app.use(handleError);
 
