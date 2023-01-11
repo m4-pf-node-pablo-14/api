@@ -15,34 +15,34 @@ import User from './user.entities';
 @Entity('posts')
 class Post {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ type: 'text', nullable: true })
-  img: string;
+    img: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string;
+    description: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updateAt: Date;
+    updateAt: Date;
 
   @OneToMany(() => Likes, (likes) => likes.post)
   @JoinTable()
-  likes: Likes[];
+    likes: Likes[];
 
   @OneToMany(() => Comment, (comment) => comment.post)
   @JoinTable()
-  comments: Comment[];
+    comments: Comment[];
 
   @ManyToMany(() => User, (user) => user.posts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinTable()
-  users: User[];
+    users: User[];
 }
 
 export default Post;

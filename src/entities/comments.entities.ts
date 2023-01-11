@@ -15,31 +15,31 @@ import User from './user.entities';
 @Entity('comments')
 class Comment {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ type: 'text' })
-  text: string;
+    text: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 
   @ManyToOne(() => Post, (post) => post.comments, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  post: Post;
+    post: Post;
 
   @ManyToOne(() => User, (user) => user.comments, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  user: User;
+    user: User;
 
   @OneToMany(() => CommentToLikes, (like) => like.comment)
-  likes: CommentToLikes[];
+    likes: CommentToLikes[];
 }
 
 export default Comment;
