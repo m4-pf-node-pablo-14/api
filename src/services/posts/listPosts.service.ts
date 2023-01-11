@@ -5,7 +5,7 @@ interface IQueryParams {
     limit?: string
 }
 
-export const listPostsService = async (queryParams: IQueryParams, page: number) => {
+export const listPostsService = async (queryParams: IQueryParams, page: string) => {
     const limit = Number(queryParams.limit) || 10
     const offset = Number(page) * limit || 0
 

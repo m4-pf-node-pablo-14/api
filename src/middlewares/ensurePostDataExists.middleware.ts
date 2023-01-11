@@ -8,5 +8,5 @@ export const ensurePostDataExistsMiddleware = (req: Request, res: Response, next
 
     console.log(keys)
 
-    return next
+    return next()
 }

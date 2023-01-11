@@ -2,7 +2,7 @@ import AppDataSource from "../../data-source";
 import Post from "../../entities/posts.entities";
 import User from "../../entities/user.entities";
 import AppError from "../../errors/AppError";
-import { IPostRequest } from "../../interfaces/post.interfaces";
+import { IPostRequest } from "../../interfaces/posts";
 
 const updatePostsService = async (
   data: IPostRequest,
