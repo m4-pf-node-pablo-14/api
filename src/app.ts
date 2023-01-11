@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import handleError from './errors/handleError';
 import commentRouter from './routes/comments.routes';
+import followRoutes from './routes/follow.routes';
 import likePostRouter from './routes/likePost.routes';
 import loginRouter from './routes/login.routes';
 import postRouter from './routes/posts.routes';
@@ -19,6 +20,7 @@ app.use('/posts', postRouter);
 =======
 app.use('/like/post', likePostRouter);
 >>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
+app.use('/follow', followRoutes);
 
 app.use(handleError);
 
