@@ -9,68 +9,75 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import Address from './address.entities';
+import Follow from './follow.entities';
+import Post from './posts.entities';
+import Likes from './likes.entities';
 import Comment from './comments.entities';
 import CommentToLikes from './commentToLikes.entities';
-import Follow from './follow.entities';
-import Likes from './likes.entities';
-import Post from './posts.entities';
 
 @Entity('users')
 class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ type: 'text' })
-  name: string;
+    name: string;
 
   @Column({ type: 'text' })
-  last_name: string;
+    last_name: string;
 
   @Column({ type: 'text' })
-  password: string;
+    password: string;
 
   @Column({ type: 'text', unique: true })
-  email: string;
+    email: string;
 
   @Column({ type: 'text', unique: true })
-  username: string;
-
-  @Column({ type: 'text' })
-  bio: string;
+    username: string;
 
   @Column({ type: 'text', nullable: true })
-  interest_one?: string;
+    bio?: string;
 
   @Column({ type: 'text', nullable: true })
-  interest_two?: string;
+    interest_one?: string;
+
+  @Column({ type: 'text', nullable: true })
+    interest_two?: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+    deletedAt: Date;
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+  @OneToOne(() => Address)
+  @JoinColumn()
+    address: Address;
 
   @OneToMany(() => Follow, (follow) => follow.following)
-  following: Follow[];
+    following: Follow[];
 
   @OneToMany(() => Follow, (follow) => follow.followers)
-  followers: Follow[];
+    followers: Follow[];
+
+  @OneToMany(() => Post, (post) => post.user)
+    posts: Post[];
 
   @OneToMany(() => Likes, (likes) => likes.user)
-  likes: Likes[];
+    likes: Likes[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
 
   @OneToMany(() => CommentToLikes, (likes) => likes.comment)
-  commentLikes: CommentToLikes[];
-
-  @OneToMany(() => Post, (post) => post.users)
-  posts: Post[];
+    commentLikes: CommentToLikes[];
 
   @BeforeUpdate()
   @BeforeInsert()
