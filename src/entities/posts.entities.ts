@@ -37,10 +37,7 @@ class Post {
   @JoinTable()
   comments: Comment[];
 
-  @OneToMany(() => User, (user) => user.posts, {
-    cascade: true,
-    onDelete: "CASCADE",
-  })
+  @OneToMany(() => User, (user) => user.posts)
   users: User;
 }
 
