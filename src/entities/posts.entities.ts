@@ -5,6 +5,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -38,12 +39,12 @@ class Post {
   @JoinTable()
   comments: Comment[];
 
-  @ManyToMany(() => User, (user) => user.posts, {
+  @ManyToOne(() => User, (user) => user.posts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinTable()
-  users: User[];
+  users: User;
 }
 
 export default Post;

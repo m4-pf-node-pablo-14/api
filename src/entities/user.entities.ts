@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
-  ManyToMany,
 } from 'typeorm';
 import Comment from './comments.entities';
 import CommentToLikes from './commentToLikes.entities';
@@ -70,7 +69,7 @@ class User {
   @OneToMany(() => CommentToLikes, (likes) => likes.comment)
   commentLikes: CommentToLikes[];
 
-  @ManyToMany(() => Post, (post) => post.users)
+  @OneToMany(() => Post, (post) => post.users)
   posts: Post[];
 
   @BeforeUpdate()
