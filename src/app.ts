@@ -15,11 +15,8 @@ app.use(express.json());
 app.use('/users', userRouter);
 app.use('/login', loginRouter);
 app.use('/comments', commentRouter);
-<<<<<<< HEAD
 app.use('/posts', postRouter);
-=======
 app.use('/like/post', likePostRouter);
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
 app.use('/follow', followRoutes);
 
 app.use(handleError);
