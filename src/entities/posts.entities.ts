@@ -3,14 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Comment from './comments.entities';
-import Likes from './likes.entities';
 import User from './user.entities';
+import Likes from './likes.entities';
+import Comment from './comments.entities';
 
 @Entity('posts')
 class Post {
@@ -29,6 +29,13 @@ class Post {
   @UpdateDateColumn()
     updateAt: Date;
 
+  @ManyToOne(() => User, (user) => user.posts, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+    user: User;
+
   @OneToMany(() => Likes, (likes) => likes.post)
   @JoinTable()
     likes: Likes[];
@@ -36,13 +43,6 @@ class Post {
   @OneToMany(() => Comment, (comment) => comment.post)
   @JoinTable()
     comments: Comment[];
-
-  @ManyToMany(() => User, (user) => user.posts, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
-    users: User[];
 }
 
 export default Post;

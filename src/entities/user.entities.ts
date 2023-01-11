@@ -9,13 +9,15 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
-  ManyToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import Address from './address.entities';
+import Follow from './follow.entities';
+import Post from './posts.entities';
+import Likes from './likes.entities';
 import Comment from './comments.entities';
 import CommentToLikes from './commentToLikes.entities';
-import Follow from './follow.entities';
-import Likes from './likes.entities';
-import Post from './posts.entities';
 
 @Entity('users')
 class User {
@@ -37,8 +39,8 @@ class User {
   @Column({ type: 'text', unique: true })
     username: string;
 
-  @Column({ type: 'text' })
-    bio: string;
+  @Column({ type: 'text', nullable: true })
+    bio?: string;
 
   @Column({ type: 'text', nullable: true })
     interest_one?: string;
@@ -55,8 +57,9 @@ class User {
   @DeleteDateColumn()
     deletedAt: Date;
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-    comments: Comment[];
+  @OneToOne(() => Address)
+  @JoinColumn()
+    address: Address;
 
   @OneToMany(() => Follow, (follow) => follow.following)
     following: Follow[];
@@ -64,14 +67,17 @@ class User {
   @OneToMany(() => Follow, (follow) => follow.followers)
     followers: Follow[];
 
+  @OneToMany(() => Post, (post) => post.user)
+    posts: Post[];
+
   @OneToMany(() => Likes, (likes) => likes.user)
     likes: Likes[];
 
+  @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
+
   @OneToMany(() => CommentToLikes, (likes) => likes.comment)
     commentLikes: CommentToLikes[];
-
-  @ManyToMany(() => Post, (post) => post.users)
-    posts: Post[];
 
   @BeforeUpdate()
   @BeforeInsert()

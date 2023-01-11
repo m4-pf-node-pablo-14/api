@@ -8,12 +8,19 @@ import {
 } from '../interfaces/users.interfaces';
 
 const userSerializer: SchemaOf<IUserRequest> = yup.object().shape({
-  bio: yup.string().required(),
+  bio: yup.string().notRequired(),
   email: yup.string().email().required(),
   last_name: yup.string().required(),
   name: yup.string().required(),
   password: yup.string().required(),
   username: yup.string().required(),
+  address: yup.object().shape({
+    city: yup.string().required(),
+    district: yup.string().required(),
+    number: yup.string().required(),
+    state: yup.string().max(2).required(),
+    zipCode: yup.string().max(8).required(),
+  }),
 });
 
 const userLoginSerializer: SchemaOf<IUserLogin> = yup.object().shape({
