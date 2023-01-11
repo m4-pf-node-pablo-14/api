@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createUserController,
   deleteUserController,
+  listUserCommentsController,
   listUserController,
   updateUserController,
 } from '../controllers/users.controllers';
@@ -20,7 +21,10 @@ userRouter.post(
   ensureDataIsValidMiddleware(userSerializer),
   createUserController,
 );
+
 userRouter.get('', ensureAuthMiddleware, listUserController);
+userRouter.get('/comments/:id', listUserCommentsController);
+
 userRouter.patch(
   '/:id',
   ensureAuthMiddleware,
@@ -28,6 +32,7 @@ userRouter.patch(
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
+
 userRouter.delete(
   '/:id',
   ensureAuthMiddleware,
