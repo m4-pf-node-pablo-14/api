@@ -1,5 +1,5 @@
-import AppDataSource from "../../data-source";
-import Post from "../../entities/posts.entities";
+import AppDataSource from '../../data-source';
+import Post from '../../entities/posts.entities';
 
 interface IQueryParams {
   limit?: string;
@@ -8,7 +8,7 @@ interface IQueryParams {
 }
 
 const listPostsService = async (
-  queryParams: IQueryParams
+  queryParams: IQueryParams,
 ): Promise<{
   page: number;
   postsCount: number;
@@ -17,7 +17,12 @@ const listPostsService = async (
 }> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
-  const postsCount = await postsRepository.count();
+  const postsCountObject = await postsRepository
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .select('COUNT(*)', 'count')
+    .getRawOne();
+  const postsCount = Number(postsCountObject.count);
 
   let page = Number(queryParams.page) || 1;
   const limit = Number(queryParams.limit) || 10;
@@ -31,9 +36,19 @@ const listPostsService = async (
   const offset = Number(page) * limit - limit || 0;
 
   const posts = await postsRepository
-    .createQueryBuilder("posts")
-    .innerJoinAndSelect("posts.user", "user")
-    .select(["posts", "user.id", "user.username"])
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .leftJoinAndSelect('posts.comments', 'comments')
+    .leftJoinAndSelect('comments.likes', 'likess')
+    .leftJoinAndSelect('posts.likes', 'likes')
+    .select([
+      'posts',
+      'comments',
+      'likess',
+      'likes',
+      'user.id',
+      'user.username',
+    ])
     .limit(limit)
     .offset(offset)
     .getMany();

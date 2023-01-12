@@ -4,6 +4,7 @@ import handleError from './errors/handleError';
 import commentRouter from './routes/comments.routes';
 import followRoutes from './routes/follow.routes';
 import likePostRouter from './routes/likePost.routes';
+import likesCommentsRouter from './routes/likesComments.routes';
 import loginRouter from './routes/login.routes';
 import postRouter from './routes/posts.routes';
 import userRouter from './routes/users.routes';
@@ -18,6 +19,7 @@ app.use('/follow', followRoutes);
 app.use('/posts', postRouter);
 app.use('/comments', commentRouter);
 app.use('/like/post', likePostRouter);
+app.use('/like/comment', likesCommentsRouter);
 
 app.use(handleError);
 

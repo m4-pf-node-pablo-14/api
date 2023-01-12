@@ -10,4 +10,3 @@ export interface IPost {
   createdAt: Date;
   updateAt: Date;
 }
-

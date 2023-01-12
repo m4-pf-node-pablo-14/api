@@ -54,9 +54,6 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   }),
 });
 
-const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> =
-  yup.array(userResponserSerializer);
-
 const createPostWithOutPassword: SchemaOf<any> = yup.object().shape({
   id: yup.string().uuid().required(),
   createdAt: yup.string().required(),
@@ -76,6 +73,9 @@ const createPostWithOutPassword: SchemaOf<any> = yup.object().shape({
     updateAt: yup.string().required(),
   }),
 });
+
+const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> =
+  yup.array(userResponserSerializer);
 
 export {
   userSerializer,
