@@ -11,11 +11,7 @@ export const createPostsService = async (postData: IPostRequest, requesterUserId
     id: requesterUserId,
   });
 
-  const post = postsRepository.create({
-    img: postData.img,
-    description: postData.description,
-    user
-  });
+  const post = postsRepository.create({...postData, user});
 
   await postsRepository.save(post);
 
