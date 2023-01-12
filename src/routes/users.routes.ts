@@ -2,8 +2,10 @@ import { Router } from 'express';
 import {
   createUserController,
   deleteUserController,
+  listPostsLikesController,
   listUserCommentsController,
   listUserController,
+  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -28,6 +30,18 @@ userRouter.get(
   '/comments/:id',
   ensureAuthMiddleware,
   listUserCommentsController,
+);
+
+userRouter.get(
+  '/recomendedFollows/:id',
+  ensureAuthMiddleware,
+  listUsersWithSameFollowerController,
+);
+
+userRouter.get(
+  '/postsLiked/:id',
+  ensureAuthMiddleware,
+  listPostsLikesController,
 );
 
 userRouter.patch(
