@@ -42,6 +42,9 @@ class User {
   @Column({ type: 'text', nullable: true })
     bio?: string;
 
+  @Column({ default: false })
+    isAdm: boolean;
+
   @Column({ type: 'text', nullable: true })
     interest_one?: string;
 
