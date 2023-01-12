@@ -3,7 +3,6 @@ import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
-import { userResponserSerializer } from '../../serializers/user.serializes';
 
 const createLikePostService = async (
   userId: string,

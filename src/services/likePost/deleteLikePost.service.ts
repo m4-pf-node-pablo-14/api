@@ -1,10 +1,13 @@
-import AppDataSource from "../../data-source";
-import Likes from "../../entities/likes.entities";
-import Post from "../../entities/posts.entities";
-import User from "../../entities/user.entities";
-import AppError from "../../errors/AppError";
+import AppDataSource from '../../data-source';
+import Likes from '../../entities/likes.entities';
+import Post from '../../entities/posts.entities';
+import User from '../../entities/user.entities';
+import AppError from '../../errors/AppError';
 
-const deleteLikePostService = async (postId: string, userId: string): Promise<void> => {
+const deleteLikePostService = async (
+  postId: string,
+  userId: string,
+): Promise<void> => {
   const postRepository = AppDataSource.getRepository(Post);
   const likeRepository = AppDataSource.getRepository(Likes);
   const userRepository = AppDataSource.getRepository(User);
@@ -16,7 +19,7 @@ const deleteLikePostService = async (postId: string, userId: string): Promise<vo
   });
 
   if (!postFind) {
-    throw new AppError("Post not found", 404);
+    throw new AppError('Post not found', 404);
   }
   const userfind = await userRepository.findOne({
     where: {
@@ -25,14 +28,14 @@ const deleteLikePostService = async (postId: string, userId: string): Promise<vo
   });
 
   if (!userfind) {
-    throw new AppError("User not found", 404);
+    throw new AppError('User not found', 404);
   }
 
   await likeRepository
-    .createQueryBuilder("likes")
+    .createQueryBuilder('likes')
     .delete()
-    .where("likes.post.id = :postId", { postId })
-    .andWhere("likes.user.id = :userId", { userId })
+    .where('likes.post.id = :postId', { postId })
+    .andWhere('likes.user.id = :userId', { userId })
     .execute();
 };
 

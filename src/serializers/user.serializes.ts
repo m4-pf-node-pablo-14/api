@@ -1,11 +1,11 @@
-import * as yup from "yup";
-import { SchemaOf } from "yup";
+import * as yup from 'yup';
+import { SchemaOf } from 'yup';
 import {
   IUserLogin,
   IUserRequest,
   IUserResponse,
   IUserUpdate,
-} from "../interfaces/users.interfaces";
+} from '../interfaces/users.interfaces';
 
 const userSerializer: SchemaOf<IUserRequest> = yup.object().shape({
   bio: yup.string().notRequired(),
@@ -54,10 +54,9 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   }),
 });
 
-const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> =
-  yup.array(userResponserSerializer);
-
-
+const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
+  userResponserSerializer,
+);
 
 export {
   userSerializer,

@@ -19,7 +19,6 @@ const createUserService = async (userData: IUserRequest) => {
   }
 
   const address = addressRepository.create(userData.address);
-  console.log(address)
   await addressRepository.save(address);
 
   delete userData.address;

@@ -1,9 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import AppError from "../errors/AppError";
+import { NextFunction, Request, Response } from 'express';
+import AppError from '../errors/AppError';
 
-const ensureUserIsPermitMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const ensureUserIsPermitMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (!(req.params.id === req.user.id)) {
-    throw new AppError("not allowed");
+    throw new AppError('not allowed');
   }
   return next();
 };
