@@ -6,8 +6,11 @@ import createCommentsService from '../services/comments/createComments.service';
 import { deleteCommentService } from '../services/comments/deleteComment.service';
 
 const createCommentsController = async (req: Request, res: Response) => {
-  const postId = req.params.id;
-  const post = await createCommentsService(postId, req.body, req.user.id);
+  const post = await createCommentsService(
+    req.params.id,
+    req.body,
+    req.user.id,
+  );
   return res.status(201).json(post);
 };
 

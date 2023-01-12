@@ -75,7 +75,7 @@ userRouter.get(
 );
 
 userRouter.patch(
-  '/:id',
+  '',
   ensureAuthMiddleware,
   ensureUserIsPermitMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
@@ -83,7 +83,7 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  '/:id',
+  '',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   ensureUserIsPermitMiddleware,
