@@ -23,7 +23,11 @@ userRouter.post(
 );
 
 userRouter.get('', ensureAuthMiddleware, listUserController);
-
+userRouter.get(
+  '/followers/:id',
+  ensureAuthMiddleware,
+  listUserCommentsController,
+);
 userRouter.get(
   '/comments/:id',
   ensureAuthMiddleware,
