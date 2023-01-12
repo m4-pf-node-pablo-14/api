@@ -7,6 +7,13 @@ export const mockedUserRequest: IUserRequest = {
   email: "vinicius123@hotmail.com",
   username: "vini123",
   bio: "Dev Senior",
+  address: {
+    city: "Barra B",
+    district: "Rua Jerusalém",
+    number: "72",
+    state: "CE",
+    zipCode: "62280000",
+  },
 };
 
 export const mockedUserRequestTwo: IUserRequest = {
@@ -16,6 +23,13 @@ export const mockedUserRequestTwo: IUserRequest = {
   email: "Lucas@hotmail.com",
   username: "Lucas123",
   bio: "Dev Senior",
+  address: {
+    city: "Barra B",
+    district: "Rua Jerusalém",
+    number: "72",
+    state: "CE",
+    zipCode: "62280000",
+  },
 };
 
 export const mockedLoginRequest: IUserLogin = {

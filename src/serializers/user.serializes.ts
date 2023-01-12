@@ -57,7 +57,25 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
 const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> =
   yup.array(userResponserSerializer);
 
-
+const createPostWithOutPassword: SchemaOf<any> = yup.object().shape({
+  id: yup.string().uuid().required(),
+  createdAt: yup.string().required(),
+  user: yup.object().shape({
+    id: yup.string().uuid().required(),
+    bio: yup.string().nullable(),
+    email: yup.string().email().required(),
+    last_name: yup.string().required(),
+    name: yup.string().required(),
+    username: yup.string().required(),
+  }),
+  post: yup.object().shape({
+    id: yup.string().uuid().required(),
+    img: yup.string().notRequired().nullable(),
+    description: yup.string().notRequired().nullable(),
+    createdAt: yup.string().required(),
+    updateAt: yup.string().required(),
+  }),
+});
 
 export {
   userSerializer,
@@ -65,4 +83,5 @@ export {
   userUpdateSerializer,
   userResponserSerializer,
   listUserSerializer,
+  createPostWithOutPassword,
 };

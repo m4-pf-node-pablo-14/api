@@ -3,7 +3,7 @@ import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
-import { userResponserSerializer } from '../../serializers/user.serializes';
+import { createPostWithOutPassword, userResponserSerializer } from '../../serializers/user.serializes';
 
 const createLikePostService = async (
   userId: string,
@@ -52,7 +52,11 @@ const createLikePostService = async (
 
   await likeRepository.save(likePost);
 
-  return likePost;
+  const createdUser = await createPostWithOutPassword.validate(likePost, {
+    stripUnknown: true,
+  });
+
+  return createdUser;
 };
 
 export default createLikePostService;
