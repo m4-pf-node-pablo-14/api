@@ -34,7 +34,6 @@ export interface IUserResponse {
   id: string;
   name: string;
   last_name: string;
-  password: string;
   email: string;
   username: string;
   bio: string;

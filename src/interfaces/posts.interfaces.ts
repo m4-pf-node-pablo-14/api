@@ -3,13 +3,10 @@ export interface IPostRequest {
   description?: string;
 }
 
-/* export interface IPost {
-    id: string
-    img?: string
-    description?: string
-    createdAt: Date
-    updateAt: Date
-    likes?: string[]
-    comments?: string[]
-    user?: User
-} */
+export interface IPost {
+  id: string;
+  img?: string;
+  description?: string;
+  createdAt: Date;
+  updateAt: Date;
+}

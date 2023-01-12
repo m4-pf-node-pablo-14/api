@@ -18,7 +18,7 @@ const listUserController = async (req: Request, res: Response) => {
 };
 
 const listUserCommentsController = async (req: Request, res: Response) => {
-  const comments = await listUserCommentsService(req.user.id, req.params.id);
+  const comments = await listUserCommentsService(req.user.id);
   return res.json(comments);
 };
 
@@ -26,12 +26,12 @@ const listUsersWithSameFollowerController = async (
   req: Request,
   res: Response,
 ) => {
-  const users = await listUsersWithSameFollowerService(req.params.id);
+  const users = await listUsersWithSameFollowerService(req.user.id);
   return res.json(users);
 };
 
 const listPostsLikesController = async (req: Request, res: Response) => {
-  const posts = await listPostsLikesService(req.params.id, req.user.id);
+  const posts = await listPostsLikesService(req.user.id);
   return res.json(posts);
 };
 
