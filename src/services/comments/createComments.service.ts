@@ -30,7 +30,11 @@ const createCommentsService = async (
     throw new AppError('Not found!', 404);
   }
 
-  const comment = commentRepository.create({ ...commentData, user });
+  const comment = commentRepository.create({
+    ...commentData,
+    user,
+    post: findPost,
+  });
 
   await commentRepository.save(comment);
 

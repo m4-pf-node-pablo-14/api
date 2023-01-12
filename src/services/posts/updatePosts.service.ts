@@ -12,7 +12,7 @@ const updatePostsService = async (
 
   const postToUpdate = await postsRepository
     .createQueryBuilder('Post')
-    .innerJoinAndSelect('Post.users', 'User')
+    .innerJoinAndSelect('Post.user', 'User')
     .where('Post.id = :id', { id: postToUpdateId })
     .getOne();
 

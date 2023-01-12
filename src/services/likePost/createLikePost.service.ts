@@ -5,8 +5,8 @@ import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
 
 const createLikePostService = async (
-  postId: string,
   userId: string,
+  postId: string,
 ): Promise<Likes> => {
   const userRepository = AppDataSource.getRepository(User);
   const postRepository = AppDataSource.getRepository(Post);
@@ -17,6 +17,7 @@ const createLikePostService = async (
       id: postId,
     },
   });
+
   if (!postFind) {
     throw new AppError('Post not found', 404);
   }

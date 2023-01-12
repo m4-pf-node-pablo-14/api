@@ -27,12 +27,12 @@ const listUsersWithSameFollowerController = async (
   res: Response,
 ) => {
   const users = await listUsersWithSameFollowerService(req.params.id);
-  return res.status(200).json(users);
+  return res.json(users);
 };
 
 const listPostsLikesController = async (req: Request, res: Response) => {
   const posts = await listPostsLikesService(req.params.id, req.user.id);
-  return res.status(200).json(posts);
+  return res.json(posts);
 };
 
 const updateUserController = async (req: Request, res: Response) => {

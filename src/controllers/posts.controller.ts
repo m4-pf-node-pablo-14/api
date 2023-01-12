@@ -21,13 +21,13 @@ export const updatePostsController = async (req: Request, res: Response) => {
     postToUpdateId,
     requesterUserId,
   );
-  return res.status(200).json(post);
+  return res.json(post);
 };
 
 export const listPostsController = async (req: Request, res: Response) => {
   const queryParams = req.query;
   const posts = await listPostsService(queryParams);
-  return res.status(200).json(posts);
+  return res.json(posts);
 };
 
 export const deletePostController = async (req: Request, res: Response) => {

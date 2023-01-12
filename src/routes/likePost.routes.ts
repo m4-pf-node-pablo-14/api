@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { createLikePostController } from '../controllers/likePost.controller';
+import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 
 const likePostRouter: Router = Router();
 
-//falta verificar a autenticao com midware
-likePostRouter.post('', createLikePostController);
+likePostRouter.post('/:id', ensureAuthMiddleware, createLikePostController);
 
 export default likePostRouter;
