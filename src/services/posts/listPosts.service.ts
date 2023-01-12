@@ -1,5 +1,5 @@
-import AppDataSource from '../../data-source';
-import Post from '../../entities/posts.entities';
+import AppDataSource from "../../data-source";
+import Post from "../../entities/posts.entities";
 
 interface IQueryParams {
   limit?: string;
@@ -8,7 +8,7 @@ interface IQueryParams {
 }
 
 const listPostsService = async (
-  queryParams: IQueryParams,
+  queryParams: IQueryParams
 ): Promise<{
   page: number;
   postsCount: number;
@@ -31,9 +31,9 @@ const listPostsService = async (
   const offset = Number(page) * limit - limit || 0;
 
   const posts = await postsRepository
-    .createQueryBuilder('posts')
-    .innerJoinAndSelect('posts.user', 'user')
-    .select(['posts', 'user.id', 'user.username'])
+    .createQueryBuilder("posts")
+    .innerJoinAndSelect("posts.user", "user")
+    .select(["posts", "user.id", "user.username"])
     .limit(limit)
     .offset(offset)
     .getMany();
