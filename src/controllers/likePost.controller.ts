@@ -5,7 +5,6 @@ const createLikePostController = async (req: Request, res: Response) => {
   const userId = req.params.id;
   const postId = req.params.postId;
   const like = await createLikePostService(userId, postId);
-
   return res.status(201).json(like);
 };
 
