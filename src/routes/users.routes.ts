@@ -3,8 +3,11 @@ import {
   createUserController,
   deleteUserController,
   listPostsLikesController,
+  listPostUserController,
   listUserCommentsController,
   listUserController,
+  listUserFollowersController,
+  listUserFollowingController,
   listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
@@ -31,6 +34,25 @@ userRouter.get(
   ensureUserIsExistMiddleware,
   listUserController,
 );
+userRouter.get(
+  '/followers',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUserFollowersController,
+);
+userRouter.get(
+  '/following',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUserFollowingController,
+);
+userRouter.get(
+  '/posts',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listPostUserController,
+);
+
 
 userRouter.get(
   '/comments/:id',

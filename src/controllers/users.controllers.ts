@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import createUserService from '../services/users/createUser.service';
 import deleteUserService from '../services/users/deleteUser.service';
 import listPostsLikesService from '../services/users/listPostsLikes.service';
+import listPostUserService from '../services/users/listPostUser.service';
 import listUserService from '../services/users/listUser.service';
 import listUserCommentsService from '../services/users/listUserComments.service';
 import listUserFollowersService from '../services/users/listUserFollowers.service';
@@ -32,6 +33,10 @@ const listUserFollowingController = async (req: Request, res: Response) => {
   const following = await listUserFollowingService(req.user.id);
   return res.json(following);
 };
+const listPostUserController = async (req: Request, res: Response) => {
+  const posts = await listPostUserService(req.user.id);
+  return res.json(posts);
+};
 
 const listUsersWithSameFollowerController = async (
   req: Request,
@@ -61,6 +66,8 @@ export {
   listUserController,
   listUserCommentsController,
   listUserFollowersController,
+  listUserFollowingController,
+  listPostUserController,
   listUsersWithSameFollowerController,
   listPostsLikesController,
   updateUserController,

@@ -7,7 +7,7 @@ const listUserFollowingService = async (tokenId: string) => {
  
  
   const following =  await followRepository.createQueryBuilder('follow')
-    .where('follow.following = :userId', { tokenId })
+    .where('follow.following = :tokenId', { tokenId })
     .getMany();
 
   return following;
