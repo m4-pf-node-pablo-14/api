@@ -6,6 +6,14 @@ interface IAddress {
   state: string;
 }
 
+interface IAddressUpdate {
+  district?: string;
+  zipCode?: string;
+  number?: string;
+  city?: string;
+  state?: string;
+}
+
 export interface IUserRequest {
   name: string;
   last_name: string;
@@ -13,6 +21,7 @@ export interface IUserRequest {
   email: string;
   username: string;
   bio?: string;
+  isAdm?: boolean;
   address: IAddress;
 }
 
@@ -28,6 +37,7 @@ export interface IUserUpdate {
   email?: string;
   username?: string;
   bio?: string;
+  address?: IAddressUpdate;
 }
 
 export interface IUserResponse {
