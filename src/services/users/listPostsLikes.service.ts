@@ -3,7 +3,6 @@ import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
 
 const listPostsLikesService = async (tokenId: string): Promise<Post[]> => {
-
   const postRepository = AppDataSource.getRepository(Post);
   const postQueryBuilder = postRepository.createQueryBuilder('posts');
 
