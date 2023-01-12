@@ -33,21 +33,21 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/comments/:id',
+  '/comments',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUserCommentsController,
 );
 
 userRouter.get(
-  '/recomendedFollows/:id',
+  '/recomendedFollows',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersWithSameFollowerController,
 );
 
 userRouter.get(
-  '/postsLiked/:id',
+  '/postsLiked',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listPostsLikesController,
