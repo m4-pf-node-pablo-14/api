@@ -14,7 +14,6 @@ import {
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
-import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
 import {
   userSerializer,
   userUpdateSerializer,
@@ -77,7 +76,6 @@ userRouter.get(
 userRouter.patch(
   '',
   ensureAuthMiddleware,
-  ensureUserIsPermitMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
@@ -86,7 +84,6 @@ userRouter.delete(
   '',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  ensureUserIsPermitMiddleware,
   deleteUserController,
 );
 
