@@ -31,7 +31,11 @@ userRouter.get(
   listUserCommentsController,
 );
 
-userRouter.get('/postsLiked/:id', ensureAuthMiddleware, listPostsLikesController)
+userRouter.get(
+  '/postsLiked/:id',
+  ensureAuthMiddleware,
+  listPostsLikesController,
+);
 
 userRouter.patch(
   '/:id',
