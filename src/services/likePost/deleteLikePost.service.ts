@@ -3,8 +3,8 @@ import Likes from '../../entities/likes.entities';
 import AppError from '../../errors/AppError';
 
 const deslikePostService = async (
-  likePostID: string,
   userId: string,
+  likePostID: string,
 ): Promise<void> => {
   const likeRepository = AppDataSource.getRepository(Likes);
 
