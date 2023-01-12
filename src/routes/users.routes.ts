@@ -53,7 +53,6 @@ userRouter.get(
   listPostUserController,
 );
 
-
 userRouter.get(
   '/comments/:id',
   ensureAuthMiddleware,
