@@ -3,15 +3,19 @@ import Comment from '../../entities/comments.entities';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
+import { IComment } from '../../interfaces/comments.interface';
 
-const createCommentsService = async (postId: string, req: any) => {
+const createCommentsService = async (
+  postId: string,
+  commentData: IComment,
+  userId: string,
+): Promise<Comment> => {
   const postRepository = AppDataSource.getRepository(Post);
   const commentRepository = AppDataSource.getRepository(Comment);
   const userRepository = AppDataSource.getRepository(User);
-  console.log(req.user);
 
   const user = await userRepository.findOneBy({
-    id: req.user.id,
+    id: userId,
   });
 
   const findPost = await postRepository.findOneBy({
@@ -26,17 +30,15 @@ const createCommentsService = async (postId: string, req: any) => {
     throw new AppError('Not found!', 404);
   }
 
-  const comment = {
-    text: req.body,
-    // user: user.id,
-    // post: findPost.id
-  };
+  const comment = commentRepository.create({
+    ...commentData,
+    user,
+    post: findPost,
+  });
 
-  const newComment = commentRepository.create(comment);
+  await commentRepository.save(comment);
 
-  await commentRepository.save(newComment);
-
-  return newComment;
+  return comment;
 };
 
 export default createCommentsService;

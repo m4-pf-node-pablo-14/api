@@ -22,7 +22,7 @@ const deleteFollowController = async (req: Request, res: Response) => {
 
   await deleteFollowService(data);
 
-  return res.status(200).json({ message: 'Successfully Unfollow' });
+  return res.json({ message: 'Successfully Unfollow' });
 };
 
 export { followController, deleteFollowController };

@@ -39,12 +39,19 @@ const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   id: yup.string().uuid(),
-  bio: yup.string(),
+  bio: yup.string().nullable(),
   email: yup.string().email(),
   last_name: yup.string(),
   name: yup.string(),
-  password: yup.string(),
   username: yup.string(),
+  address: yup.object().shape({
+    id: yup.string().required(),
+    city: yup.string().required(),
+    district: yup.string().required(),
+    number: yup.string().required(),
+    state: yup.string().max(2).required(),
+    zipCode: yup.string().max(8).required(),
+  }),
 });
 
 const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
