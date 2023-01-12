@@ -5,6 +5,7 @@ import {
   listPostsLikesController,
   listUserCommentsController,
   listUserController,
+  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -32,6 +33,9 @@ userRouter.get(
 );
 
 userRouter.get(
+  '/recomendedFollows/:id',
+  ensureAuthMiddleware,
+  listUsersWithSameFollowerController,
   '/postsLiked/:id',
   ensureAuthMiddleware,
   listPostsLikesController,
