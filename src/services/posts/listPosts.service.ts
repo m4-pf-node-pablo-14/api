@@ -17,7 +17,12 @@ const listPostsService = async (
 }> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
-  const postsCount = await postsRepository.count();
+  const postsCountObject = await postsRepository
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .select('COUNT(*)', 'count')
+    .getRawOne();
+  const postsCount = Number(postsCountObject.count);
 
   let page = Number(queryParams.page) || 1;
   const limit = Number(queryParams.limit) || 10;
@@ -33,7 +38,17 @@ const listPostsService = async (
   const posts = await postsRepository
     .createQueryBuilder('posts')
     .innerJoinAndSelect('posts.user', 'user')
-    .select(['posts', 'user.id', 'user.username'])
+    .leftJoinAndSelect('posts.comments', 'comments')
+    .leftJoinAndSelect('comments.likes', 'likess')
+    .leftJoinAndSelect('posts.likes', 'likes')
+    .select([
+      'posts',
+      'comments',
+      'likess',
+      'likes',
+      'user.id',
+      'user.username',
+    ])
     .limit(limit)
     .offset(offset)
     .getMany();
