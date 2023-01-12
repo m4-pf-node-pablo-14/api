@@ -36,6 +36,9 @@ userRouter.get(
   '/recomendedFollows/:id',
   ensureAuthMiddleware,
   listUsersWithSameFollowerController,
+);
+
+userRouter.get(
   '/postsLiked/:id',
   ensureAuthMiddleware,
   listPostsLikesController,

@@ -22,18 +22,17 @@ const listUserCommentsController = async (req: Request, res: Response) => {
   return res.json(comments);
 };
 
-
 const listUsersWithSameFollowerController = async (
   req: Request,
   res: Response,
 ) => {
   const users = await listUsersWithSameFollowerService(req.params.id);
   return res.status(200).json(users);
+};
 
 const listPostsLikesController = async (req: Request, res: Response) => {
   const posts = await listPostsLikesService(req.params.id, req.user.id);
   return res.status(200).json(posts);
-
 };
 
 const updateUserController = async (req: Request, res: Response) => {
