@@ -5,7 +5,10 @@ import { userResponserSerializer } from '../../serializers/user.serializes';
 
 const updateUserService = async (userData: IUserUpdate, userId: string) => {
   const userRepository = AppDataSource.getRepository(User);
-  const userFind = await userRepository.findOneBy({ id: userId });
+  const userFind = await userRepository.findOne({
+    where: { id: userId },
+    relations: { address: true },
+  });
   const user = await userRepository.save({ ...userFind, ...userData });
   return await userResponserSerializer.validate(user, { stripUnknown: true });
 };

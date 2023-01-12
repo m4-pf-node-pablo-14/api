@@ -3,46 +3,46 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Comment from './comments.entities';
-import Likes from './likes.entities';
 import User from './user.entities';
+import Likes from './likes.entities';
+import Comment from './comments.entities';
 
 @Entity('posts')
 class Post {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+    id: string;
 
   @Column({ type: 'text', nullable: true })
-  img: string;
+    img: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string;
+    description: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @UpdateDateColumn()
-  updateAt: Date;
+    updateAt: Date;
 
-  @OneToMany(() => Likes, (likes) => likes.post)
-  @JoinTable()
-  likes: Likes[];
-
-  @OneToMany(() => Comment, (comment) => comment.post)
-  @JoinTable()
-  comments: Comment[];
-
-  @ManyToMany(() => User, (user) => user.posts, {
+  @ManyToOne(() => User, (user) => user.posts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinTable()
-  users: User[];
+    user: User;
+
+  @OneToMany(() => Likes, (likes) => likes.post)
+  @JoinTable()
+    likes: Likes[];
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  @JoinTable()
+    comments: Comment[];
 }
 
 export default Post;

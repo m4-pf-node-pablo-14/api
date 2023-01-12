@@ -2,7 +2,10 @@ import { Router } from 'express';
 import {
   createUserController,
   deleteUserController,
+  listPostsLikesController,
+  listUserCommentsController,
   listUserController,
+  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -20,7 +23,27 @@ userRouter.post(
   ensureDataIsValidMiddleware(userSerializer),
   createUserController,
 );
+
 userRouter.get('', ensureAuthMiddleware, listUserController);
+
+userRouter.get(
+  '/comments/:id',
+  ensureAuthMiddleware,
+  listUserCommentsController,
+);
+
+userRouter.get(
+  '/recomendedFollows/:id',
+  ensureAuthMiddleware,
+  listUsersWithSameFollowerController,
+);
+
+userRouter.get(
+  '/postsLiked/:id',
+  ensureAuthMiddleware,
+  listPostsLikesController,
+);
+
 userRouter.patch(
   '/:id',
   ensureAuthMiddleware,
@@ -28,6 +51,7 @@ userRouter.patch(
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
+
 userRouter.delete(
   '/:id',
   ensureAuthMiddleware,

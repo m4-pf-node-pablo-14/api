@@ -4,6 +4,6 @@ import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 
 const commentRouter = Router();
 
-commentRouter.post('', ensureAuthMiddleware, createCommentsController);
+commentRouter.post('/:id', ensureAuthMiddleware, createCommentsController);
 
 export default commentRouter;

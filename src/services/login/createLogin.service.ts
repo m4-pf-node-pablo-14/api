@@ -6,7 +6,9 @@ import 'dotenv/config';
 import User from '../../entities/user.entities';
 import { IUserLogin } from '../../interfaces/users.interfaces';
 
-const createLoginService = async (userData: IUserLogin) => {
+const createLoginService = async (
+  userData: IUserLogin,
+): Promise<{ token: string }> => {
   const user = await AppDataSource.getRepository(User).findOneBy({
     email: userData.email,
   });
