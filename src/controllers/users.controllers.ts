@@ -3,7 +3,7 @@ import createUserService from '../services/users/createUser.service';
 import deleteUserService from '../services/users/deleteUser.service';
 import listUserService from '../services/users/listUser.service';
 import listUserCommentsService from '../services/users/listUserComments.service';
-import { listUsersWithSameFollowerService } from '../services/users/listUsersWithSameFollower.service';
+import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
 import updateUserService from '../services/users/updateUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
@@ -21,10 +21,13 @@ const listUserCommentsController = async (req: Request, res: Response) => {
   return res.json(comments);
 };
 
-const listUsersWithSameFollowerController = async (req: Request, res: Response) => {
-  const users = await listUsersWithSameFollowerService(req.params.id)
-  return res.status(200).json(users)
-}
+const listUsersWithSameFollowerController = async (
+  req: Request,
+  res: Response,
+) => {
+  const users = await listUsersWithSameFollowerService(req.params.id);
+  return res.status(200).json(users);
+};
 
 const updateUserController = async (req: Request, res: Response) => {
   const user = await updateUserService(req.body, req.params.id);

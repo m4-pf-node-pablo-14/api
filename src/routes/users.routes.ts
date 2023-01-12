@@ -31,7 +31,11 @@ userRouter.get(
   listUserCommentsController,
 );
 
-userRouter.get('/recomendedFollows/:id', ensureAuthMiddleware, listUsersWithSameFollowerController)
+userRouter.get(
+  '/recomendedFollows/:id',
+  ensureAuthMiddleware,
+  listUsersWithSameFollowerController,
+);
 
 userRouter.patch(
   '/:id',
