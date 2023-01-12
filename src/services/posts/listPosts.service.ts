@@ -35,28 +35,13 @@ const listPostsService = async (
 
   const offset = Number(page) * limit - limit || 0;
 
-  /* const postTeste = await Promise.all([
-    await postsRepository
-    .createQueryBuilder('posts')
-    .innerJoinAndSelect('posts.user', 'user')
-    .select(['posts', 'user.id', 'user.username'])
-    .limit(limit)
-    .offset(offset)
-    .getMany(),
-    await postsRepository
-    .createQueryBuilder('posts')
-    .innerJoinAndSelect('posts.user', 'user')
-    .innerJoinAndSelect('posts.comments', 'comments')
-    .select(['posts', 'comments', 'user.id', 'user.username'])
-    .limit(limit)
-    .offset(offset)
-    .getMany()
-  ]) */
-
   const posts = await postsRepository
     .createQueryBuilder('posts')
     .innerJoinAndSelect('posts.user', 'user')
-    .select(['posts', 'user.id', 'user.username'])
+    .leftJoinAndSelect('posts.comments', "comments")
+    .leftJoinAndSelect('comments.likes', 'likess')
+    .leftJoinAndSelect('posts.likes', 'likes')
+    .select(['posts', 'comments', 'likess', 'likes', 'user.id', 'user.username'])
     .limit(limit)
     .offset(offset)
     .getMany();
