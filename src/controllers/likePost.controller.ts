@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
-import {
-  deslikePostService,
-  createLikePostService,
-} from "../services/likePost/createLikePost.service";
+import { Request, Response } from 'express';
+import createLikePostService from '../services/likePost/createLikePost.service';
+import deslikePostService from '../services/likePost/deleteLikePost.service';
 
 const createLikePostController = async (req: Request, res: Response) => {
   const userId = req.user.id;
@@ -15,7 +13,7 @@ const deslikePostController = async (req: Request, res: Response) => {
   const userId = req.user.id;
   const likePostId = req.params.id;
   await deslikePostService(userId, likePostId);
-  return res.status(204);
+  return res.status(204).json({});
 };
 
 export { createLikePostController, deslikePostController };
