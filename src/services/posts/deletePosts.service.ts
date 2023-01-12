@@ -1,20 +1,31 @@
-import AppDataSource from "../../data-source"
-import Post from "../../entities/posts.entities"
-import AppError from "../../errors/AppError"
+import AppDataSource from '../../data-source';
+import Post from '../../entities/posts.entities';
+import AppError from '../../errors/AppError';
 
-export const deletePostService = async (postToDeleteId: string, requesterUserId: string) => {
+const deletePostService = async (
+  postToDeleteId: string,
+  requesterUserId: string,
+) => {
+  const postsRepository = AppDataSource.getRepository(Post);
 
-    const postsRepository = AppDataSource.getRepository(Post)
+  const postToDelete = await postsRepository
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .where('posts.id = :postId', { postId: postToDeleteId })
+    .getOne();
 
-    const postToDelete = await postsRepository.createQueryBuilder("posts").innerJoinAndSelect("posts.user", "user").where("posts.id = :postId", {postId: postToDeleteId}).getOne()
+  if (!postToDelete) {
+    throw new AppError('post not found', 404);
+  }
 
-    if(!postToDelete){
-        throw new AppError("post not found", 404)
-    }
+  if (postToDelete.user.id !== requesterUserId) {
+    throw new AppError(
+      'user does not have permission to delete this post',
+      401,
+    );
+  }
 
-    if(postToDelete.user.id !== requesterUserId){
-        throw new AppError("user does not have permission to delete this post", 401)
-    }
-    
-    await postsRepository.remove(postToDelete)
-}
+  await postsRepository.remove(postToDelete);
+};
+
+export default deletePostService;

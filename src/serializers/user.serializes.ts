@@ -9,7 +9,7 @@ import {
 
 const userSerializer: SchemaOf<IUserRequest> = yup.object().shape({
   bio: yup.string().notRequired(),
-  email: yup.string()/* .email() */.required(),
+  email: yup.string().email().required(),
   last_name: yup.string().required(),
   name: yup.string().required(),
   password: yup.string().required(),

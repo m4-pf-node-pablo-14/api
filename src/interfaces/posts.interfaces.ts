@@ -1,8 +1,6 @@
-import User from "../../entities/user.entities"
-
 export interface IPostRequest {
-    img?: string
-    description?: string
+  img?: string;
+  description?: string;
 }
 
 /* export interface IPost {

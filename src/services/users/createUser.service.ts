@@ -7,33 +7,30 @@ import { userResponserSerializer } from '../../serializers/user.serializes';
 
 const createUserService = async (userData: IUserRequest) => {
   const userRepository = AppDataSource.getRepository(User);
-  const addressRepository = AppDataSource.getRepository(Address)
+  const addressRepository = AppDataSource.getRepository(Address);
 
   const userVerify = await userRepository.find({
-    where: [
-      { email: userData.email },
-      { username: userData.username}
-    ],
-    withDeleted: true
+    where: [{ email: userData.email }, { username: userData.username }],
+    withDeleted: true,
   });
 
   if (userVerify[0]) {
     throw new AppError('user already exists');
   }
 
-  const address = addressRepository.create(userData.address)
-  await addressRepository.save(address)
+  const address = addressRepository.create(userData.address);
+  await addressRepository.save(address);
 
- delete userData.address
+  delete userData.address;
 
-  const user = userRepository.create({...userData, address});
+  const user = userRepository.create({ ...userData, address });
   await userRepository.save(user);
 
-  const createdUser = await userResponserSerializer.validate(user, { stripUnknown: true });
+  const createdUser = await userResponserSerializer.validate(user, {
+    stripUnknown: true,
+  });
 
-  return createdUser
+  return createdUser;
 };
 
 export default createUserService;
-
- 
