@@ -54,7 +54,7 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   }),
 });
 
-const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
+const listUsersSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
   userResponserSerializer,
 );
 
@@ -63,5 +63,5 @@ export {
   userLoginSerializer,
   userUpdateSerializer,
   userResponserSerializer,
-  listUserSerializer,
+  listUsersSerializer,
 };

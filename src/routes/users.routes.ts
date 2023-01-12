@@ -3,9 +3,9 @@ import {
   createUserController,
   deleteUserController,
   listPostsLikesController,
-  listPostUserController,
+  listPostsUserController,
   listUserCommentsController,
-  listUserController,
+  listUsersController,
   listUsersFollowerController,
   listUsersFollowingController,
   listUsersWithSameFollowerController,
@@ -31,7 +31,7 @@ userRouter.get(
   '',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUserController,
+  listUsersController,
 );
 
 userRouter.get(
@@ -52,7 +52,7 @@ userRouter.get(
   '/posts',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listPostUserController,
+  listPostsUserController,
 );
 
 userRouter.get(

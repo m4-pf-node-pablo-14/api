@@ -1,7 +1,7 @@
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 
-const listPostUserService = async (tokenId: string): Promise<Post[]> => {
+const listPostsUserService = async (tokenId: string): Promise<Post[]> => {
   const postRepository = AppDataSource.getRepository(Post);
   const posts = await postRepository
     .createQueryBuilder('posts')
@@ -12,4 +12,4 @@ const listPostUserService = async (tokenId: string): Promise<Post[]> => {
   return posts;
 };
 
-export default listPostUserService;
+export default listPostsUserService;

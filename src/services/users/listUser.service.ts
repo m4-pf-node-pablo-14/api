@@ -1,14 +1,14 @@
 import AppDataSource from '../../data-source';
 import User from '../../entities/user.entities';
-import { listUserSerializer } from '../../serializers/user.serializes';
+import { listUsersSerializer } from '../../serializers/user.serializes';
 
-const listUserService = async () => {
+const listUsersService = async () => {
   const user = await AppDataSource.getRepository(User)
     .createQueryBuilder('users')
     .innerJoinAndSelect('users.address', 'address')
     .select(['users', 'address'])
     .getMany();
-  return await listUserSerializer.validate(user, { stripUnknown: true });
+  return await listUsersSerializer.validate(user, { stripUnknown: true });
 };
 
-export default listUserService;
+export default listUsersService;

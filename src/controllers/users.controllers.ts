@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import createUserService from '../services/users/createUser.service';
 import deleteUserService from '../services/users/deleteUser.service';
 import listPostsLikesService from '../services/users/listPostsLikes.service';
-import listPostUserService from '../services/users/listPostUser.service';
-import listUserService from '../services/users/listUser.service';
+import listPostsUserService from '../services/users/listPostUser.service';
+import listUsersService from '../services/users/listUser.service';
 import listUserCommentsService from '../services/users/listUserComments.service';
 import listUsersFollowerService from '../services/users/listUsersFollower.service';
 import listUsersFollowingService from '../services/users/listUsersFollowing.service';
@@ -15,8 +15,8 @@ const createUserController = async (req: Request, res: Response) => {
   return res.status(201).json(user);
 };
 
-const listUserController = async (req: Request, res: Response) => {
-  const users = await listUserService();
+const listUsersController = async (req: Request, res: Response) => {
+  const users = await listUsersService();
   return res.json(users);
 };
 
@@ -35,8 +35,8 @@ const listUsersFollowingController = async (req: Request, res: Response) => {
   return res.json(following);
 };
 
-const listPostUserController = async (req: Request, res: Response) => {
-  const posts = await listPostUserService(req.user.id);
+const listPostsUserController = async (req: Request, res: Response) => {
+  const posts = await listPostsUserService(req.user.id);
   return res.json(posts);
 };
 
@@ -65,11 +65,11 @@ const deleteUserController = async (req: Request, res: Response) => {
 
 export {
   createUserController,
-  listUserController,
+  listUsersController,
   listUserCommentsController,
   listUsersFollowerController,
   listUsersFollowingController,
-  listPostUserController,
+  listPostsUserController,
   listUsersWithSameFollowerController,
   listPostsLikesController,
   updateUserController,
