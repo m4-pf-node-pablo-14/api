@@ -23,4 +23,3 @@ const createPostsService = async (data: IPostRequest, userId: string) => {
 };
 
 export default createPostsService;
-

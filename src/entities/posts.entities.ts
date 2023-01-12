@@ -3,10 +3,6 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
-<<<<<<< HEAD
-  ManyToMany,
-=======
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -33,25 +29,11 @@ class Post {
   @UpdateDateColumn()
     updateAt: Date;
 
-<<<<<<< HEAD
-  @OneToMany(() => Likes, (likes) => likes.post)
-  @JoinTable()
-  likes: Likes[];
-
-  @OneToMany(() => Comment, (comment) => comment.post)
-  @JoinTable()
-  comments: Comment[];
-
-=======
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
   @ManyToOne(() => User, (user) => user.posts, {
     cascade: true,
     onDelete: 'CASCADE',
   })
   @JoinTable()
-<<<<<<< HEAD
-  users: User;
-=======
     user: User;
 
   @OneToMany(() => Likes, (likes) => likes.post)
@@ -61,7 +43,6 @@ class Post {
   @OneToMany(() => Comment, (comment) => comment.post)
   @JoinTable()
     comments: Comment[];
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
 }
 
 export default Post;

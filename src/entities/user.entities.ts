@@ -9,11 +9,8 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
-<<<<<<< HEAD
-=======
   OneToOne,
   JoinColumn,
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
 } from 'typeorm';
 import Address from './address.entities';
 import Follow from './follow.entities';
@@ -80,14 +77,7 @@ class User {
     comments: Comment[];
 
   @OneToMany(() => CommentToLikes, (likes) => likes.comment)
-<<<<<<< HEAD
-  commentLikes: CommentToLikes[];
-
-  @OneToMany(() => Post, (post) => post.users)
-  posts: Post[];
-=======
     commentLikes: CommentToLikes[];
->>>>>>> 9386cb420771fb5112603b20a6370c9ab2e10485
 
   @BeforeUpdate()
   @BeforeInsert()

@@ -1,3 +1,4 @@
+import { Router } from 'express';
 import {
   createPostsController,
   updatePostsController,
@@ -10,4 +11,3 @@ postRouter.post('', ensureAuthMiddleware, createPostsController);
 postRouter.patch('/:id', ensureAuthMiddleware, updatePostsController);
 
 export default postRouter;
-
