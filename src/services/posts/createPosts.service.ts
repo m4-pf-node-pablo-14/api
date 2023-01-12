@@ -1,21 +1,20 @@
 import AppDataSource from '../../data-source';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
-import { IPostRequest } from '../../interfaces/post.interfaces';
+import { IPostRequest } from '../../interfaces/posts.interfaces';
 
-const createPostsService = async (data: IPostRequest, userId: string) => {
+const createPostsService = async (
+  postData: IPostRequest,
+  requesterUserId: string,
+): Promise<Post> => {
   const postsRepository = AppDataSource.getRepository(Post);
   const userRepository = AppDataSource.getRepository(User);
 
-  const findUser = await userRepository.findOneBy({
-    id: userId,
+  const user = await userRepository.findOneBy({
+    id: requesterUserId,
   });
 
-  const post = postsRepository.create({
-    img: data.img,
-    description: data.description,
-    user: findUser,
-  });
+  const post = postsRepository.create({ ...postData, user });
 
   await postsRepository.save(post);
 
