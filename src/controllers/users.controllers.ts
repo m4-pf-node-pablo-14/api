@@ -5,8 +5,8 @@ import listPostsLikesService from '../services/users/listPostsLikes.service';
 import listPostUserService from '../services/users/listPostUser.service';
 import listUserService from '../services/users/listUser.service';
 import listUserCommentsService from '../services/users/listUserComments.service';
-import listUserFollowersService from '../services/users/listUserFollowers.service';
-import listUserFollowingService from '../services/users/listUserFollowing.service';
+import listUsersFollowerService from '../services/users/listUsersFollower.service';
+import listUsersFollowingService from '../services/users/listUsersFollowing.service';
 import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
 import updateUserService from '../services/users/updateUser.service';
 
@@ -24,15 +24,17 @@ const listUserCommentsController = async (req: Request, res: Response) => {
   const comments = await listUserCommentsService(req.user.id);
   return res.json(comments);
 };
-const listUserFollowersController = async (req: Request, res: Response) => {
-  const followers = await listUserFollowersService(req.user.id);
+
+const listUsersFollowerController = async (req: Request, res: Response) => {
+  const followers = await listUsersFollowerService(req.user.id);
   return res.json(followers);
 };
 
-const listUserFollowingController = async (req: Request, res: Response) => {
-  const following = await listUserFollowingService(req.user.id);
+const listUsersFollowingController = async (req: Request, res: Response) => {
+  const following = await listUsersFollowingService(req.user.id);
   return res.json(following);
 };
+
 const listPostUserController = async (req: Request, res: Response) => {
   const posts = await listPostUserService(req.user.id);
   return res.json(posts);
@@ -65,8 +67,8 @@ export {
   createUserController,
   listUserController,
   listUserCommentsController,
-  listUserFollowersController,
-  listUserFollowingController,
+  listUsersFollowerController,
+  listUsersFollowingController,
   listPostUserController,
   listUsersWithSameFollowerController,
   listPostsLikesController,

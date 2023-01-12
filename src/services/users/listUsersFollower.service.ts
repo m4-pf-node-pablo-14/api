@@ -1,7 +1,7 @@
 import AppDataSource from '../../data-source';
 import Follow from '../../entities/follow.entities';
 
-const listUserFollowersService = async (tokenId: string): Promise<Follow[]> => {
+const listUsersFollowerService = async (tokenId: string): Promise<Follow[]> => {
   const followRepository = AppDataSource.getRepository(Follow);
 
   const followers = await followRepository
@@ -12,4 +12,4 @@ const listUserFollowersService = async (tokenId: string): Promise<Follow[]> => {
   return followers;
 };
 
-export default listUserFollowersService;
+export default listUsersFollowerService;
