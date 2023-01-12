@@ -5,8 +5,8 @@ import deleteFollowService from '../services/follow/deleteFollow.service';
 
 const followController = async (req: Request, res: Response) => {
   const data: followRequest = {
-    following: req.user.id, //quem ta seguindo
-    followers: req.params.id, // quem está sendo seguido
+    following: req.user.id,
+    followers: req.params.id,
   };
 
   await followService(data);
@@ -16,13 +16,13 @@ const followController = async (req: Request, res: Response) => {
 
 const deleteFollowController = async (req: Request, res: Response) => {
   const data: followRequest = {
-    following: req.user.id, //quem ta seguindo
-    followers: req.params.id, // quem está sendo seguido
+    following: req.user.id,
+    followers: req.params.id,
   };
 
   await deleteFollowService(data);
 
-  return res.json({ message: 'Successfully Unfollow' });
+  return res.status(204).json({ message: 'Successfully Unfollow' });
 };
 
 export { followController, deleteFollowController };

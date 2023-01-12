@@ -3,14 +3,17 @@ import {
   createUserController,
   deleteUserController,
   listPostsLikesController,
+  listPostsUserController,
   listUserCommentsController,
-  listUserController,
+  listUsersController,
+  listUsersFollowerController,
+  listUsersFollowingController,
   listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
-import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
+import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
 import {
   userSerializer,
   userUpdateSerializer,
@@ -24,38 +27,66 @@ userRouter.post(
   createUserController,
 );
 
-userRouter.get('', ensureAuthMiddleware, listUserController);
+userRouter.get(
+  '',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUsersController,
+);
 
 userRouter.get(
-  '/comments/:id',
+  '/followers',
   ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUsersFollowerController,
+);
+
+userRouter.get(
+  '/following',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUsersFollowingController,
+);
+
+userRouter.get(
+  '/posts',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listPostsUserController,
+);
+
+userRouter.get(
+  '/comments',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
   listUserCommentsController,
 );
 
 userRouter.get(
-  '/recomendedFollows/:id',
+  '/recomendedFollows',
   ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
   listUsersWithSameFollowerController,
 );
 
 userRouter.get(
-  '/postsLiked/:id',
+  '/postsLiked',
   ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
   listPostsLikesController,
 );
 
 userRouter.patch(
-  '/:id',
+  '',
   ensureAuthMiddleware,
-  ensureUserIsPermitMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
 
 userRouter.delete(
-  '/:id',
+  '',
   ensureAuthMiddleware,
-  ensureUserIsPermitMiddleware,
+  ensureUserIsExistMiddleware,
   deleteUserController,
 );
 
