@@ -10,6 +10,6 @@ const postRouter = Router();
 
 postRouter.post('', ensureAuthMiddleware, ensureDataIsValidMiddleware(postRequestSerializer), ensurePostDataExistsMiddleware, createPostsController);
 postRouter.patch('/:id', ensureAuthMiddleware, ensureDataIsValidMiddleware(postRequestSerializer), ensurePostDataExistsMiddleware, updatePostsController);
-postRouter.get('', listPostsController)
+postRouter.get(''/* , ensureAuthMiddleware */, listPostsController)
 
 export default postRouter;

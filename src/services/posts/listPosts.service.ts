@@ -3,16 +3,38 @@ import Post from "../../entities/posts.entities"
 
 interface IQueryParams {
     limit?: string
+    page?: string
+    lastPage?: boolean
 }
 
-export const listPostsService = async (queryParams: IQueryParams, page: string) => {
-    const limit = Number(queryParams.limit) || 10
-    const offset = Number(page) * limit || 0
+export const listPostsService = async (queryParams: IQueryParams) => {
 
     const postsRepository = AppDataSource.getRepository(Post)
 
-    const posts = postsRepository.createQueryBuilder("posts").limit(limit).offset(offset).select("posts")
-    
+    const postsCount = await postsRepository.count()
 
-    return posts
+    let page = Number(queryParams.page) || 1
+    const limit = Number(queryParams.limit) || 10
+    const numberOfPages = Math.ceil(postsCount / limit)
+    const isLastPage = queryParams.lastPage || false
+
+    if(isLastPage){
+        page = numberOfPages
+    }
+
+    const offset = (Number(page) * limit) - limit || 0
+
+    const posts = await postsRepository.createQueryBuilder("posts")
+    .innerJoinAndSelect("posts.user", "user")
+    .select(["posts", "user.id", "user.username"])
+    .limit(limit).offset(offset).getMany()
+    
+    const returnedObject = {
+        page: page,
+        postsCount: postsCount,
+        posts: posts,
+        numberOfPages: numberOfPages
+    }
+
+    return returnedObject
 }

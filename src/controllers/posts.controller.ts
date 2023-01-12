@@ -22,7 +22,6 @@ export const updatePostsController = async (req: Request, res: Response) => {
 
 export const listPostsController = async (req: Request,res: Response) => {
   const queryParams = req.query
-  const page: string = req.params.page
-  const posts = await listPostsService(queryParams, page)
+  const posts = await listPostsService(queryParams)
   return res.status(200).json(posts)
 }
