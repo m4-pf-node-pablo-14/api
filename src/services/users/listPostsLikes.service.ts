@@ -3,7 +3,10 @@ import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
 
-const listPostsLikesService = async (userId: string, tokenId: string) => {
+const listPostsLikesService = async (
+  userId: string,
+  tokenId: string,
+): Promise<Post[]> => {
   const postRepository = AppDataSource.getRepository(Post);
   const postQueryBuilder = postRepository.createQueryBuilder('posts');
 

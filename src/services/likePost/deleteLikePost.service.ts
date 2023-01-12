@@ -4,7 +4,10 @@ import Post from '../../entities/posts.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
 
-const deleteLikePostService = async (postId: string, userId: string) => {
+const deleteLikePostService = async (
+  postId: string,
+  userId: string,
+): Promise<void> => {
   const postRepository = AppDataSource.getRepository(Post);
   const likeRepository = AppDataSource.getRepository(Likes);
   const userRepository = AppDataSource.getRepository(User);
@@ -28,14 +31,12 @@ const deleteLikePostService = async (postId: string, userId: string) => {
     throw new AppError('User not found', 404);
   }
 
-  const deslikePost = await likeRepository
+  await likeRepository
     .createQueryBuilder('likes')
     .delete()
     .where('likes.post.id = :postId', { postId })
     .andWhere('likes.user.id = :userId', { userId })
     .execute();
-
-  return deslikePost;
 };
 
 // const deslikePost = likeRepository.delete({

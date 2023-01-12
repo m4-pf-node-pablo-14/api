@@ -7,7 +7,14 @@ interface IQueryParams {
   lastPage?: boolean;
 }
 
-const listPostsService = async (queryParams: IQueryParams) => {
+const listPostsService = async (
+  queryParams: IQueryParams,
+): Promise<{
+  page: number;
+  postsCount: number;
+  posts: Post[];
+  numberOfPages: number;
+}> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
   const postsCount = await postsRepository.count();

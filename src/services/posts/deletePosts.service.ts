@@ -5,7 +5,7 @@ import AppError from '../../errors/AppError';
 const deletePostService = async (
   postToDeleteId: string,
   requesterUserId: string,
-) => {
+): Promise<void> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
   const postToDelete = await postsRepository

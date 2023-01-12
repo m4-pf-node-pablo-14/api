@@ -1,7 +1,10 @@
 import AppDataSource from '../../data-source';
 import AppError from '../../errors/AppError';
 
-const listUserCommentsService = async (tokenId: string, userId: string) => {
+const listUserCommentsService = async (
+  tokenId: string,
+  userId: string,
+): Promise<Comment[]> => {
   const commentRepository = AppDataSource.getRepository(Comment);
   const commentQueryBuilder = commentRepository.createQueryBuilder('comments');
 

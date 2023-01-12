@@ -17,7 +17,7 @@ const updatePostsService = async (
     .getOne();
 
   if (requesterUserId !== postToUpdate.user.id) {
-    throw new AppError("You don't have permission", 401);
+    throw new AppError('You don\'t have permission', 401);
   }
 
   if (!postToUpdate) {

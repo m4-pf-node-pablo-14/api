@@ -4,7 +4,10 @@ import Post from '../../entities/posts.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
 
-const createLikePostService = async (postId: string, userId: string) => {
+const createLikePostService = async (
+  postId: string,
+  userId: string,
+): Promise<Likes> => {
   const userRepository = AppDataSource.getRepository(User);
   const postRepository = AppDataSource.getRepository(Post);
   const likeRepository = AppDataSource.getRepository(Likes);
