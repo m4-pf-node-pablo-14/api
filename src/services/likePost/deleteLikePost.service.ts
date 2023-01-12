@@ -1,48 +1,27 @@
 import AppDataSource from '../../data-source';
 import Likes from '../../entities/likes.entities';
-import Post from '../../entities/posts.entities';
-import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
 
-const deleteLikePostService = async (
-  postId: string,
+const deslikePostService = async (
+  likePostID: string,
   userId: string,
 ): Promise<void> => {
-  const postRepository = AppDataSource.getRepository(Post);
   const likeRepository = AppDataSource.getRepository(Likes);
-  const userRepository = AppDataSource.getRepository(User);
 
-  const postFind = await postRepository.findOne({
+  const likePost = await likeRepository.findOne({
     where: {
-      id: postId,
+      id: likePostID,
+      user: {
+        id: userId,
+      },
     },
   });
 
-  if (!postFind) {
-    throw new AppError('Post not found', 404);
-  }
-  const userfind = await userRepository.findOne({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!userfind) {
-    throw new AppError('User not found', 404);
+  if (!likePost) {
+    throw new AppError('post not liked ', 404);
   }
 
-  await likeRepository
-    .createQueryBuilder('likes')
-    .delete()
-    .where('likes.post.id = :postId', { postId })
-    .andWhere('likes.user.id = :userId', { userId })
-    .execute();
+  await likeRepository.remove(likePost);
 };
 
-// const deslikePost = likeRepository.delete({
-//   post: postFind,
-//   user: userfind,
-// });
-// }
-
-export default deleteLikePostService;
+export default deslikePostService;
