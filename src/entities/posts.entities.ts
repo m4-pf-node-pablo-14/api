@@ -33,6 +33,7 @@ class Post {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  
   @JoinTable()
     user: User;
 
