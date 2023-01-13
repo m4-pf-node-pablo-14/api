@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
-import createUserService from "../services/users/createUser.service";
-import deleteUserService from "../services/users/deleteUser.service";
-import listPostsLikedService from "../services/users/listPostsLiked.service";
-import listUsersService from "../services/users/listUsers.service";
-import listUserCommentsService from "../services/users/listUserComments.service";
-import listUserPostsService from "../services/users/listUserPosts.service";
-import listUsersFollowerService from "../services/users/listUsersFollower.service";
-import listUsersFollowingService from "../services/users/listUsersFollowing.service";
-import listUsersWithSameFollowerService from "../services/users/listUsersWithSameFollower.service";
-import updateUserService from "../services/users/updateUser.service";
+import { Request, Response } from 'express';
+import createUserService from '../services/users/createUser.service';
+import deleteUserService from '../services/users/deleteUser.service';
+import listPostsLikedService from '../services/users/listPostsLiked.service';
+import listUsersService from '../services/users/listUsers.service';
+import listUserCommentsService from '../services/users/listUserComments.service';
+import listUserPostsService from '../services/users/listUserPosts.service';
+import listUsersFollowerService from '../services/users/listUsersFollower.service';
+import listUsersFollowingService from '../services/users/listUsersFollowing.service';
+import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
+import updateUserService from '../services/users/updateUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
   const user = await createUserService(req.body);
@@ -40,7 +40,10 @@ const listUserPostsController = async (req: Request, res: Response) => {
   return res.json(posts);
 };
 
-const listUsersWithSameFollowerController = async (req: Request, res: Response) => {
+const listUsersWithSameFollowerController = async (
+  req: Request,
+  res: Response,
+) => {
   const users = await listUsersWithSameFollowerService(req.user.id);
   return res.json(users);
 };
