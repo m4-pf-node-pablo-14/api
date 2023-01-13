@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
-import createUserService from "../services/users/createUser.service";
-import deleteUserService from "../services/users/deleteUser.service";
-import listPostsLikesService from "../services/users/listPostsLikes.service";
-import listPostsUserService from "../services/users/listPostUser.service";
-import listUsersService from "../services/users/listUser.service";
-import listUserCommentsService from "../services/users/listUserComments.service";
-import listUsersFollowerService from "../services/users/listUsersFollower.service";
-import listUsersFollowingService from "../services/users/listUsersFollowing.service";
-import listUsersWithSameFollowerService from "../services/users/listUsersWithSameFollower.service";
-import updateUserService from "../services/users/updateUser.service";
+import { Request, Response } from 'express';
+import createUserService from '../services/users/createUser.service';
+import deleteUserService from '../services/users/deleteUser.service';
+import listPostsLikedService from '../services/users/listPostsLiked.service';
+import listUsersService from '../services/users/listUsers.service';
+import listUserCommentsService from '../services/users/listUserComments.service';
+import listUserPostsService from '../services/users/listUserPosts.service';
+import listUsersFollowerService from '../services/users/listUsersFollower.service';
+import listUsersFollowingService from '../services/users/listUsersFollowing.service';
+import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
+import updateUserService from '../services/users/updateUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
   const user = await createUserService(req.body);
@@ -16,12 +16,12 @@ const createUserController = async (req: Request, res: Response) => {
 };
 
 const listUsersController = async (req: Request, res: Response) => {
-  const users = await listUsersService();
+  const users = await listUsersService(req.query);
   return res.json(users);
 };
 
-const listUsersCommentsController = async (req: Request, res: Response) => {
-  const comments = await listUserCommentsService(req.user.id);
+const listUserCommentsController = async (req: Request, res: Response) => {
+  const comments = await listUserCommentsService(req.user.id, req.query);
   return res.json(comments);
 };
 
@@ -35,22 +35,25 @@ const listUsersFollowingController = async (req: Request, res: Response) => {
   return res.json(following);
 };
 
-const listPostsUsersController = async (req: Request, res: Response) => {
-  const posts = await listPostsUserService(req.user.id);
+const listUserPostsController = async (req: Request, res: Response) => {
+  const posts = await listUserPostsService(req.user.id);
   return res.json(posts);
 };
 
-const listUsersWithSameFollowerController = async (req: Request, res: Response) => {
+const listUsersWithSameFollowerController = async (
+  req: Request,
+  res: Response,
+) => {
   const users = await listUsersWithSameFollowerService(req.user.id);
   return res.json(users);
 };
 
-const listPostsLikesController = async (req: Request, res: Response) => {
-  const posts = await listPostsLikesService(req.user.id);
+const listPostsLikedController = async (req: Request, res: Response) => {
+  const posts = await listPostsLikedService(req.user.id, req.query);
   return res.json(posts);
 };
 
-const updateUsersController = async (req: Request, res: Response) => {
+const updateUserController = async (req: Request, res: Response) => {
   const user = await updateUserService(req.body, req.user.id);
   return res.json(user);
 };
@@ -63,12 +66,12 @@ const deleteUserController = async (req: Request, res: Response) => {
 export {
   createUserController,
   listUsersController,
-  listUsersCommentsController,
+  listUserCommentsController,
   listUsersFollowerController,
   listUsersFollowingController,
-  listPostsUsersController,
+  listUserPostsController,
   listUsersWithSameFollowerController,
-  listPostsLikesController,
-  updateUsersController,
+  listPostsLikedController,
+  updateUserController,
   deleteUserController,
 };

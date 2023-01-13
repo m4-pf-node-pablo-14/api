@@ -1,7 +1,7 @@
-import AppDataSource from "../../data-source";
-import Follow from "../../entities/follow.entities";
-import AppError from "../../errors/AppError";
-import { followRequest } from "../../interfaces/follow.interfaces";
+import AppDataSource from '../../data-source';
+import Follow from '../../entities/follow.entities';
+import AppError from '../../errors/AppError';
+import { followRequest } from '../../interfaces/follow.interfaces';
 
 const deleteFollowService = async (data: followRequest): Promise<void> => {
   const followRepository = AppDataSource.getRepository(Follow);
@@ -11,7 +11,7 @@ const deleteFollowService = async (data: followRequest): Promise<void> => {
   });
 
   if (!find) {
-    throw new AppError("User not found", 404);
+    throw new AppError('User not found', 404);
   }
 
   await followRepository.remove(find);

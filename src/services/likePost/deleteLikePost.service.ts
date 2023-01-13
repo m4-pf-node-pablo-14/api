@@ -1,8 +1,11 @@
-import AppDataSource from "../../data-source";
-import Likes from "../../entities/likes.entities";
-import AppError from "../../errors/AppError";
+import AppDataSource from '../../data-source';
+import Likes from '../../entities/likes.entities';
+import AppError from '../../errors/AppError';
 
-const deslikePostService = async (likePostID: string, userId: string): Promise<void> => {
+const deslikePostService = async (
+  userId: string,
+  likePostID: string,
+): Promise<void> => {
   const likeRepository = AppDataSource.getRepository(Likes);
 
   const likePost = await likeRepository.findOne({
@@ -15,7 +18,7 @@ const deslikePostService = async (likePostID: string, userId: string): Promise<v
   });
 
   if (!likePost) {
-    throw new AppError("post not liked ", 404);
+    throw new AppError('post not liked ', 404);
   }
 
   await likeRepository.remove(likePost);

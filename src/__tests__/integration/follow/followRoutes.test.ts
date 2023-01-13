@@ -1,10 +1,14 @@
-import { DataSource } from "typeorm";
-import AppDataSource from "../../../data-source";
-import request from "supertest";
-import app from "../../../app";
-import { mockedLoginRequest, mockedUserRequest, mockedUserRequestTwo } from "../../mocks";
+import { DataSource } from 'typeorm';
+import AppDataSource from '../../../data-source';
+import request from 'supertest';
+import app from '../../../app';
+import {
+  mockedLoginRequest,
+  mockedUserRequest,
+  mockedUserRequestTwo,
+} from '../../mocks';
 
-describe("/follow", () => {
+describe('/follow', () => {
   let connection: DataSource;
 
   interface IObject {
@@ -23,12 +27,16 @@ describe("/follow", () => {
         connection = res;
       })
       .catch((err) => {
-        console.error("Error during Data Source initialization", err);
+        console.error('Error during Data Source initialization', err);
       });
 
-    await request(app).post("/users").send(mockedUserRequest);
-    const createUserTwo = await request(app).post("/users").send(mockedUserRequestTwo);
-    const authorization = await request(app).post("/login").send(mockedLoginRequest);
+    await request(app).post('/users').send(mockedUserRequest);
+    const createUserTwo = await request(app)
+      .post('/users')
+      .send(mockedUserRequestTwo);
+    const authorization = await request(app)
+      .post('/login')
+      .send(mockedLoginRequest);
 
     object.createUserTwo = createUserTwo.body.id;
     object.authorization = authorization.body.token;
@@ -38,19 +46,19 @@ describe("/follow", () => {
     await connection.destroy();
   });
 
-  test("Should be able to follow the user", async () => {
+  test('Should be able to follow the user', async () => {
     const response = await request(app)
       .post(`/follow/${object.createUserTwo}`)
-      .set("Authorization", `Bearer ${object.authorization}`);
+      .set('Authorization', `Bearer ${object.authorization}`);
 
-    expect(response.body).toHaveProperty("message");
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(201);
   });
 
-  test("It must be possible to unfollow the user", async () => {
+  test('It must be possible to unfollow the user', async () => {
     const responseTwo = await request(app)
       .delete(`/follow/${object.createUserTwo}`)
-      .set("Authorization", `Bearer ${object.authorization}`);
+      .set('Authorization', `Bearer ${object.authorization}`);
 
     expect(responseTwo.status).toBe(204);
   });
