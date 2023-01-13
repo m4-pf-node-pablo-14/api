@@ -1,1 +1,0 @@
-{"version":3,"file":"likePost.routes.js","sourceRoot":"","sources":["../../../src/routes/likePost.routes.ts"],"names":[],"mappings":";;;;;AAAA,qCAAiC;AACjC,4EAG4C;AAC5C,iGAAwE;AAExE,MAAM,cAAc,GAAW,IAAA,gBAAM,GAAE,CAAC;AAExC,cAAc,CAAC,IAAI,CAAC,MAAM,EAAE,+BAAoB,EAAE,8CAAwB,CAAC,CAAC;AAE5E,cAAc,CAAC,MAAM,CAAC,MAAM,EAAE,+BAAoB,EAAE,2CAAqB,CAAC,CAAC;AAE3E,kBAAe,cAAc,CAAC"}
