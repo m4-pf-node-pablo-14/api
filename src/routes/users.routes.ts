@@ -34,21 +34,21 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/followers/:id',
+  '/followers',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowerController,
 );
 
 userRouter.get(
-  '/following/:id',
+  '/following',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowingController,
 );
 
 userRouter.get(
-  '/posts/:id',
+  '/posts',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUserPostsController,
@@ -69,7 +69,7 @@ userRouter.get(
 );
 
 userRouter.patch(
-  '/:id',
+  '',
   ensureAuthMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,

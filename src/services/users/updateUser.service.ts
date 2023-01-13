@@ -5,7 +5,10 @@ import AppError from '../../errors/AppError';
 import { IUserUpdate } from '../../interfaces/users.interfaces';
 import { userResponserSerializer } from '../../serializers/user.serializes';
 
-const updateUserService = async (userData: IUserUpdate, userToUpdateId: string) => {
+const updateUserService = async (
+  userData: IUserUpdate,
+  userToUpdateId: string,
+) => {
   const userRepository = AppDataSource.getRepository(User);
   const addressRepository = AppDataSource.getRepository(Address);
 
@@ -16,10 +19,6 @@ const updateUserService = async (userData: IUserUpdate, userToUpdateId: string) 
 
   if (!userFind) {
     throw new AppError('User not found', 404);
-  }
-
-  if (userFind.id !== userToUpdateId){
-    throw new AppError('user does not have permission', 401)
   }
 
   const addressFind = await addressRepository.findOneBy({

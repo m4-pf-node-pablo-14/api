@@ -1,28 +1,33 @@
+import Post from '../entities/posts.entities';
+import { INewPost } from '../interfaces/posts.interfaces';
+
 interface IRowsOfCounts {
-    likesCount: string,
-    commentsCount: string,
-    posts_id: string
+  likesCount: string;
+  commentsCount: string;
+  posts_id: string;
 }
 
-export const mergePostsAndRows = (posts, rowsOfCounts: IRowsOfCounts[]) => {
+const mergePostsAndRows = (
+  posts: Post[],
+  rowsOfCounts: IRowsOfCounts[],
+): INewPost[] => {
+  const newPosts: INewPost[] = [];
 
-    const newPosts = []
+  posts.forEach((post) => {
+    rowsOfCounts.forEach((row) => {
+      if (post.id === row.posts_id) {
+        const newPost = {
+          ...post,
+          likesCount: Number(row.likesCount),
+          commentsCount: Number(row.commentsCount),
+        };
 
-    posts.forEach(post => {
+        newPosts.push(newPost);
+      }
+    });
+  });
 
-        rowsOfCounts.forEach(row => {
+  return newPosts;
+};
 
-        if(post.id === row.posts_id){
-          const newPost = {
-            ...post,
-            likesCount: Number(row.likesCount),
-            commentsCount: Number(row.commentsCount)
-          }
-          
-          newPosts.push(newPost)
-        }
-      })
-    })
-
-    return newPosts
-}
+export { mergePostsAndRows };
