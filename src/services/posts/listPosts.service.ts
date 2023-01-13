@@ -2,15 +2,14 @@ import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 
-
-const listPostsService = async (
-  queryParams: IQueryParams,
-): Promise<{
+interface IReturned {
   page: number;
   postsCount: number;
   posts: Post[];
   numberOfPages: number;
-}> => {
+}
+
+const listPostsService = async (queryParams: IQueryParams): Promise<IReturned> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
   const postsCountObject = await postsRepository
