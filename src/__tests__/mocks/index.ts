@@ -2,7 +2,7 @@ import { ICommentRequest } from "../../interfaces/comments.interface";
 import { IPostRequest } from "../../interfaces/posts.interfaces";
 import { IUserLogin, IUserRequest } from "../../interfaces/users.interfaces";
 
-const mockedUserRequest: IUserRequest = {
+export const mockedUserRequest: IUserRequest = {
   name: 'vinicius',
   last_name: 'quirino',
   password: '12345678Vv.',
@@ -18,7 +18,7 @@ const mockedUserRequest: IUserRequest = {
   },
 };
 
-const mockedUserRequestTwo: IUserRequest = {
+export const mockedUserRequestTwo: IUserRequest = {
   name: 'Lucas',
   last_name: 'Bueno',
   password: '12345678Vv.',
