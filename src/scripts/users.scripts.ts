@@ -33,25 +33,22 @@ const mergeUsersAndRows = (
 };
 
 const mergeUserCountArrays = (array1, array2) => {
+  const newArray = [];
 
-    const newArray = []
+  array1.forEach((elem1) => {
+    array2.forEach((elem2) => {
+      if (elem1.users_id === elem2.users_id) {
+        const newObject = {
+          ...elem1,
+          ...elem2,
+        };
 
-    array1.forEach(elem1 => {
-        array2.forEach(elem2 => {
+        newArray.push(newObject);
+      }
+    });
+  });
 
-            if(elem1.users_id === elem2.users_id){
-    
-                const newObject = {
-                    ...elem1,
-                    ...elem2
-                }
-
-                newArray.push(newObject)
-            }
-        })
-    })
-
-    return newArray
-}
+  return newArray;
+};
 
 export { mergeUsersAndRows, mergeUserCountArrays };
