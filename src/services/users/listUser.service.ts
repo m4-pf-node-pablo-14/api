@@ -33,6 +33,7 @@ const listUsersService = async (queryParams: IQueryParams) => {
   const rowsOfCount = await userRepository
   .createQueryBuilder('users')
   .leftJoinAndSelect('users.following', 'following')
+  .leftJoinAndSelect('following.followers', 'followerVerify')
   .leftJoinAndSelect('users.followers', 'followers')
   .leftJoinAndSelect('users.posts', 'posts')
   .orderBy('users.createdAt')

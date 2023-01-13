@@ -8,7 +8,6 @@ import {
   listUsersController,
   listUsersFollowerController,
   listUsersFollowingController,
-  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -60,13 +59,6 @@ userRouter.get(
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUserCommentsController,
-);
-
-userRouter.get(
-  '/recomendedFollows',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  listUsersWithSameFollowerController,
 );
 
 userRouter.get(

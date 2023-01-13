@@ -7,7 +7,6 @@ import listUsersService from '../services/users/listUser.service';
 import listUserCommentsService from '../services/users/listUserComments.service';
 import listUsersFollowerService from '../services/users/listUsersFollower.service';
 import listUsersFollowingService from '../services/users/listUsersFollowing.service';
-import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
 import updateUserService from '../services/users/updateUser.service';
 import listUserPostsService from '../services/users/listUserPosts.service';
 
@@ -31,23 +30,24 @@ const listUserCommentsController = async (req: Request, res: Response) => {
 };
 
 const listUsersFollowerController = async (req: Request, res: Response) => {
-  const followers = await listUsersFollowerService(req.user.id);
+  const userId: string = req.params.id
+  const queryParams = req.query
+  const followers = await listUsersFollowerService(userId, queryParams);
   return res.json(followers);
 };
 
 const listUsersFollowingController = async (req: Request, res: Response) => {
-  const following = await listUsersFollowingService(req.user.id);
+  const userId: string = req.params.id
+  const queryParams = req.query
+  const following = await listUsersFollowingService(userId, queryParams);
   return res.json(following);
 };
 
 const listUserPostsController = async (req: Request, res: Response) => {
-  const posts = await listUserPostsService(req.user.id);
+  const userId: string = req.params.id
+  const queryParams = req.query
+  const posts = await listUserPostsService(userId, queryParams);
   return res.json(posts);
-};
-
-const listUsersWithSameFollowerController = async (req: Request,res: Response) => {
-  const users = await listUsersWithSameFollowerService(req.user.id);
-  return res.json(users);
 };
 
 const listPostsLikedController = async (req: Request, res: Response) => {
@@ -76,7 +76,6 @@ export {
   listUsersFollowerController,
   listUsersFollowingController,
   listUserPostsController,
-  listUsersWithSameFollowerController,
   listPostsLikedController,
   updateUserController,
   deleteUserController,
