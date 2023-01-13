@@ -1,12 +1,14 @@
+import { IPost } from './../../interfaces/posts.interfaces';
 import AppDataSource from '../../data-source';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
 import { IPostRequest } from '../../interfaces/posts.interfaces';
+import { postSerializar } from '../../serializers/posts.serializers';
 
 const createPostsService = async (
   postData: IPostRequest,
   requesterUserId: string,
-): Promise<Post> => {
+): Promise<IPost> => {
   const postsRepository = AppDataSource.getRepository(Post);
   const userRepository = AppDataSource.getRepository(User);
 
@@ -18,7 +20,11 @@ const createPostsService = async (
 
   await postsRepository.save(post);
 
-  return post;
+  const validatedPost = await postSerializar.validate(post, {
+    stripUnknown: true
+  })
+
+  return validatedPost;
 };
 
 export default createPostsService;

@@ -1,15 +1,17 @@
+import { IComment } from './../../interfaces/comments.interface';
 import AppDataSource from '../../data-source';
 import Comment from '../../entities/comments.entities';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
 import { ICommentRequest } from '../../interfaces/comments.interface';
+import { commentSerializer } from '../../serializers/comments.serializers';
 
 const createCommentsService = async (
   postId: string,
   commentData: ICommentRequest,
   userId: string,
-): Promise<Comment> => {
+): Promise<IComment> => {
   const postRepository = AppDataSource.getRepository(Post);
   const commentRepository = AppDataSource.getRepository(Comment);
   const userRepository = AppDataSource.getRepository(User);
@@ -38,7 +40,11 @@ const createCommentsService = async (
 
   await commentRepository.save(comment);
 
-  return comment;
+  const validatedComment = await commentSerializer.validate(comment, {
+    stripUnknown: true
+  })
+
+  return validatedComment;
 };
 
 export default createCommentsService;
