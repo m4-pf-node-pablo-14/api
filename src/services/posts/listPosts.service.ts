@@ -1,33 +1,30 @@
+import { mergePostsAndRows } from './../../scripts/posts.scripts';
+import { getPageParams } from './../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
+import { INewPost } from '../../interfaces/posts.interfaces';
 
 interface IReturned {
   page: number;
   postsCount: number;
-  posts: Post[];
+  posts: INewPost[];
   numberOfPages: number;
 }
 
-const listPostsService = async (queryParams: IQueryParams): Promise<IReturned> => {
+const listPostsService = async (
+  queryParams: IQueryParams,
+): Promise<IReturned> => {
   const postsRepository = AppDataSource.getRepository(Post);
 
   const postsCountObject = await postsRepository
     .createQueryBuilder('posts')
-    .select('COUNT(*)', 'count')
+    .innerJoinAndSelect('posts.user', 'user')
+    .select('COUNT(posts)', 'count')
     .getRawOne();
   const postsCount = Number(postsCountObject.count);
 
-  let page = Number(queryParams.page) || 1;
-  const limit = Number(queryParams.limit) || 10;
-  const numberOfPages = Math.ceil(postsCount / limit);
-  const isLastPage = queryParams.lastPage || false;
-
-  if (isLastPage) {
-    page = numberOfPages;
-  }
-
-  const offset = Number(page) * limit - limit || 0;
+  const pageParams = getPageParams(queryParams, postsCount);
 
   const posts = await postsRepository
     .createQueryBuilder('posts')
@@ -35,23 +32,33 @@ const listPostsService = async (queryParams: IQueryParams): Promise<IReturned> =
     .leftJoinAndSelect('posts.comments', 'comments')
     .leftJoinAndSelect('comments.likes', 'likess')
     .leftJoinAndSelect('posts.likes', 'likes')
-    .select([
-      'posts',
-      'comments',
-      'likess',
-      'likes',
-      'user.id',
-      'user.username',
-    ])
-    .limit(limit)
-    .offset(offset)
+    .orderBy('posts.createdAt')
+    .select(['posts', 'user.id', 'user.username'])
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
     .getMany();
 
+  const rawsOfCounts = await postsRepository
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .leftJoinAndSelect('posts.likes', 'likes')
+    .orderBy('posts.createdAt')
+    .leftJoinAndSelect('posts.comments', 'comments')
+    .select('posts.id')
+    .addSelect('COUNT(likes)', 'likesCount')
+    .addSelect('COUNT(comments)', 'commentsCount')
+    .groupBy('posts.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
+    .getRawMany();
+
+  const newPosts = mergePostsAndRows(posts, rawsOfCounts);
+
   const returnedObject = {
-    page: page,
+    page: pageParams.page,
     postsCount: postsCount,
-    posts: posts,
-    numberOfPages: numberOfPages,
+    numberOfPages: pageParams.numberOfPages,
+    posts: newPosts,
   };
 
   return returnedObject;
