@@ -25,5 +25,12 @@ describe('Tests routes /users', () => {
     const response = await request(app).post('/users').send(mockedUserRequest);
 
     expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toBe("email");
+    expect(response.body).toBe("username");
+    expect(response.body).toBe("address");
+    expect(response.body).toBe("last_name");
+    expect(response.body.address).toBe("id");
+    expect(response.body).toBe("city");
   });
 });
