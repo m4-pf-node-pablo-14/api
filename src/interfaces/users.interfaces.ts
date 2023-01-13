@@ -48,3 +48,9 @@ export interface IUserResponse {
   username: string;
   bio: string;
 }
+
+export interface INewUser extends IUserResponse {
+  followersCount: number;
+  followingCount: number;
+  postsCount: number;
+}
