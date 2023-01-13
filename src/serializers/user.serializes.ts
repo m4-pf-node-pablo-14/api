@@ -1,11 +1,11 @@
-import * as yup from "yup";
-import { SchemaOf } from "yup";
+import * as yup from 'yup';
+import { SchemaOf } from 'yup';
 import {
   IUserLogin,
   IUserRequest,
   IUserResponse,
   IUserUpdate,
-} from "../interfaces/users.interfaces";
+} from '../interfaces/users.interfaces';
 
 const userSerializer: SchemaOf<IUserRequest> = yup.object().shape({
   bio: yup.string().notRequired(),
@@ -46,12 +46,6 @@ const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
 });
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
-  id: yup.string().uuid(),
-  bio: yup.string().nullable(),
-  email: yup.string().email(),
-  last_name: yup.string(),
-  name: yup.string(),
-  username: yup.string(),
   address: yup.object().shape({
     id: yup.string(),
     city: yup.string(),
@@ -60,36 +54,22 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
     state: yup.string().max(2),
     zipCode: yup.string().max(8),
   }),
+  bio: yup.string().nullable(),
+  last_name: yup.string(),
+  name: yup.string(),
+  username: yup.string(),
+  email: yup.string().email(),
+  id: yup.string().uuid(),
 });
 
-const createPostWithOutPassword: SchemaOf<any> = yup.object().shape({
-  id: yup.string().uuid().required(),
-  createdAt: yup.string().required(),
-  user: yup.object().shape({
-    id: yup.string().uuid().required(),
-    bio: yup.string().nullable(),
-    email: yup.string().email().required(),
-    last_name: yup.string().required(),
-    name: yup.string().required(),
-    username: yup.string().required(),
-  }),
-  post: yup.object().shape({
-    id: yup.string().uuid().required(),
-    img: yup.string().notRequired().nullable(),
-    description: yup.string().notRequired().nullable(),
-    createdAt: yup.string().required(),
-    updateAt: yup.string().required(),
-  }),
-});
-
-const listUserSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> =
-  yup.array(userResponserSerializer);
+const listUsersSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
+  userResponserSerializer,
+);
 
 export {
   userSerializer,
   userLoginSerializer,
   userUpdateSerializer,
   userResponserSerializer,
-  listUserSerializer,
-  createPostWithOutPassword,
+  listUsersSerializer,
 };

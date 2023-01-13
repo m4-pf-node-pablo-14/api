@@ -1,9 +1,9 @@
-import AppDataSource from "../../data-source";
-import Address from "../../entities/address.entities";
-import User from "../../entities/user.entities";
-import AppError from "../../errors/AppError";
-import { IUserRequest } from "../../interfaces/users.interfaces";
-import { userResponserSerializer } from "../../serializers/user.serializes";
+import AppDataSource from '../../data-source';
+import Address from '../../entities/address.entities';
+import User from '../../entities/user.entities';
+import AppError from '../../errors/AppError';
+import { IUserRequest } from '../../interfaces/users.interfaces';
+import { userResponserSerializer } from '../../serializers/user.serializes';
 
 const createUserService = async (userData: IUserRequest) => {
   const userRepository = AppDataSource.getRepository(User);
@@ -15,7 +15,7 @@ const createUserService = async (userData: IUserRequest) => {
   });
 
   if (userVerify[0]) {
-    throw new AppError("user already exists");
+    throw new AppError('user already exists');
   }
 
   const address = addressRepository.create(userData.address);
