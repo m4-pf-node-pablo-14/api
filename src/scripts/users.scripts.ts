@@ -32,4 +32,26 @@ const mergeUsersAndRows = (
   return newUsers;
 };
 
-export { mergeUsersAndRows };
+const mergeUserCountArrays = (array1, array2) => {
+
+    const newArray = []
+
+    array1.forEach(elem1 => {
+        array2.forEach(elem2 => {
+
+            if(elem1.users_id === elem2.users_id){
+    
+                const newObject = {
+                    ...elem1,
+                    ...elem2
+                }
+
+                newArray.push(newObject)
+            }
+        })
+    })
+
+    return newArray
+}
+
+export { mergeUsersAndRows, mergeUserCountArrays };
