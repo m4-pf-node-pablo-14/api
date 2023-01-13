@@ -9,17 +9,17 @@ export interface INewComment extends Comment {
 }
 
 export interface IComment {
-  id: string,
-  text: string,
-  createdAt: Date,
-  updatedAt: Date,
+  id: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
   user: {
-    id: string,
-    username: string
-  }
+    id: string;
+    username: string;
+  };
   post: {
-    id: string,
-    description: string,
-    img: string
-  }
+    id: string;
+    description: string;
+    img: string;
+  };
 }

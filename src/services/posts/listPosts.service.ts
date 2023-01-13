@@ -1,5 +1,8 @@
 import { INewComment } from './../../interfaces/comments.interface';
-import { mergePostCountArrays, mergePostsAndRows } from './../../scripts/posts.scripts';
+import {
+  mergePostCountArrays,
+  mergePostsAndRows,
+} from './../../scripts/posts.scripts';
 import { getPageParams } from './../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
@@ -40,30 +43,30 @@ const listPostsService = async (
     .getMany();
 
   const likesCount = await postsRepository
-  .createQueryBuilder('posts')
-  .innerJoinAndSelect('posts.user', 'user')
-  .leftJoinAndSelect('posts.likes', 'likes')
-  .orderBy('posts.createdAt')
-  .select('posts.id')
-  .addSelect('COUNT(likes)', 'likesCount')
-  .groupBy('posts.id')
-  .limit(pageParams.limit)
-  .offset(pageParams.offset)
-  .getRawMany();
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .leftJoinAndSelect('posts.likes', 'likes')
+    .orderBy('posts.createdAt')
+    .select('posts.id')
+    .addSelect('COUNT(likes)', 'likesCount')
+    .groupBy('posts.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
+    .getRawMany();
 
   const commentsCount = await postsRepository
-  .createQueryBuilder('posts')
-  .innerJoinAndSelect('posts.user', 'user')
-  .leftJoinAndSelect('posts.comments', 'comments')
-  .orderBy('posts.createdAt')
-  .select('posts.id')
-  .addSelect('COUNT(comments)', 'commentsCount')
-  .groupBy('posts.id')
-  .limit(pageParams.limit)
-  .offset(pageParams.offset)
-  .getRawMany();
+    .createQueryBuilder('posts')
+    .innerJoinAndSelect('posts.user', 'user')
+    .leftJoinAndSelect('posts.comments', 'comments')
+    .orderBy('posts.createdAt')
+    .select('posts.id')
+    .addSelect('COUNT(comments)', 'commentsCount')
+    .groupBy('posts.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
+    .getRawMany();
 
-  const rawsOfCounts = mergePostCountArrays(likesCount, commentsCount)
+  const rawsOfCounts = mergePostCountArrays(likesCount, commentsCount);
 
   const newPosts = mergePostsAndRows(posts, rawsOfCounts);
 

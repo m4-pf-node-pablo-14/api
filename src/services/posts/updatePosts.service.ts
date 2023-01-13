@@ -29,8 +29,8 @@ const updatePostsService = async (
   const newPost = await postsRepository.save({ ...postToUpdate, ...postData });
 
   const validatedPost = await postSerializar.validate(newPost, {
-    stripUnknown: true
-  })
+    stripUnknown: true,
+  });
 
   return validatedPost;
 };
