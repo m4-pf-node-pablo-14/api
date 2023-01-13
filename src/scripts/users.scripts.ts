@@ -1,5 +1,5 @@
 import User from '../entities/user.entities';
-import { INewUser } from '../interfaces/users.interfaces';
+import { INewUser, IUserResponse } from '../interfaces/users.interfaces';
 
 interface IRowsOfCounts {
   followingCount: string;
@@ -9,7 +9,7 @@ interface IRowsOfCounts {
 }
 
 const mergeUsersAndRows = (
-  users: User[],
+  users: IUserResponse[],
   rowsOfCounts: IRowsOfCounts[],
 ): INewUser[] => {
   const newUsers: INewUser[] = [];
