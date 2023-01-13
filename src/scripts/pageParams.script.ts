@@ -24,12 +24,12 @@ const getPageParams = (
   const isLastPage = queryParams.lastPage || false;
   const isAll = queryParams.all || false;
 
-    if (isLastPage) {
-        page = numberOfPages;
-        if(page === 0){
-            page = 1
-          }
+  if (isLastPage) {
+    page = numberOfPages;
+    if (page === 0) {
+      page = 1;
     }
+  }
 
   if (isAll) {
     page = 1;
