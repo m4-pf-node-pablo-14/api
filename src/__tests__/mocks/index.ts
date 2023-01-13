@@ -1,4 +1,4 @@
-import { IUserLogin, IUserRequest } from "../../interfaces/users.interfaces";
+import { IUserLogin, IUserRequest } from '../../interfaces/users.interfaces';
 
 export const mockedUserRequest: IUserRequest = {
   name: "vinicius",
@@ -33,6 +33,6 @@ export const mockedUserRequestTwo: IUserRequest = {
 };
 
 export const mockedLoginRequest: IUserLogin = {
-  email: "vinicius123@hotmail.com",
-  password: "12345678Vv.",
+  email: 'vinicius123@hotmail.com',
+  password: '12345678Vv.',
 };

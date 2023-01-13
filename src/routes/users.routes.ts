@@ -10,11 +10,15 @@ import {
   listUsersFollowingController,
   listUsersWithSameFollowerController,
   updateUserController,
-} from "../controllers/users.controllers";
-import ensureAuthMiddleware from "../middlewares/ensureAuth.middleware";
-import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
-import ensureUserIsExistMiddleware from "../middlewares/ensureUserIsExist.middleware";
-import { userSerializer, userUpdateSerializer } from "../serializers/user.serializes";
+} from '../controllers/users.controllers';
+import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
+import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
+import {
+  userSerializer,
+  userUpdateSerializer,
+} from '../serializers/user.serializes';
 
 const userRouter = Router();
 
@@ -26,21 +30,27 @@ userRouter.get(
   "/followers",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUsersFollowerController
+  listUserController,
 );
 
 userRouter.get(
   "/following",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUsersFollowingController
+  listUserFollowersController,
 );
 
 userRouter.get(
   "/posts",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listPostsUserController
+  listUserFollowingController,
+);
+userRouter.get(
+  '/posts',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listPostUserController,
 );
 
 userRouter.get(
@@ -65,12 +75,18 @@ userRouter.get(
 );
 
 userRouter.patch(
-  "",
+  '/:id',
   ensureAuthMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController
 );
 
-userRouter.delete("", ensureAuthMiddleware, ensureUserIsExistMiddleware, deleteUserController);
+userRouter.delete(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  ensureUserIsPermitMiddleware,
+  deleteUserController,
+);
 
 export default userRouter;

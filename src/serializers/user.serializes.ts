@@ -14,6 +14,7 @@ const userSerializer: SchemaOf<IUserRequest> = yup.object().shape({
   name: yup.string().required(),
   password: yup.string().required(),
   username: yup.string().required(),
+  isAdm: yup.boolean().notRequired(),
   address: yup.object().shape({
     city: yup.string().required(),
     district: yup.string().required(),
@@ -35,6 +36,13 @@ const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
   name: yup.string(),
   password: yup.string(),
   username: yup.string(),
+  address: yup.object().shape({
+    district: yup.string().notRequired(),
+    zipCode: yup.string().max(8).notRequired(),
+    number: yup.string().notRequired(),
+    city: yup.string().notRequired(),
+    state: yup.string().max(2).notRequired(),
+  }),
 });
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
@@ -45,12 +53,12 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   name: yup.string(),
   username: yup.string(),
   address: yup.object().shape({
-    id: yup.string().required(),
-    city: yup.string().required(),
-    district: yup.string().required(),
-    number: yup.string().required(),
-    state: yup.string().max(2).required(),
-    zipCode: yup.string().max(8).required(),
+    id: yup.string(),
+    city: yup.string(),
+    district: yup.string(),
+    number: yup.string(),
+    state: yup.string().max(2),
+    zipCode: yup.string().max(8),
   }),
 });
 

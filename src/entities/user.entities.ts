@@ -43,10 +43,10 @@ class User {
   bio?: string;
 
   @Column({ default: false })
-  isAdm: boolean;
+    isAdm: boolean;
 
-  @Column({ type: "text", nullable: true })
-  interest_one?: string;
+  @Column({ type: 'text', nullable: true })
+    interest_one?: string;
 
   @Column({ type: "text", nullable: true })
   interest_two?: string;
