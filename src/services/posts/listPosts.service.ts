@@ -1,11 +1,7 @@
+import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 
-interface IQueryParams {
-  limit?: string;
-  page?: string;
-  lastPage?: boolean;
-}
 
 const listPostsService = async (
   queryParams: IQueryParams,
@@ -19,7 +15,6 @@ const listPostsService = async (
 
   const postsCountObject = await postsRepository
     .createQueryBuilder('posts')
-    .innerJoinAndSelect('posts.user', 'user')
     .select('COUNT(*)', 'count')
     .getRawOne();
   const postsCount = Number(postsCountObject.count);

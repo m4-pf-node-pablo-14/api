@@ -2,9 +2,9 @@ import { Router } from 'express';
 import {
   createUserController,
   deleteUserController,
-  listPostsLikesController,
-  listPostsUserController,
+  listPostsLikedController,
   listUserCommentsController,
+  listUserPostsController,
   listUsersController,
   listUsersFollowerController,
   listUsersFollowingController,
@@ -35,24 +35,24 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/followers',
+  '/followers/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowerController,
 );
 
 userRouter.get(
-  '/following',
+  '/following/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowingController,
 );
 
 userRouter.get(
-  '/posts',
+  '/posts/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listPostsUserController,
+  listUserPostsController,
 );
 
 userRouter.get(
@@ -73,11 +73,11 @@ userRouter.get(
   '/postsLiked',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listPostsLikesController,
+  listPostsLikedController,
 );
 
 userRouter.patch(
-  '',
+  '/:id',
   ensureAuthMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
