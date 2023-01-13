@@ -1,20 +1,25 @@
-import { ICommentRequest } from './../../interfaces/comments.interface';
+import {
+  IComment,
+  ICommentRequest,
+} from './../../interfaces/comments.interface';
 import AppDataSource from '../../data-source';
 import AppError from '../../errors/AppError';
 import Comment from '../../entities/comments.entities';
+import { commentSerializer } from '../../serializers/comments.serializers';
 
 const updateCommentService = async (
   commentData: ICommentRequest,
   commentToUpdateId: string,
   requesterUserId: string,
-): Promise<Comment> => {
+): Promise<IComment> => {
   const commentsRepository = AppDataSource.getRepository(Comment);
 
   const commentToUpdate = await commentsRepository
     .createQueryBuilder('comments')
     .innerJoinAndSelect('comments.user', 'user')
+    .innerJoinAndSelect('comments.post', 'post')
     .where('comments.id = :commentId', { commentId: commentToUpdateId })
-    .select(['comments', 'user.id', 'user.username'])
+    .select(['comments', 'user.id', 'user.username', 'post'])
     .getOne();
 
   if (!commentToUpdate) {
@@ -30,7 +35,14 @@ const updateCommentService = async (
     ...commentData,
   });
 
-  return updatedComment;
+  const validatedUpdatedComment = await commentSerializer.validate(
+    updatedComment,
+    {
+      stripUnknown: true,
+    },
+  );
+
+  return validatedUpdatedComment;
 };
 
 export default updateCommentService;
