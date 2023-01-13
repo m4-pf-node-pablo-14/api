@@ -1,93 +1,76 @@
-import { Router } from 'express';
+import { Router } from "express";
 import {
   createUserController,
   deleteUserController,
   listPostsLikesController,
-  listPostUserController,
+  listPostsUserController,
   listUserCommentsController,
-  listUserController,
-  listUserFollowersController,
-  listUserFollowingController,
+  listUsersController,
+  listUsersFollowerController,
+  listUsersFollowingController,
   listUsersWithSameFollowerController,
   updateUserController,
-} from '../controllers/users.controllers';
-import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
-import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
-import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
-import {
-  userSerializer,
-  userUpdateSerializer,
-} from '../serializers/user.serializes';
+} from "../controllers/users.controllers";
+import ensureAuthMiddleware from "../middlewares/ensureAuth.middleware";
+import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
+import ensureUserIsExistMiddleware from "../middlewares/ensureUserIsExist.middleware";
+import { userSerializer, userUpdateSerializer } from "../serializers/user.serializes";
 
 const userRouter = Router();
 
-userRouter.post(
-  '',
-  ensureDataIsValidMiddleware(userSerializer),
-  createUserController,
+userRouter.post("", ensureDataIsValidMiddleware(userSerializer), createUserController);
+
+userRouter.get("", ensureAuthMiddleware, ensureUserIsExistMiddleware, listUsersController);
+
+userRouter.get(
+  "/followers",
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listUsersFollowerController
 );
 
 userRouter.get(
-  '',
+  "/following",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUserController,
-);
-userRouter.get(
-  '/followers',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  listUserFollowersController,
-);
-userRouter.get(
-  '/following',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  listUserFollowingController,
-);
-userRouter.get(
-  '/posts',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  listPostUserController,
+  listUsersFollowingController
 );
 
 userRouter.get(
-  '/comments',
+  "/posts",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUserCommentsController,
+  listPostsUserController
 );
 
 userRouter.get(
-  '/recomendedFollows',
+  "/comments",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listUsersWithSameFollowerController,
+  listUserCommentsController
 );
 
 userRouter.get(
-  '/postsLiked',
+  "/recomendedFollows",
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
-  listPostsLikesController,
+  listUsersWithSameFollowerController
+);
+
+userRouter.get(
+  "/postsLiked",
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listPostsLikesController
 );
 
 userRouter.patch(
-  '/:id',
+  "",
   ensureAuthMiddleware,
-  ensureUserIsPermitMiddleware,
   ensureDataIsValidMiddleware(userUpdateSerializer),
-  updateUserController,
+  updateUserController
 );
 
-userRouter.delete(
-  '/:id',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  ensureUserIsPermitMiddleware,
-  deleteUserController,
-);
+userRouter.delete("", ensureAuthMiddleware, ensureUserIsExistMiddleware, deleteUserController);
 
 export default userRouter;

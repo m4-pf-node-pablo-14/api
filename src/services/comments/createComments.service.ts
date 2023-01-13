@@ -3,11 +3,11 @@ import Comment from '../../entities/comments.entities';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
-import { IComment } from '../../interfaces/comments.interface';
+import { ICommentRequest } from '../../interfaces/comments.interface';
 
 const createCommentsService = async (
   postId: string,
-  commentData: IComment,
+  commentData: ICommentRequest,
   userId: string,
 ): Promise<Comment> => {
   const postRepository = AppDataSource.getRepository(Post);
