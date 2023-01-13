@@ -1,3 +1,5 @@
+import User from '../entities/user.entities';
+
 interface IAddress {
   district: string;
   zipCode: string;
@@ -47,4 +49,10 @@ export interface IUserResponse {
   email: string;
   username: string;
   bio: string;
+}
+
+export interface INewUser extends Omit<User, hashPassword> {
+  followersCount: number;
+  followingCount: number;
+  postsCount: number;
 }

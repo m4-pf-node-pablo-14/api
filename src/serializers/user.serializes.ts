@@ -46,12 +46,6 @@ const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
 });
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
-  id: yup.string().uuid(),
-  bio: yup.string().nullable(),
-  email: yup.string().email(),
-  last_name: yup.string(),
-  name: yup.string(),
-  username: yup.string(),
   address: yup.object().shape({
     id: yup.string(),
     city: yup.string(),
@@ -60,6 +54,12 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
     state: yup.string().max(2),
     zipCode: yup.string().max(8),
   }),
+  bio: yup.string().nullable(),
+  last_name: yup.string(),
+  name: yup.string(),
+  username: yup.string(),
+  email: yup.string().email(),
+  id: yup.string().uuid(),
 });
 
 const listUsersSerializer: yup.ArraySchema<SchemaOf<IUserResponse>> = yup.array(
