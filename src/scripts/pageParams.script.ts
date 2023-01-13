@@ -26,6 +26,9 @@ const getPageParams = (
 
   if (isLastPage) {
     page = numberOfPages;
+    if (page === 0) {
+      page = 1;
+    }
   }
 
   if (isAll) {
