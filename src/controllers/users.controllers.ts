@@ -25,23 +25,17 @@ const listUserCommentsController = async (req: Request, res: Response) => {
 };
 
 const listUsersFollowerController = async (req: Request, res: Response) => {
-  const userId: string = req.params.id
-  const queryParams = req.query
-  const followers = await listUsersFollowerService(userId, queryParams);
+  const followers = await listUsersFollowerService(req.user.id, req.query);
   return res.json(followers);
 };
 
 const listUsersFollowingController = async (req: Request, res: Response) => {
-  const userId: string = req.params.id
-  const queryParams = req.query
-  const following = await listUsersFollowingService(userId, queryParams);
+  const following = await listUsersFollowingService(req.user.id, req.query);
   return res.json(following);
 };
 
 const listUserPostsController = async (req: Request, res: Response) => {
-  const userId: string = req.params.id
-  const queryParams = req.query
-  const posts = await listUserPostsService(userId, queryParams);
+  const posts = await listUserPostsService(req.user.id, req.query);
   return res.json(posts);
 };
 
