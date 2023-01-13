@@ -7,9 +7,14 @@ import { mockedLoginRequest, mockedUserRequest, mockedUserRequestTwo } from "../
 describe("/follow", () => {
   let connection: DataSource;
 
-  const object = {
-    createUserTwo: undefined,
-    authorization: undefined,
+  interface IObject {
+    createUserTwo: null | string;
+    authorization: null | string;
+  }
+
+  const object: IObject = {
+    createUserTwo: null,
+    authorization: null,
   };
 
   beforeAll(async () => {
@@ -25,8 +30,8 @@ describe("/follow", () => {
     const createUserTwo = await request(app).post("/users").send(mockedUserRequestTwo);
     const authorization = await request(app).post("/login").send(mockedLoginRequest);
 
-    object.createUserTwo = createUserTwo;
-    object.authorization = authorization;
+    object.createUserTwo = createUserTwo.body.id;
+    object.authorization = authorization.body.token;
   });
 
   afterAll(async () => {
@@ -35,19 +40,18 @@ describe("/follow", () => {
 
   test("Should be able to follow the user", async () => {
     const response = await request(app)
-      .post(`/follow/${object.createUserTwo.body.id}`)
-      .set("Authorization", `Bearer ${object.authorization.body.token}`);
+      .post(`/follow/${object.createUserTwo}`)
+      .set("Authorization", `Bearer ${object.authorization}`);
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(201);
   });
 
   test("It must be possible to unfollow the user", async () => {
-    const response = await request(app)
-      .delete(`/follow/${object.createUserTwo.body.id}`)
-      .set("Authorization", `Bearer ${object.authorization.body.token}`);
+    const responseTwo = await request(app)
+      .delete(`/follow/${object.createUserTwo}`)
+      .set("Authorization", `Bearer ${object.authorization}`);
 
-    expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(200);
+    expect(responseTwo.status).toBe(204);
   });
 });

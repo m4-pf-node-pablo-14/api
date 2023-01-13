@@ -1,4 +1,4 @@
-import { IUserLogin, IUserRequest } from '../../interfaces/users.interfaces';
+import { IUserLogin, IUserRequest } from "../../interfaces/users.interfaces";
 
 export const mockedUserRequest: IUserRequest = {
   name: "vinicius",
@@ -8,7 +8,7 @@ export const mockedUserRequest: IUserRequest = {
   username: "vini123",
   bio: "Dev Senior",
   address: {
-    city: "Barra B",
+    city: "Santa Quitéria",
     district: "Rua Jerusalém",
     number: "72",
     state: "CE",
@@ -24,15 +24,15 @@ export const mockedUserRequestTwo: IUserRequest = {
   username: "Lucas123",
   bio: "Dev Senior",
   address: {
-    city: "Barra B",
-    district: "Rua Jerusalém",
+    city: "Florianopolis",
+    district: "Vila Doideira",
     number: "72",
-    state: "CE",
-    zipCode: "62280000",
+    state: "SC",
+    zipCode: "17340487",
   },
 };
 
 export const mockedLoginRequest: IUserLogin = {
-  email: 'vinicius123@hotmail.com',
-  password: '12345678Vv.',
+  email: "vinicius123@hotmail.com",
+  password: "12345678Vv.",
 };

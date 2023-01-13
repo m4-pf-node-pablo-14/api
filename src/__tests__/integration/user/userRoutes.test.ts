@@ -22,10 +22,9 @@ describe("Tests routes /users", () => {
   });
 
   test("Must be able to create a user", async () => {
-    const response = await request(app).post(`/users`);
+    const response = await request(app).post(`/users`).send(mockedUserRequest) ;
 
+    expect(response.status).toBe(201);
 
-    expect(response.status).toBe(201)
-    expect(response.body)
   });
 });
