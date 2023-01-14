@@ -18,7 +18,7 @@ interface IReturned {
 
 const listUsersService = async (
   queryParams: IQueryParams,
-) /* : Promise<IReturned> */ => {
+): Promise<IReturned> => {
   const userRepository = AppDataSource.getRepository(User);
 
   const userCountObject = await userRepository

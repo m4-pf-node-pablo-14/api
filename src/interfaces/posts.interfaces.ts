@@ -11,6 +11,10 @@ export interface IPost {
   description?: string;
   createdAt: Date;
   updateAt: Date;
+  user: {
+    id: string;
+    username: string;
+  };
 }
 
 export interface INewPost extends Post {

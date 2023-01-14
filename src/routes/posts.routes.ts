@@ -9,12 +9,14 @@ import {
   listPostsController,
   updatePostsController,
 } from '../controllers/posts.controller';
+import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
 
 const postRouter = Router();
 
 postRouter.post(
   '',
   ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   createPostsController,
@@ -28,7 +30,12 @@ postRouter.patch(
   updatePostsController,
 );
 
-postRouter.get('', ensureAuthMiddleware, listPostsController);
+postRouter.get(
+  '',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  listPostsController,
+);
 
 postRouter.delete('/:id', ensureAuthMiddleware, deletePostController);
 
