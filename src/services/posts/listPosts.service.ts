@@ -1,4 +1,3 @@
-import { INewComment } from './../../interfaces/comments.interface';
 import {
   mergePostCountArrays,
   mergePostsAndRows,
