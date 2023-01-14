@@ -8,18 +8,14 @@ import {
 import AppDataSource from '../../../src/data-source';
 import app from '../../../src/app';
 
+interface IParams {
+  createUserTwo: string;
+  authorization: string;
+}
+
 describe('/follow', () => {
   let connection: DataSource;
-
-  interface IObject {
-    createUserTwo: null | string;
-    authorization: null | string;
-  }
-
-  const object: IObject = {
-    createUserTwo: null,
-    authorization: null,
-  };
+  let params: IParams;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -38,8 +34,10 @@ describe('/follow', () => {
       .post('/login')
       .send(mockedLoginRequest);
 
-    object.createUserTwo = createUserTwo.body.id;
-    object.authorization = authorization.body.token;
+    params = {
+      createUserTwo: createUserTwo.body.id,
+      authorization: authorization.body.token,
+    };
   });
 
   afterAll(async () => {
@@ -48,8 +46,8 @@ describe('/follow', () => {
 
   test('Should be able to follow the user', async () => {
     const response = await request(app)
-      .post(`/follow/${object.createUserTwo}`)
-      .set('Authorization', `Bearer ${object.authorization}`);
+      .post(`/follow/${params.createUserTwo}`)
+      .set('Authorization', `Bearer ${params.authorization}`);
 
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(201);
@@ -57,8 +55,8 @@ describe('/follow', () => {
 
   test('It must be possible to unfollow the user', async () => {
     const responseTwo = await request(app)
-      .delete(`/follow/${object.createUserTwo}`)
-      .set('Authorization', `Bearer ${object.authorization}`);
+      .delete(`/follow/${params.createUserTwo}`)
+      .set('Authorization', `Bearer ${params.authorization}`);
 
     expect(responseTwo.status).toBe(204);
   });
