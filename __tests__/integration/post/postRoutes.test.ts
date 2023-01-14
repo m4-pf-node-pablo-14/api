@@ -9,15 +9,14 @@ import {
   mockedUserRequestTwo,
   mockedLoginRequestTwo,
   mockedPostUpdateRequest,
-  mockedUserRequestDelete,
-  mockedLoginRequestDelete,
 } from '../../mocks';
 
 interface IParams {
   userId: string;
+  userTwoId: string;
   username: string;
   token: string;
-  tokenDelete: string;
+  tokenUserTwo: string;
   postId: string;
   postTwoId: string;
   postDeleteId: string;
@@ -27,7 +26,7 @@ describe('Tests routes /posts', () => {
   let connection: DataSource;
   let params: IParams;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await AppDataSource.initialize()
       .then((res) => {
         connection = res;
@@ -37,10 +36,11 @@ describe('Tests routes /posts', () => {
       });
 
     const user = await request(app).post('/users').send(mockedUserRequest);
-    await request(app).post('/users').send(mockedUserRequestTwo);
-    const userDelete = await request(app)
+
+    const userTwo = await request(app)
       .post('/users')
-      .send(mockedUserRequestDelete);
+      .send(mockedUserRequestTwo);
+
 
     const authorization = await request(app)
       .post('/login')
@@ -48,9 +48,7 @@ describe('Tests routes /posts', () => {
     const authorizationUserTwo = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
-    const authorizationUserDelete = await request(app)
-      .post('/login')
-      .send(mockedLoginRequestDelete);
+
 
     const post = await request(app)
       .post('/posts')
@@ -67,22 +65,24 @@ describe('Tests routes /posts', () => {
     await request(app)
       .delete(`/posts/${postDelete.body.id}`)
       .set('Authorization', `Bearer ${authorization.body.token}`);
-    await request(app)
-      .delete(`/users/${userDelete.body.id}`)
-      .set('Authorization', `Bearer ${authorizationUserDelete.body.token}`);
+
 
     params = {
       userId: user.body.id,
+      userTwoId: userTwo.body.id,
       username: user.body.username,
       token: authorization.body.token,
-      tokenDelete: authorizationUserDelete.body.token,
+      tokenUserTwo: authorizationUserTwo.body.token,
+
       postId: post.body.id,
       postTwoId: postTwo.body.id,
       postDeleteId: postDelete.body.id,
     };
   });
 
-  afterAll(async () => {
+
+  afterEach(async () => {
+
     await connection.destroy();
   });
 
@@ -102,7 +102,10 @@ describe('Tests routes /posts', () => {
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
     expect(response.body.user).not.toHaveProperty('password');
-    expect(response.body.description).toEqual('Olá,Mundo!');
+
+    expect(response.body.img).toEqual('kausdgas54dsf6s');
+    expect(response.body.description).toEqual('postado');
+
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
   });
@@ -115,9 +118,14 @@ describe('Tests routes /posts', () => {
   });
 
   test('It should not be possible to create a post by a user that does not exist', async () => {
+
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
       .post('/posts')
-      .set('Authorization', `Bearer ${params.tokenDelete}`)
+      .set('Authorization', `Bearer ${params.token}`)
+
       .send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
@@ -142,9 +150,14 @@ describe('Tests routes /posts', () => {
   });
 
   test('It should not be possible to list posts by a user that does not exist', async () => {
+
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
       .get('/posts')
-      .set('Authorization', `Bearer ${params.tokenDelete}`)
+      .set('Authorization', `Bearer ${params.token}`)
+
       .send();
 
     expect(response.body).toHaveProperty('message');
@@ -167,7 +180,9 @@ describe('Tests routes /posts', () => {
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
     expect(response.body.user).not.toHaveProperty('password');
-    expect(response.body.description).toEqual('Hi');
+
+    expect(response.body.description).toEqual('Olá,Mundo!');
+
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
   });
