@@ -8,12 +8,12 @@ import {
   listUsersController,
   listUsersFollowerController,
   listUsersFollowingController,
-  listUsersWithSameFollowerController,
   updateUserController,
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
 import {
   userSerializer,
   userUpdateSerializer,
@@ -35,21 +35,21 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/followers',
+  '/followers/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowerController,
 );
 
 userRouter.get(
-  '/following',
+  '/following/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersFollowingController,
 );
 
 userRouter.get(
-  '/posts',
+  '/posts/:id',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUserPostsController,
@@ -60,13 +60,6 @@ userRouter.get(
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUserCommentsController,
-);
-
-userRouter.get(
-  '/recomendedFollows',
-  ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
-  listUsersWithSameFollowerController,
 );
 
 userRouter.get(
@@ -84,8 +77,9 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  '',
+  '/:id',
   ensureAuthMiddleware,
+  ensureUserIsPermitMiddleware,
   ensureUserIsExistMiddleware,
   deleteUserController,
 );

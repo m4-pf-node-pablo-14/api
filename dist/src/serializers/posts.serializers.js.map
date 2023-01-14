@@ -1,1 +1,0 @@
-{"version":3,"file":"posts.serializers.js","sourceRoot":"","sources":["../../../src/serializers/posts.serializers.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;AACA,yCAA2B;AAG3B,MAAM,qBAAqB,GAA2B,GAAG,CAAC,MAAM,EAAE,CAAC,KAAK,CAAC;IACvE,GAAG,EAAE,GAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;IAC5B,WAAW,EAAE,GAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;CACrC,CAAC,CAAC;AAEM,sDAAqB"}

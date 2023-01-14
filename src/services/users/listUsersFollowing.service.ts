@@ -1,17 +1,49 @@
+import { getPageParams } from './../../scripts/pageParams.script';
+import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Follow from '../../entities/follow.entities';
 
-const listUsersFollowingService = async (
-  tokenId: string,
-): Promise<Follow[]> => {
-  const followRepository = AppDataSource.getRepository(Follow);
+interface IReturned {
+  page: number;
+  followersCount: number;
+  numberOfPages: number;
+  followers: Follow[];
+}
 
-  const following = await followRepository
-    .createQueryBuilder('follow')
-    .where('follow.following = :tokenId', { tokenId })
+const listUsersFollowingService = async (
+  userId: string,
+  queryParams: IQueryParams,
+): Promise<IReturned> => {
+  const followsRepository = AppDataSource.getRepository(Follow);
+
+  const followingCountObject = await followsRepository
+    .createQueryBuilder('follows')
+    .innerJoinAndSelect('follows.following', 'following')
+    .where('following.id = :userId', { userId: userId })
+    .select('COUNT(follows)', 'count')
+    .getRawOne();
+  const followingCount = Number(followingCountObject.count);
+
+  const pageParams = getPageParams(queryParams, followingCount);
+
+  const follows = await followsRepository
+    .createQueryBuilder('follows')
+    .innerJoinAndSelect('follows.following', 'following')
+    .where('following.id = :userId', { userId: userId })
+    .select(['follows', 'following.id', 'following.username'])
+    .orderBy('follows.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
     .getMany();
 
-  return following;
+  const returnedObject = {
+    page: pageParams.page,
+    followersCount: followingCount,
+    numberOfPages: pageParams.numberOfPages,
+    followers: follows,
+  };
+
+  return returnedObject;
 };
 
 export default listUsersFollowingService;

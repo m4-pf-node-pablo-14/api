@@ -7,7 +7,6 @@ import listUserCommentsService from '../services/users/listUserComments.service'
 import listUserPostsService from '../services/users/listUserPosts.service';
 import listUsersFollowerService from '../services/users/listUsersFollower.service';
 import listUsersFollowingService from '../services/users/listUsersFollowing.service';
-import listUsersWithSameFollowerService from '../services/users/listUsersWithSameFollower.service';
 import updateUserService from '../services/users/updateUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
@@ -26,26 +25,18 @@ const listUserCommentsController = async (req: Request, res: Response) => {
 };
 
 const listUsersFollowerController = async (req: Request, res: Response) => {
-  const followers = await listUsersFollowerService(req.user.id);
+  const followers = await listUsersFollowerService(req.user.id, req.query);
   return res.json(followers);
 };
 
 const listUsersFollowingController = async (req: Request, res: Response) => {
-  const following = await listUsersFollowingService(req.user.id);
+  const following = await listUsersFollowingService(req.user.id, req.query);
   return res.json(following);
 };
 
 const listUserPostsController = async (req: Request, res: Response) => {
-  const posts = await listUserPostsService(req.user.id);
+  const posts = await listUserPostsService(req.user.id, req.query);
   return res.json(posts);
-};
-
-const listUsersWithSameFollowerController = async (
-  req: Request,
-  res: Response,
-) => {
-  const users = await listUsersWithSameFollowerService(req.user.id);
-  return res.json(users);
 };
 
 const listPostsLikedController = async (req: Request, res: Response) => {
@@ -59,7 +50,7 @@ const updateUserController = async (req: Request, res: Response) => {
 };
 
 const deleteUserController = async (req: Request, res: Response) => {
-  await deleteUserService(req.user.id);
+  await deleteUserService(req.params.id);
   return res.status(204).json({});
 };
 
@@ -70,7 +61,6 @@ export {
   listUsersFollowerController,
   listUsersFollowingController,
   listUserPostsController,
-  listUsersWithSameFollowerController,
   listPostsLikedController,
   updateUserController,
   deleteUserController,
