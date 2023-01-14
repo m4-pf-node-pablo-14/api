@@ -6,6 +6,7 @@ import ensurePostDataExistsMiddleware from '../middlewares/ensurePostDataExists.
 import {
   createPostsController,
   deletePostController,
+  listPostByIdController,
   listPostsController,
   updatePostsController,
 } from '../controllers/posts.controller';
@@ -31,5 +32,7 @@ postRouter.patch(
 postRouter.get('', ensureAuthMiddleware, listPostsController);
 
 postRouter.delete('/:id', ensureAuthMiddleware, deletePostController);
+
+postRouter.get('/:id', ensureAuthMiddleware, listPostByIdController)
 
 export default postRouter;
