@@ -1,3 +1,5 @@
+import { IQueryParams } from './../interfaces/queryParams.interface';
+import { listCommentsByPostService } from './../services/comments/listsCommentsByPosts.service';
 import { Request, Response } from 'express';
 import createCommentsService from '../services/comments/createComments.service';
 import deleteCommentService from '../services/comments/deleteComment.service';
@@ -26,8 +28,16 @@ const updateCommentController = async (req: Request, res: Response) => {
   res.json(updatedComment);
 };
 
+const listCommentsByPostController = async (req: Request, res: Response) => {
+  const postId: string = req.params.id
+  const queryParams: IQueryParams = req.query
+  const comments = await listCommentsByPostService(postId, queryParams)
+  return res.status(200).json(comments) 
+}
+
 export {
   createCommentsController,
   deleteCommentController,
   updateCommentController,
+  listCommentsByPostController
 };

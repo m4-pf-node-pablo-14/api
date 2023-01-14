@@ -3,6 +3,7 @@ import { Router } from 'express';
 import {
   createCommentsController,
   deleteCommentController,
+  listCommentsByPostController,
   updateCommentController,
 } from '../controllers/comments.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
@@ -25,5 +26,7 @@ commentRouter.patch(
   ensureDataIsValidMiddleware(commentRequestSerializer),
   updateCommentController,
 );
+
+commentRouter.get('/post/:id', ensureAuthMiddleware, listCommentsByPostController)
 
 export default commentRouter;
