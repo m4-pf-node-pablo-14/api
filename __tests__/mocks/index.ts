@@ -1,4 +1,3 @@
-
 import { ICommentRequest } from '../../src/interfaces/comments.interface';
 
 import { IPostRequest } from '../../src/interfaces/posts.interfaces';
@@ -49,7 +48,6 @@ const mockedLoginRequestTwo: IUserLogin = {
   password: '12345678Vv.',
 };
 
-
 const mockedPostRequest: IPostRequest = {
   img: 'kausdgas54dsf6s',
   description: 'postado',
@@ -61,17 +59,14 @@ const mockedPostUpdateRequest: IPostRequest = {
 
 const mockedCommentRequest: ICommentRequest = {
   text: 'lindo',
-
 };
 
 export {
   mockedUserRequest,
   mockedUserRequestTwo,
-
   mockedLoginRequest,
   mockedLoginRequestTwo,
   mockedPostRequest,
   mockedPostUpdateRequest,
   mockedCommentRequest,
-
 };

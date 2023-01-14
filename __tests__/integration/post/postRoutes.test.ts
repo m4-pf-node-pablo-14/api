@@ -36,20 +36,15 @@ describe('Tests routes /posts', () => {
       });
 
     const user = await request(app).post('/users').send(mockedUserRequest);
-
     const userTwo = await request(app)
       .post('/users')
       .send(mockedUserRequestTwo);
-
-
     const authorization = await request(app)
       .post('/login')
       .send(mockedLoginRequest);
     const authorizationUserTwo = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
-
-
     const post = await request(app)
       .post('/posts')
       .set('Authorization', `Bearer ${authorization.body.token}`)
@@ -66,23 +61,19 @@ describe('Tests routes /posts', () => {
       .delete(`/posts/${postDelete.body.id}`)
       .set('Authorization', `Bearer ${authorization.body.token}`);
 
-
     params = {
       userId: user.body.id,
       userTwoId: userTwo.body.id,
       username: user.body.username,
       token: authorization.body.token,
       tokenUserTwo: authorizationUserTwo.body.token,
-
       postId: post.body.id,
       postTwoId: postTwo.body.id,
       postDeleteId: postDelete.body.id,
     };
   });
 
-
   afterEach(async () => {
-
     await connection.destroy();
   });
 
@@ -102,10 +93,8 @@ describe('Tests routes /posts', () => {
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
     expect(response.body.user).not.toHaveProperty('password');
-
     expect(response.body.img).toEqual('kausdgas54dsf6s');
     expect(response.body.description).toEqual('postado');
-
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
   });
@@ -118,14 +107,12 @@ describe('Tests routes /posts', () => {
   });
 
   test('It should not be possible to create a post by a user that does not exist', async () => {
-
     await request(app)
       .delete(`/users/${params.userId}`)
       .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
       .post('/posts')
       .set('Authorization', `Bearer ${params.token}`)
-
       .send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
@@ -150,14 +137,12 @@ describe('Tests routes /posts', () => {
   });
 
   test('It should not be possible to list posts by a user that does not exist', async () => {
-
     await request(app)
       .delete(`/users/${params.userId}`)
       .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
       .get('/posts')
       .set('Authorization', `Bearer ${params.token}`)
-
       .send();
 
     expect(response.body).toHaveProperty('message');
@@ -180,9 +165,7 @@ describe('Tests routes /posts', () => {
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
     expect(response.body.user).not.toHaveProperty('password');
-
     expect(response.body.description).toEqual('Olá,Mundo!');
-
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
   });

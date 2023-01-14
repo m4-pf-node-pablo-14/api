@@ -9,13 +9,15 @@ import {
 import app from '../../../src/app';
 import AppDataSource from '../../../src/data-source';
 
+interface IParams {
+  createToken: string;
+  createPost: string;
+  createComment: string;
+}
+
 describe('/like/comment/:id', () => {
   let connection: DataSource;
-  const object = {
-    createToken: '',
-    createPost: '',
-    createComment: '',
-  };
+  let params: IParams;
 
   beforeEach(async () => {
     await AppDataSource.initialize()
@@ -39,9 +41,11 @@ describe('/like/comment/:id', () => {
       .set('Authorization', `Bearer ${createToken.body.token}`)
       .send(mockedCommentRequest);
 
-    object.createToken = createToken.body.token;
-    object.createPost = createPost.body.id;
-    object.createComment = createComment.body.id;
+    params = {
+      createToken: createToken.body.token,
+      createPost: createPost.body.id,
+      createComment: createComment.body.id,
+    };
   });
 
   afterEach(async () => {
@@ -50,8 +54,8 @@ describe('/like/comment/:id', () => {
 
   test('It should be possible to like the post', async () => {
     const createLikeComment = await request(app)
-      .post(`/like/comment/${object.createComment}`)
-      .set('Authorization', `Bearer ${object.createToken}`);
+      .post(`/like/comment/${params.createComment}`)
+      .set('Authorization', `Bearer ${params.createToken}`);
 
     expect(createLikeComment.body).toHaveProperty('comment');
     expect(createLikeComment.status).toBe(201);
@@ -59,7 +63,7 @@ describe('/like/comment/:id', () => {
 
   test('It should not be possible to like the post without authentication', async () => {
     const createLikeComment = await request(app).post(
-      `/like/comment/${object.createComment}`,
+      `/like/comment/${params.createComment}`,
     );
 
     expect(createLikeComment.status).toBe(400);
@@ -68,21 +72,19 @@ describe('/like/comment/:id', () => {
 
   test('It should be possible to delete like', async () => {
     const createLikeComment = await request(app)
-      .post(`/like/comment/${object.createComment}`)
-      .set('Authorization', `Bearer ${object.createToken}`);
-
+      .post(`/like/comment/${params.createComment}`)
+      .set('Authorization', `Bearer ${params.createToken}`);
     const response = await request(app)
       .delete(`/like/comment/${createLikeComment.body.id}`)
-      .set('Authorization', `Bearer ${object.createToken}`);
+      .set('Authorization', `Bearer ${params.createToken}`);
 
     expect(response.status).toBe(204);
   });
 
   test('it should not be possible to delete the like without authentication', async () => {
     const createLikeComment = await request(app)
-      .post(`/like/comment/${object.createComment}`)
-      .set('Authorization', `Bearer ${object.createToken}`);
-
+      .post(`/like/comment/${params.createComment}`)
+      .set('Authorization', `Bearer ${params.createToken}`);
     const response = await request(app).delete(
       `/like/comment/${createLikeComment.body.id}`,
     );
