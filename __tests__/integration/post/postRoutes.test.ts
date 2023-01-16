@@ -18,6 +18,8 @@ interface IParams {
   token: string;
   tokenUserTwo: string;
   postId: string;
+  postImg: string;
+  postDescription: string;
   postTwoId: string;
   postDeleteId: string;
 }
@@ -68,6 +70,8 @@ describe('Tests routes /posts', () => {
       token: authorization.body.token,
       tokenUserTwo: authorizationUserTwo.body.token,
       postId: post.body.id,
+      postImg: post.body.img,
+      postDescription: post.body.description,
       postTwoId: postTwo.body.id,
       postDeleteId: postDelete.body.id,
     };
@@ -232,6 +236,58 @@ describe('Tests routes /posts', () => {
       .delete(`/posts/${params.postDeleteId}`)
       .set('Authorization', `Bearer ${params.token}`)
       .send();
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should be possible to retrieve a post', async () => {
+    const response = await request(app)
+      .get(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('img');
+    expect(response.body).toHaveProperty('description');
+    expect(response.body).toHaveProperty('createdAt');
+    expect(response.body).toHaveProperty('updateAt');
+    expect(response.body).toHaveProperty('user');
+    expect(response.body).toHaveProperty('likes');
+    expect(response.body).toHaveProperty('comments');
+    expect(response.body.user).toHaveProperty('id');
+    expect(response.body.user).toHaveProperty('username');
+    expect(response.body.user).not.toHaveProperty('password');
+    expect(response.body.id).toEqual(params.postId);
+    expect(response.body.img).toEqual(params.postImg);
+    expect(response.body.description).toEqual(params.postDescription);
+    expect(response.body.user.id).toEqual(params.userId);
+    expect(response.body.user.username).toEqual(params.username);
+  });
+
+  test('It should not be possible to retrieve a post without authentication', async () => {
+    const response = await request(app).get(`/posts/${params.postId}`).send();
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
+  });
+
+  test('It should not be possible to retrieve a post by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .get(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
+  test('It should not be possible to retrieve a post that does not exist', async () => {
+    const response = await request(app)
+      .get(`/posts/${params.postDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');

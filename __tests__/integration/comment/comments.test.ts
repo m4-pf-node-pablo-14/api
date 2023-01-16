@@ -254,4 +254,22 @@ describe('Tests routes /comments', () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
   });
+
+  test('It should not be possible to list the comments in the post without authentication', async () => {
+    const response = await request(app)
+      .get(`/comments/post/${params.postId}`)
+      .send();
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to list the comments in the post that does not exist', async () => {
+    const response = await request(app)
+      .get(`/comments/post/${params.postDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
 });
