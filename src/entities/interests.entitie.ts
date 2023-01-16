@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import InterestsPost from './interestsPost.entities';
 
 @Entity('interests')
 class Interest {
@@ -7,6 +8,11 @@ class Interest {
 
   @Column({ length: 60 })
     name: string;
+
+  @OneToMany(() => InterestsPost, (interestPost) => interestPost.post)
+  @JoinTable()
+  interestsPost: InterestsPost[];
 }
 
 export default Interest;
+ 
