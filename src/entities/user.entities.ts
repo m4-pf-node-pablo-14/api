@@ -46,10 +46,10 @@ class User {
     isAdm: boolean;
 
   @Column({ type: 'text', nullable: true })
-    interest_one?: string;
+    mainInterest?: string;
 
   @Column({ type: 'text', nullable: true })
-    interest_two?: string;
+    recentInterest?: string;
 
   @CreateDateColumn()
     createdAt: Date;
