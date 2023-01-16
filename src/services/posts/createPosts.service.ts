@@ -9,12 +9,11 @@ const createPostsService = async (
   postData: IPostRequest,
   requesterUserId: string,
 ): Promise<IPost> => {
-  const postsRepository = AppDataSource.getRepository(Post);
-  const userRepository = AppDataSource.getRepository(User);
-
-  const user = await userRepository.findOneBy({
+  const user = await AppDataSource.getRepository(User).findOneBy({
     id: requesterUserId,
   });
+
+  const postsRepository = AppDataSource.getRepository(Post);
 
   const post = postsRepository.create({ ...postData, user });
 

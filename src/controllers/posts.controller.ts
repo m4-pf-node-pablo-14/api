@@ -3,6 +3,7 @@ import createPostsService from '../services/posts/createPosts.service';
 import updatePostsService from '../services/posts/updatePosts.service';
 import listPostsService from '../services/posts/listPosts.service';
 import deletePostService from '../services/posts/deletePosts.service';
+import retrievePostService from '../services/posts/retrievePost.service';
 
 const createPostsController = async (req: Request, res: Response) => {
   const post = await createPostsService(req.body, req.user.id);
@@ -24,9 +25,15 @@ const deletePostController = async (req: Request, res: Response) => {
   return res.status(204).json({});
 };
 
+const retrievePostController = async (req: Request, res: Response) => {
+  const post = await retrievePostService(req.params.id);
+  return res.json(post);
+};
+
 export {
   createPostsController,
   updatePostsController,
   listPostsController,
   deletePostController,
+  retrievePostController,
 };
