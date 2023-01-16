@@ -23,7 +23,7 @@ const createLoginService = async (
     throw new AppError('wrong email or password', 404);
   }
 
-  const token = jwt.sign({}, process.env.SECRET_KEY, {
+  const token = jwt.sign({ isAdm: user.isAdm }, process.env.SECRET_KEY, {
     expiresIn: '24h',
     subject: user.id,
   });

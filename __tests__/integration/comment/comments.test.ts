@@ -10,6 +10,8 @@ import {
   mockedUserRequestTwo,
   mockedLoginRequestTwo,
   mockedCommentUpdateRequest,
+  mockedUserRequestAdm,
+  mockedLoginRequestAdm,
 } from '../../mocks';
 
 interface IParams {
@@ -17,6 +19,7 @@ interface IParams {
   username: string;
   token: string;
   tokenTwo: string;
+  tokenAdm: string;
   postId: string;
   postDescription: string;
   postDeleteId: string;
@@ -40,12 +43,16 @@ describe('Tests routes /comments', () => {
 
     const user = await request(app).post('/users').send(mockedUserRequest);
     await request(app).post('/users').send(mockedUserRequestTwo);
+    await request(app).post('/users').send(mockedUserRequestAdm);
     const authorization = await request(app)
       .post('/login')
       .send(mockedLoginRequest);
     const authorizationTwo = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
+    const authorizationAdm = await request(app)
+      .post('/login')
+      .send(mockedLoginRequestAdm);
     const post = await request(app)
       .post('/posts')
       .set('Authorization', `Bearer ${authorization.body.token}`)
@@ -78,6 +85,7 @@ describe('Tests routes /comments', () => {
       username: user.body.username,
       token: authorization.body.token,
       tokenTwo: authorizationTwo.body.token,
+      tokenAdm: authorizationAdm.body.token,
       postId: post.body.id,
       postDescription: post.body.description,
       postDeleteId: postDelete.body.id,
@@ -171,6 +179,14 @@ describe('Tests routes /comments', () => {
     const response = await request(app)
       .delete(`/comments/${params.commentTwoId}`)
       .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.status).toBe(204);
+  });
+
+  test('It must be possible for the admin user to delete the comment', async () => {
+    const response = await request(app)
+      .delete(`/comments/${params.commentId}`)
+      .set('Authorization', `Bearer ${params.tokenAdm}`);
 
     expect(response.status).toBe(204);
   });

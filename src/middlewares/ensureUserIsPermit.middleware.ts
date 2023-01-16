@@ -1,21 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import AppDataSource from '../data-source';
-import User from '../entities/user.entities';
 import AppError from '../errors/AppError';
 
-const ensureUserIsPermitMiddleware = async(
+const ensureUserIsPermitMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  
   if (req.params.id === req.user.id) {
     return next();
   }
-  const user = await AppDataSource.getRepository(User).findOneBy({
-    id: req.user.id,
-  });
-  if (user.isAdm === false) {
+
+  if (!req.user.isAdm) {
     throw new AppError('only admins', 403);
   }
 
@@ -23,4 +18,3 @@ const ensureUserIsPermitMiddleware = async(
 };
 
 export default ensureUserIsPermitMiddleware;
-

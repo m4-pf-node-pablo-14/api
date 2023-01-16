@@ -21,7 +21,7 @@ const listPostsController = async (req: Request, res: Response) => {
 };
 
 const deletePostController = async (req: Request, res: Response) => {
-  await deletePostService(req.params.id, req.user.id);
+  await deletePostService(req.params.id, req.user);
   return res.status(204).json({});
 };
 
