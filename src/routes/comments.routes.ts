@@ -1,4 +1,3 @@
-import { commentRequestSerializer } from './../serializers/comments.serializers';
 import { Router } from 'express';
 import {
   createCommentsController,
@@ -8,6 +7,7 @@ import {
 } from '../controllers/comments.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import { commentRequestSerializer } from '../serializers/comments.serializers';
 
 const commentRouter = Router();
 
@@ -27,6 +27,10 @@ commentRouter.patch(
   updateCommentController,
 );
 
-commentRouter.get('/post/:id', ensureAuthMiddleware, listCommentsByPostController)
+commentRouter.get(
+  '/post/:id',
+  ensureAuthMiddleware,
+  listCommentsByPostController,
+);
 
 export default commentRouter;

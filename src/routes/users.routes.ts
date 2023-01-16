@@ -13,6 +13,7 @@ import {
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
 import {
   userSerializer,
   userUpdateSerializer,
@@ -76,8 +77,9 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  '',
+  '/:id',
   ensureAuthMiddleware,
+  ensureUserIsPermitMiddleware,
   ensureUserIsExistMiddleware,
   deleteUserController,
 );

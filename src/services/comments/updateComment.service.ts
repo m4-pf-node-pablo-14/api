@@ -1,4 +1,7 @@
-import { IComment, ICommentRequest } from './../../interfaces/comments.interface';
+import {
+  IComment,
+  ICommentRequest,
+} from './../../interfaces/comments.interface';
 import AppDataSource from '../../data-source';
 import AppError from '../../errors/AppError';
 import Comment from '../../entities/comments.entities';
@@ -32,9 +35,12 @@ const updateCommentService = async (
     ...commentData,
   });
 
-  const validatedUpdatedComment = await commentSerializer.validate(updatedComment, {
-    stripUnknown: true
-  })
+  const validatedUpdatedComment = await commentSerializer.validate(
+    updatedComment,
+    {
+      stripUnknown: true,
+    },
+  );
 
   return validatedUpdatedComment;
 };

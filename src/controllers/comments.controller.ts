@@ -29,15 +29,15 @@ const updateCommentController = async (req: Request, res: Response) => {
 };
 
 const listCommentsByPostController = async (req: Request, res: Response) => {
-  const postId: string = req.params.id
-  const queryParams: IQueryParams = req.query
-  const comments = await listCommentsByPostService(postId, queryParams)
-  return res.status(200).json(comments) 
-}
+  const postId: string = req.params.id;
+  const queryParams: IQueryParams = req.query;
+  const comments = await listCommentsByPostService(postId, queryParams);
+  return res.status(200).json(comments);
+};
 
 export {
   createCommentsController,
   deleteCommentController,
   updateCommentController,
-  listCommentsByPostController
+  listCommentsByPostController,
 };

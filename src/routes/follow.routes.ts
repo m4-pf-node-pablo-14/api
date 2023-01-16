@@ -6,10 +6,10 @@ import {
 
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 
-const followRoutes = Router();
+const followRouter = Router();
 
-followRoutes.post('/:id', ensureAuthMiddleware, followController);
+followRouter.post('/:id', ensureAuthMiddleware, followController);
 
-followRoutes.delete('/:id', ensureAuthMiddleware, deleteFollowController);
+followRouter.delete('/:id', ensureAuthMiddleware, deleteFollowController);
 
-export default followRoutes;
+export default followRouter;

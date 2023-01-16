@@ -26,8 +26,8 @@ const deletePostController = async (req: Request, res: Response) => {
 };
 
 const listPostByIdController = async (req: Request, res: Response) => {
-  const postId: string = req.params.id
-  const post = await listPostByIdService(postId)
+  const postId: string = req.params.id;
+  const post = await listPostByIdService(postId);
   return res.status(200).json(post);
 };
 
@@ -36,5 +36,5 @@ export {
   updatePostsController,
   listPostsController,
   deletePostController,
-  listPostByIdController
+  listPostByIdController,
 };

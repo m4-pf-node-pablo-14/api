@@ -5,6 +5,10 @@
   "repository": "git@github.com:m4-pf-node-pablo-14/api.git",
   "author": "Lucas <lucassoares2007@hotmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=16.19.0",
+    "yarn": ">=1.22.5"
+  },
   "scripts": {
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",

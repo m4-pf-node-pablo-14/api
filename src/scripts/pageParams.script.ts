@@ -1,5 +1,4 @@
-import { boolean } from "yup";
-import AppError from "../errors/AppError";
+import AppError from '../errors/AppError';
 
 interface IQueryParams {
   limit?: string;
@@ -40,20 +39,20 @@ const getPageParams = (
     numberOfPages = 1;
   }
 
-  if(page > numberOfPages){
-    throw new AppError(`last page is ${numberOfPages}`, 404)
+  if (page > numberOfPages) {
+    throw new AppError(`last page is ${numberOfPages}`, 404);
   }
 
-  if(limit < 1){
-    throw new AppError('page can not be bellow 1', 400)
+  if (limit < 1) {
+    throw new AppError('page can not be bellow 1', 400);
   }
 
-  if(typeof isLastPage !== 'boolean'){
-    throw new AppError('lastPage must be boolean', 400)
+  if (typeof isLastPage !== 'boolean') {
+    throw new AppError('lastPage must be boolean', 400);
   }
 
-  if(typeof isAll !== 'boolean'){
-    throw new AppError('all field must be boolean', 400)
+  if (typeof isAll !== 'boolean') {
+    throw new AppError('all field must be boolean', 400);
   }
 
   const offset = Number(page) * limit - limit || 0;

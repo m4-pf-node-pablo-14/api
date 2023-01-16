@@ -1,4 +1,3 @@
-import User from '../entities/user.entities';
 import { INewUser, IUserResponse } from '../interfaces/users.interfaces';
 
 interface IRowsOfCounts {

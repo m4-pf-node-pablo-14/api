@@ -41,8 +41,8 @@ const createCommentsService = async (
   await commentRepository.save(comment);
 
   const validatedComment = await commentSerializer.validate(comment, {
-    stripUnknown: true
-  })
+    stripUnknown: true,
+  });
 
   return validatedComment;
 };
