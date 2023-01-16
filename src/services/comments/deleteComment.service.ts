@@ -8,18 +8,19 @@ const deleteCommentService = async (
 ): Promise<void> => {
   const commentsRepository = AppDataSource.getRepository(Comment);
 
-  const commentToDelete = await commentsRepository
-    .createQueryBuilder('comments')
-    .innerJoinAndSelect('comments.user', 'user')
-    .where('comments.id = :commentId', { commentId: commentToDeleteId })
-    .getOne();
+  const commentToDelete = await commentsRepository.findOne({
+    where: { id: commentToDeleteId },
+    relations: { user: true, post: { user: true } },
+  });
 
   if (!commentToDelete) {
     throw new AppError('comment not found', 404);
   }
 
   if (commentToDelete.user.id !== requesterUserId) {
-    throw new AppError('user does not have permission', 401);
+    if (!(commentToDelete.post.user.id === requesterUserId)) {
+      throw new AppError('user does not have permission', 401);
+    }
   }
 
   await commentsRepository.remove(commentToDelete);
