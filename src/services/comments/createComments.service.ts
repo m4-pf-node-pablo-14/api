@@ -7,20 +7,16 @@ import AppError from '../../errors/AppError';
 import { ICommentRequest } from '../../interfaces/comments.interface';
 import { commentSerializer } from '../../serializers/comments.serializers';
 
-const createCommentsService = async (
+const createCommentService = async (
   postId: string,
   commentData: ICommentRequest,
   userId: string,
 ): Promise<IComment> => {
-  const postRepository = AppDataSource.getRepository(Post);
-  const commentRepository = AppDataSource.getRepository(Comment);
-  const userRepository = AppDataSource.getRepository(User);
-
-  const user = await userRepository.findOneBy({
+  const user = await AppDataSource.getRepository(User).findOneBy({
     id: userId,
   });
 
-  const findPost = await postRepository.findOneBy({
+  const findPost = await AppDataSource.getRepository(Post).findOneBy({
     id: postId,
   });
 
@@ -31,6 +27,8 @@ const createCommentsService = async (
   if (!findPost) {
     throw new AppError('Not found!', 404);
   }
+
+  const commentRepository = AppDataSource.getRepository(Comment);
 
   const comment = commentRepository.create({
     ...commentData,
@@ -47,4 +45,4 @@ const createCommentsService = async (
   return validatedComment;
 };
 
-export default createCommentsService;
+export default createCommentService;

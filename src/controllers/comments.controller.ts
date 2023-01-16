@@ -5,13 +5,13 @@ import createCommentsService from '../services/comments/createComments.service';
 import deleteCommentService from '../services/comments/deleteComment.service';
 import updateCommentService from '../services/comments/updateComment.service';
 
-const createCommentsController = async (req: Request, res: Response) => {
-  const post = await createCommentsService(
+const createCommentController = async (req: Request, res: Response) => {
+  const comment = await createCommentsService(
     req.params.id,
     req.body,
     req.user.id,
   );
-  return res.status(201).json(post);
+  return res.status(201).json(comment);
 };
 
 const deleteCommentController = async (req: Request, res: Response) => {
@@ -20,12 +20,12 @@ const deleteCommentController = async (req: Request, res: Response) => {
 };
 
 const updateCommentController = async (req: Request, res: Response) => {
-  const updatedComment = await updateCommentService(
+  const comment = await updateCommentService(
     req.body,
     req.params.id,
     req.user.id,
   );
-  res.json(updatedComment);
+  res.json(comment);
 };
 
 const listCommentsByPostController = async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ const listCommentsByPostController = async (req: Request, res: Response) => {
 };
 
 export {
-  createCommentsController,
+  createCommentController,
   deleteCommentController,
   updateCommentController,
   listCommentsByPostController,

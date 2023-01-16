@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  createCommentsController,
+  createCommentController,
   deleteCommentController,
   listCommentsByPostController,
   updateCommentController,
@@ -15,7 +15,7 @@ commentRouter.post(
   '/:id',
   ensureAuthMiddleware,
   ensureDataIsValidMiddleware(commentRequestSerializer),
-  createCommentsController,
+  createCommentController,
 );
 
 commentRouter.delete('/:id', ensureAuthMiddleware, deleteCommentController);

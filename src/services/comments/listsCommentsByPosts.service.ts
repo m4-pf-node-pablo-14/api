@@ -9,10 +9,7 @@ export const listCommentsByPostService = async (
   postId: string,
   queryParams: IQueryParams,
 ) => {
-  const postsRepository = AppDataSource.getRepository(Post);
-  const commentsRepository = AppDataSource.getRepository(Comment);
-
-  const post = await postsRepository.findOneBy({
+  const post = await AppDataSource.getRepository(Post).findOneBy({
     id: postId,
   });
 
@@ -20,12 +17,15 @@ export const listCommentsByPostService = async (
     throw new AppError('post not found', 404);
   }
 
+  const commentsRepository = AppDataSource.getRepository(Comment);
+
   const commentsCountObject = await commentsRepository
     .createQueryBuilder('comments')
     .innerJoinAndSelect('comments.post', 'post')
     .where('post.id = :postId', { postId: postId })
     .select('COUNT(comments)', 'count')
     .getRawOne();
+
   const commentsCount = Number(commentsCountObject.count);
 
   const pageParams = getPageParams(queryParams, commentsCount);
