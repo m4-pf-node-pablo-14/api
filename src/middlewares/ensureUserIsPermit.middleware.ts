@@ -13,3 +13,4 @@ const ensureUserIsPermitMiddleware = (
 };
 
 export default ensureUserIsPermitMiddleware;
+
