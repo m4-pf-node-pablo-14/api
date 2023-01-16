@@ -15,7 +15,7 @@ const createCommentController = async (req: Request, res: Response) => {
 };
 
 const deleteCommentController = async (req: Request, res: Response) => {
-  await deleteCommentService(req.params.id, req.user.id);
+  await deleteCommentService(req.params.id, req.user);
   return res.status(204).json({});
 };
 

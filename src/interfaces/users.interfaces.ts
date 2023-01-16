@@ -1,3 +1,8 @@
+export interface IReqUser {
+  id: string;
+  isAdm: boolean;
+}
+
 interface IAddress {
   district: string;
   zipCode: string;

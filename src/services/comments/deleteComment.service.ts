@@ -1,11 +1,12 @@
 import AppDataSource from '../../data-source';
 import Comment from '../../entities/comments.entities';
 import AppError from '../../errors/AppError';
+import { IReqUser } from '../../interfaces/users.interfaces';
 
 const deleteCommentService = async (
   commentToDeleteId: string,
-  requesterUserId: string,
-): Promise<void> => {
+  reqUser: IReqUser,
+): Promise<{}> => {
   const commentsRepository = AppDataSource.getRepository(Comment);
 
   const commentToDelete = await commentsRepository.findOne({
@@ -17,13 +18,19 @@ const deleteCommentService = async (
     throw new AppError('comment not found', 404);
   }
 
-  if (commentToDelete.user.id !== requesterUserId) {
-    if (!(commentToDelete.post.user.id === requesterUserId)) {
+  if (reqUser.isAdm) {
+    await commentsRepository.remove(commentToDelete);
+    return {};
+  }
+
+  if (commentToDelete.user.id !== reqUser.id) {
+    if (!(commentToDelete.post.user.id === reqUser.id)) {
       throw new AppError('user does not have permission', 401);
     }
   }
 
   await commentsRepository.remove(commentToDelete);
+  return {};
 };
 
 export default deleteCommentService;

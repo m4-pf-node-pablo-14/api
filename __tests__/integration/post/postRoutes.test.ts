@@ -9,6 +9,8 @@ import {
   mockedUserRequestTwo,
   mockedLoginRequestTwo,
   mockedPostUpdateRequest,
+  mockedUserRequestAdm,
+  mockedLoginRequestAdm,
 } from '../../mocks';
 
 interface IParams {
@@ -17,6 +19,7 @@ interface IParams {
   username: string;
   token: string;
   tokenUserTwo: string;
+  tokenUserAdm: string;
   postId: string;
   postImg: string;
   postDescription: string;
@@ -41,12 +44,16 @@ describe('Tests routes /posts', () => {
     const userTwo = await request(app)
       .post('/users')
       .send(mockedUserRequestTwo);
+    await request(app).post('/users').send(mockedUserRequestAdm);
     const authorization = await request(app)
       .post('/login')
       .send(mockedLoginRequest);
     const authorizationUserTwo = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
+    const authorizationUserAdm = await request(app)
+      .post('/login')
+      .send(mockedLoginRequestAdm);
     const post = await request(app)
       .post('/posts')
       .set('Authorization', `Bearer ${authorization.body.token}`)
@@ -69,6 +76,7 @@ describe('Tests routes /posts', () => {
       username: user.body.username,
       token: authorization.body.token,
       tokenUserTwo: authorizationUserTwo.body.token,
+      tokenUserAdm: authorizationUserAdm.body.token,
       postId: post.body.id,
       postImg: post.body.img,
       postDescription: post.body.description,
@@ -207,6 +215,15 @@ describe('Tests routes /posts', () => {
     const response = await request(app)
       .delete(`/posts/${params.postId}`)
       .set('Authorization', `Bearer ${params.token}`)
+      .send();
+
+    expect(response.status).toBe(204);
+  });
+
+  test('It must be possible for the admin user to delete the post', async () => {
+    const response = await request(app)
+      .delete(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.tokenUserAdm}`)
       .send();
 
     expect(response.status).toBe(204);

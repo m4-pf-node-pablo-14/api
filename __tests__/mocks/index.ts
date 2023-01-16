@@ -38,6 +38,23 @@ const mockedUserRequestTwo: IUserRequest = {
   },
 };
 
+const mockedUserRequestAdm: IUserRequest = {
+  name: 'Lucas',
+  last_name: 'Soares',
+  password: '12345678Vv.',
+  email: 'lucas@mail.com',
+  username: 'lucas',
+  bio: 'Dev Senior',
+  isAdm: true,
+  address: {
+    city: 'Santa Quitéria',
+    district: 'Rua Jerusalém',
+    number: '72',
+    state: 'CE',
+    zipCode: '62280000',
+  },
+};
+
 const mockedLoginRequest: IUserLogin = {
   email: 'vinicius123@hotmail.com',
   password: '12345678Vv.',
@@ -45,6 +62,11 @@ const mockedLoginRequest: IUserLogin = {
 
 const mockedLoginRequestTwo: IUserLogin = {
   email: 'Lucas@hotmail.com',
+  password: '12345678Vv.',
+};
+
+const mockedLoginRequestAdm: IUserLogin = {
+  email: 'lucas@mail.com',
   password: '12345678Vv.',
 };
 
@@ -68,8 +90,10 @@ const mockedCommentUpdateRequest: ICommentRequest = {
 export {
   mockedUserRequest,
   mockedUserRequestTwo,
+  mockedUserRequestAdm,
   mockedLoginRequest,
   mockedLoginRequestTwo,
+  mockedLoginRequestAdm,
   mockedPostRequest,
   mockedPostUpdateRequest,
   mockedCommentRequest,

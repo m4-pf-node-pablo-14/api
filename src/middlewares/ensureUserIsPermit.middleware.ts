@@ -6,11 +6,15 @@ const ensureUserIsPermitMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  if (!(req.params.id === req.user.id)) {
-    throw new AppError('not allowed');
+  if (req.params.id === req.user.id) {
+    return next();
   }
+
+  if (!req.user.isAdm) {
+    throw new AppError('only admins', 403);
+  }
+
   return next();
 };
 
 export default ensureUserIsPermitMiddleware;
-
