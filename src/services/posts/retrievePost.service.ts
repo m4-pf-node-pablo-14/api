@@ -2,10 +2,8 @@ import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
 
-export const listPostByIdService = async (postId: string) => {
-  const postsRepository = AppDataSource.getRepository(Post);
-
-  const post = await postsRepository
+const retrievePostService = async (postId: string) => {
+  const post = await AppDataSource.getRepository(Post)
     .createQueryBuilder('posts')
     .innerJoinAndSelect('posts.user', 'user')
     .leftJoinAndSelect('posts.likes', 'likes')
@@ -28,3 +26,5 @@ export const listPostByIdService = async (postId: string) => {
 
   return post;
 };
+
+export default retrievePostService;

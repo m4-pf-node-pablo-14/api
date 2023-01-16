@@ -12,17 +12,22 @@ const createLoginService = async (
   const user = await AppDataSource.getRepository(User).findOneBy({
     email: userData.email,
   });
+
   if (!user) {
     throw new AppError('wrong email or password', 404);
   }
+
   const passwordMatch = compareSync(userData.password, user.password);
+
   if (!passwordMatch) {
     throw new AppError('wrong email or password', 404);
   }
+
   const token = jwt.sign({}, process.env.SECRET_KEY, {
     expiresIn: '24h',
     subject: user.id,
   });
+
   return { token };
 };
 

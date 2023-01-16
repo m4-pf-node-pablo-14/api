@@ -8,11 +8,7 @@ const createLikePostService = async (
   userId: string,
   postId: string,
 ): Promise<Likes> => {
-  const userRepository = AppDataSource.getRepository(User);
-  const postRepository = AppDataSource.getRepository(Post);
-  const likeRepository = AppDataSource.getRepository(Likes);
-
-  const postFind = await postRepository.findOne({
+  const postFind = await AppDataSource.getRepository(Post).findOne({
     where: {
       id: postId,
     },
@@ -22,7 +18,7 @@ const createLikePostService = async (
     throw new AppError('Post not found', 404);
   }
 
-  const userfind = await userRepository.findOne({
+  const userfind = await AppDataSource.getRepository(User).findOne({
     where: {
       id: userId,
     },
@@ -31,6 +27,8 @@ const createLikePostService = async (
   if (!userfind) {
     throw new AppError('User not found', 404);
   }
+
+  const likeRepository = AppDataSource.getRepository(Likes);
 
   const postalreadyliked = await likeRepository
     .createQueryBuilder('likes')

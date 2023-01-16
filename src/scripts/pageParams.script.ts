@@ -39,8 +39,8 @@ const getPageParams = (
     numberOfPages = 1;
   }
 
-  if(page > numberOfPages && numberOfPages > 0){
-    throw new AppError(`last page is ${numberOfPages}`, 404)
+  if (page > numberOfPages && numberOfPages > 0) {
+    throw new AppError(`last page is ${numberOfPages}`, 404);
   }
 
   if (limit < 1) {
@@ -55,12 +55,12 @@ const getPageParams = (
     throw new AppError('all field must be boolean', 400);
   }
 
-  if(numberOfPages === 0 ){
-    numberOfPages = 1
+  if (numberOfPages === 0) {
+    numberOfPages = 1;
   }
 
-  if(numberOfPages === 0 ){
-    numberOfPages = 1
+  if (numberOfPages === 0) {
+    numberOfPages = 1;
   }
 
   const offset = Number(page) * limit - limit || 0;
