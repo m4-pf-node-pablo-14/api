@@ -61,6 +61,10 @@ const mockedCommentRequest: ICommentRequest = {
   text: 'lindo',
 };
 
+const mockedCommentUpdateRequest: ICommentRequest = {
+  text: 'Parabéns!',
+};
+
 export {
   mockedUserRequest,
   mockedUserRequestTwo,
@@ -69,4 +73,5 @@ export {
   mockedPostRequest,
   mockedPostUpdateRequest,
   mockedCommentRequest,
+  mockedCommentUpdateRequest,
 };
