@@ -9,7 +9,6 @@ const createLikeCommentService = async (
   requesterUserId: string,
 ): Promise<CommentToLikes> => {
   const commentRepository = AppDataSource.getRepository(Comment);
-  const userRepositoory = AppDataSource.getRepository(User);
   const likesCommentsRepository = AppDataSource.getRepository(CommentToLikes);
 
   const comment = await commentRepository.findOneBy({
@@ -29,7 +28,7 @@ const createLikeCommentService = async (
     throw new AppError('comment already liked', 400);
   }
 
-  const user = await userRepositoory.findOneBy({
+  const user = await AppDataSource.getRepository(User).findOneBy({
     id: requesterUserId,
   });
 
