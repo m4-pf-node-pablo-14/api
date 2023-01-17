@@ -8,19 +8,18 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
 
     const interestsRepository = AppDataSource.getRepository(Interest)
 
-    const interestsCountObject = await interestsRepository
+  const interestsCountObject = await interestsRepository
     .createQueryBuilder('interests')
     .select('COUNT(interests)', 'count')
-    .getRawOne()
-    const interestsCount = Number(interestsCountObject.count)
+    .getRawOne();
+  const interestsCount = Number(interestsCountObject.count);
 
-    const pageParams = getPageParams(queryParams, interestsCount)
+  const pageParams = getPageParams(queryParams, interestsCount);
 
-    const interests = await interestsRepository
+  const interests = await interestsRepository
     .createQueryBuilder('interest')
-    .orderBy('interest.name')
-    .limit(pageParams.limit)
-    .offset(pageParams.offset)
+    .leftJoinAndSelect('interest.interestsPost', 'interestsPost')
+    .leftJoinAndSelect('interestsPost.post', 'post')
     .getMany()
 
 
@@ -44,5 +43,6 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
         interests: newInterests
     }
 
-    return returnedObject
-}
+    return returnedObject;
+};
+ 

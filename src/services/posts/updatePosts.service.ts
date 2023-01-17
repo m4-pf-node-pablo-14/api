@@ -1,4 +1,4 @@
-import { insertInterestsToPostService } from './insertInterestsToPost.service';
+import  insertInterestsToPostService  from './insertInterestsToPost.service';
 import { removeInterestsToPostService } from './removeInterestsToPost.service';
 import { IPost } from './../../interfaces/posts.interfaces';
 import AppDataSource from '../../data-source';

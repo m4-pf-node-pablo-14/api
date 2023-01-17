@@ -21,7 +21,7 @@ app.use('/posts', postRouter);
 app.use('/comments', commentRouter);
 app.use('/like/post', likePostRouter);
 app.use('/like/comment', likesCommentsRouter);
-app.use('/interests',interestRouter)
+app.use('/interests', interestRouter);
 
 app.use(handleError);
 

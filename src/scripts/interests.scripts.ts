@@ -28,17 +28,17 @@ const mergeInterestsAndRows = (
 };
 
 const getInterests = (text: string) => {
-    const interestsArray = []
+  const interestsArray = [];
 
-    const splitedText = text.split("#")
+  const splitedText = text.split('#');
 
-    splitedText.forEach((elem, index) => {
-        if(index > 0){
-            const interest = elem.split(" ")[0]
-            interestsArray.push(interest)
-        }
-    })
-    return interestsArray
-}
+  splitedText.forEach((elem, index) => {
+    if (index > 0) {
+      const interest = elem.split(' ')[0];
+      interestsArray.push(interest);
+    }
+  });
+  return interestsArray;
+};
 
 export { mergeInterestsAndRows, getInterests };
