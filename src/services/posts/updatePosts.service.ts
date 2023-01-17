@@ -18,12 +18,12 @@ const updatePostsService = async (
     .where('Post.id = :id', { id: postToUpdateId })
     .getOne();
 
-  if (requesterUserId !== postToUpdate.user.id) {
-    throw new AppError('You don\'t have permission', 401);
-  }
-
   if (!postToUpdate) {
     throw new AppError('Post not found', 404);
+  }
+
+  if (requesterUserId !== postToUpdate.user.id) {
+    throw new AppError('You don\'t have permission', 401);
   }
 
   const newPost = await postsRepository.save({ ...postToUpdate, ...postData });

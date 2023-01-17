@@ -115,7 +115,7 @@ describe('Tests routes /users', () => {
 
   it('it should be possible to list the user profile information', async () => {
     const response = await request(app)
-      .get(`/users/profile/${dataUser.id}`)
+      .get(`/users/${dataUser.id}`)
       .set('Authorization', `Bearer ${dataUser.token}`);
 
     expect(response.status).toBe(200);
