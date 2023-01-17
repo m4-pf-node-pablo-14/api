@@ -46,7 +46,6 @@ class Post {
     comments: Comment[];
 
   @OneToMany(() => InterestsPost, (interestPost) => interestPost.post)
-  @JoinTable()
     interestsPost: InterestsPost[];
 }
 

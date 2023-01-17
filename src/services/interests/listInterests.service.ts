@@ -18,29 +18,31 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
 
     const pageParams = getPageParams(queryParams, interestsCount)
 
-    /* const interests = await interestsRepository
+    const interests = await interestsRepository
     .createQueryBuilder('interests')
     .leftJoinAndSelect('interests.interestsPost', 'interestspost')
-    .leftJoinAndSelect('interestspost.post', 'posts')
-    .orderBy('interests.name')
-    .limit(pageParams.limit)
-    .offset(pageParams.offset)
-    .getMany() */
-
-    const interests = await interestPostRepository
-    .createQueryBuilder('interestspost')
-    .leftJoinAndSelect('interestspost.interest', 'interests')
-    .select('interests')
+    /* .leftJoinAndSelect('interestspost.post', 'posts') */
+    /* .orderBy('interests.name') */
+    /* .limit(pageParams.limit)
+    .offset(pageParams.offset) */
     .getMany()
 
-    const rowsOfCount = await interestsRepository
+    //LUCAS NÃO APAGA POR ENQUANTO
+
+    /* const interests = await interestPostRepository
+    .createQueryBuilder('interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interests')
+    .orderBy('interests.name')
+    .getMany() */
+
+    /* const rowsOfCount = await interestsRepository
     .createQueryBuilder('interests')
     .leftJoinAndSelect('interests.interestsPost', 'interestspost')
     .orderBy('interests.name')
     .select('interests.id')
     .addSelect('COUNT(interestspost)', 'postsCount')
     .groupBy('interests.id')
-    .getRawMany()
+    .getRawMany() */
 
     /* const newInterests = mergeInterestsAndRows(interests, rowsOfCount) */
 

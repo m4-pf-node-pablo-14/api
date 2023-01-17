@@ -7,10 +7,10 @@ class InterestsPost {
   @PrimaryGeneratedColumn('uuid')
     id: string;
 
-  @ManyToOne(() => Interest, (interest) => interest.id)
+  @ManyToOne(() => Interest, (interest) => interest.interestsPost)
     interest: Interest;
 
-  @ManyToOne(() => Post, (post) => post.id)
+  @ManyToOne(() => Post, (post) => post.interestsPost)
     post: Post;
 }
 

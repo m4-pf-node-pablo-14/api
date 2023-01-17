@@ -3,8 +3,8 @@ import AppError from '../errors/AppError';
 interface IQueryParams {
   limit?: string;
   page?: string;
-  lastPage?: boolean;
-  all?: boolean;
+  lastPage?: string;
+  all?: string;
 }
 
 interface IReturned {
@@ -23,8 +23,8 @@ const getPageParams = (
   let page: number = Number(queryParams.page) || 1;
   let limit: number = Number(queryParams.limit) || 10;
   let numberOfPages = Math.ceil(entityCount / limit);
-  const isLastPage = queryParams.lastPage || false;
-  const isAll = queryParams.all || false;
+  const isLastPage = (queryParams.lastPage === 'true');
+  const isAll =( queryParams.all === 'true');
 
   if (isLastPage) {
     page = numberOfPages;
@@ -45,14 +45,6 @@ const getPageParams = (
 
   if (limit < 1) {
     throw new AppError('page can not be bellow 1', 400);
-  }
-
-  if (typeof isLastPage !== 'boolean') {
-    throw new AppError('lastPage must be boolean', 400);
-  }
-
-  if (typeof isAll !== 'boolean') {
-    throw new AppError('all field must be boolean', 400);
   }
 
   if (numberOfPages === 0) {
