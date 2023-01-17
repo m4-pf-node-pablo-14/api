@@ -1,20 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import AppError from '../errors/AppError';
 
-const ensureUserIsPermitMiddleware = (
+const ensureFollowIsPermitMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   if (req.params.id === req.user.id) {
-    return next();
-  }
-
-  if (!req.user.isAdm) {
-    throw new AppError('only admins', 403);
+    throw new AppError('user is not allowed to follow/unfollow', 403);
   }
 
   return next();
 };
 
-export default ensureUserIsPermitMiddleware;
+export default ensureFollowIsPermitMiddleware;

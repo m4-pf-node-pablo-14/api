@@ -22,6 +22,10 @@ const followService = async (data: followRequest): Promise<void> => {
   const userFollowing = await userRepository.findOneBy({ id: data.following });
   const userFollowers = await userRepository.findOneBy({ id: data.followers });
 
+  if (!userFollowing || !userFollowers) {
+    throw new AppError('User not found', 404);
+  }
+
   const newFollow = followRepository.create({
     following: userFollowing,
     followers: userFollowers,

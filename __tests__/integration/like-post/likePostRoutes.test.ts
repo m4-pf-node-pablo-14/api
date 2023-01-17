@@ -59,7 +59,7 @@ describe('/like/post/:id', () => {
       `/like/post/${params.createPost}`,
     );
 
-    expect(createLikePost.status).toBe(400);
+    expect(createLikePost.status).toBe(401);
     expect(createLikePost.body).toHaveProperty('message');
   });
 
@@ -82,7 +82,7 @@ describe('/like/post/:id', () => {
       `/like/post/${createLikePost.body.id}`,
     );
 
-    expect(deleteLikePost.status).toBe(400);
+    expect(deleteLikePost.status).toBe(401);
     expect(deleteLikePost.body).toHaveProperty('message');
   });
 });

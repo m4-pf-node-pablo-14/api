@@ -9,6 +9,8 @@ import {
   mockedUserRequestTwo,
   mockedLoginRequestTwo,
   mockedPostUpdateRequest,
+  mockedUserRequestAdm,
+  mockedLoginRequestAdm,
 } from '../../mocks';
 
 interface IParams {
@@ -17,6 +19,7 @@ interface IParams {
   username: string;
   token: string;
   tokenUserTwo: string;
+  tokenUserAdm: string;
   postId: string;
   postImg: string;
   postDescription: string;
@@ -41,12 +44,16 @@ describe('Tests routes /posts', () => {
     const userTwo = await request(app)
       .post('/users')
       .send(mockedUserRequestTwo);
+    await request(app).post('/users').send(mockedUserRequestAdm);
     const authorization = await request(app)
       .post('/login')
       .send(mockedLoginRequest);
     const authorizationUserTwo = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
+    const authorizationUserAdm = await request(app)
+      .post('/login')
+      .send(mockedLoginRequestAdm);
     const post = await request(app)
       .post('/posts')
       .set('Authorization', `Bearer ${authorization.body.token}`)
@@ -69,6 +76,7 @@ describe('Tests routes /posts', () => {
       username: user.body.username,
       token: authorization.body.token,
       tokenUserTwo: authorizationUserTwo.body.token,
+      tokenUserAdm: authorizationUserAdm.body.token,
       postId: post.body.id,
       postImg: post.body.img,
       postDescription: post.body.description,
@@ -107,7 +115,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).post('/posts').send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to create a post by a user that does not exist', async () => {
@@ -120,7 +128,7 @@ describe('Tests routes /posts', () => {
       .send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
   });
 
   test('It should not be possible to create a post without an image or description, it must have one or the other', async () => {
@@ -137,7 +145,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).get('/posts').send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to list posts by a user that does not exist', async () => {
@@ -150,7 +158,7 @@ describe('Tests routes /posts', () => {
       .send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
   });
 
   test('It should be possible to update a post', async () => {
@@ -179,7 +187,7 @@ describe('Tests routes /posts', () => {
       .patch(`/posts/${params.postId}`)
       .send(mockedPostUpdateRequest);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -212,12 +220,21 @@ describe('Tests routes /posts', () => {
     expect(response.status).toBe(204);
   });
 
+  test('It must be possible for the admin user to delete the post', async () => {
+    const response = await request(app)
+      .delete(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.tokenUserAdm}`)
+      .send();
+
+    expect(response.status).toBe(204);
+  });
+
   test('It should not be possible to delete a post without authentication', async () => {
     const response = await request(app)
       .delete(`/posts/${params.postTwoId}`)
       .send();
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -269,7 +286,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).get(`/posts/${params.postId}`).send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to retrieve a post by a user that does not exist', async () => {
