@@ -207,6 +207,18 @@ describe('Tests routes /comments', () => {
     expect(response.status).toBe(401);
   });
 
+  test('It should not be possible to delete a comment on post by user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .delete(`/comments/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
   test('It should not be possible to delete the post comment by a comment that does not exist', async () => {
     const response = await request(app)
       .delete(`/comments/${params.commentDeleteId}`)
@@ -261,6 +273,19 @@ describe('Tests routes /comments', () => {
     expect(response.body).toHaveProperty('message');
   });
 
+  test('It should not be possible to update a comment on post by user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .patch(`/comments/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`)
+      .send(mockedCommentUpdateRequest);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
   test('It should not be possible to update a comment on the post that does not exist', async () => {
     const response = await request(app)
       .patch(`/comments/${params.commentDeleteId}`)
@@ -271,6 +296,16 @@ describe('Tests routes /comments', () => {
     expect(response.body).toHaveProperty('message');
   });
 
+  test('It should not be possible to update a comment on the post without an text', async () => {
+    const response = await request(app)
+      .patch(`/comments/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`)
+      .send();
+
+    expect(response.body).toHaveProperty('error');
+    expect(response.status).toBe(400);
+  });
+
   test('It should not be possible to list the comments in the post without authentication', async () => {
     const response = await request(app)
       .get(`/comments/post/${params.postId}`)
@@ -278,6 +313,18 @@ describe('Tests routes /comments', () => {
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to update a comment on post by user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .get(`/comments/post/${params.postDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
   });
 
   test('It should not be possible to list the comments in the post that does not exist', async () => {
