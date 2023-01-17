@@ -161,6 +161,16 @@ describe('Tests routes /posts', () => {
     expect(response.status).toBe(404);
   });
 
+  test('It should not be possible to list posts that does not exist', async () => {
+    const response = await request(app)
+      .get(`/posts/${params.postDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`)
+      .send();
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
+
   test('It should be possible to update a post', async () => {
     const response = await request(app)
       .patch(`/posts/${params.postId}`)
@@ -201,13 +211,26 @@ describe('Tests routes /posts', () => {
     expect(response.body).toHaveProperty('message');
   });
 
+  test('It should not be possible to update a post by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .patch(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`)
+      .send(mockedPostUpdateRequest);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
   test('It should not be possible to update a post that does not exist', async () => {
     const response = await request(app)
       .patch(`/posts/${params.postDeleteId}`)
       .set('Authorization', `Bearer ${params.token}`)
-      .send();
+      .send(mockedPostUpdateRequest);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -246,6 +269,18 @@ describe('Tests routes /posts', () => {
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to delete a post by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .delete(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
   });
 
   test('It should not be possible to delete a post that does not exist', async () => {

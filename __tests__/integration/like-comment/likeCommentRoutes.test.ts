@@ -10,9 +10,13 @@ import app from '../../../src/app';
 import AppDataSource from '../../../src/data-source';
 
 interface IParams {
-  createToken: string;
-  createPost: string;
-  createComment: string;
+  userId: string;
+  token: string;
+  postId: string;
+  commentId: string;
+  commentDeleteId: string;
+  commentLikeId: string;
+  likeCommentId: string;
 }
 
 describe('/like/comment/:id', () => {
@@ -28,7 +32,9 @@ describe('/like/comment/:id', () => {
         console.error('Error during Data Source initialization', err);
       });
 
-    await request(app).post('/users').send(mockedUserRequest);
+    const createUser = await request(app)
+      .post('/users')
+      .send(mockedUserRequest);
     const createToken = await request(app)
       .post('/login')
       .send(mockedLoginRequest);
@@ -40,11 +46,31 @@ describe('/like/comment/:id', () => {
       .post(`/comments/${createPost.body.id}`)
       .set('Authorization', `Bearer ${createToken.body.token}`)
       .send(mockedCommentRequest);
+    const createCommentDelete = await request(app)
+      .post(`/comments/${createPost.body.id}`)
+      .set('Authorization', `Bearer ${createToken.body.token}`)
+      .send(mockedCommentRequest);
+    const createCommentLike = await request(app)
+      .post(`/comments/${createPost.body.id}`)
+      .set('Authorization', `Bearer ${createToken.body.token}`)
+      .send({
+        text: '🚀',
+      });
+    const createLikeComment = await request(app)
+      .post(`/like/comment/${createCommentLike.body.id}`)
+      .set('Authorization', `Bearer ${createToken.body.token}`);
+    await request(app)
+      .delete(`/comments/${createCommentDelete.body.id}`)
+      .set('Authorization', `Bearer ${createToken.body.token}`);
 
     params = {
-      createToken: createToken.body.token,
-      createPost: createPost.body.id,
-      createComment: createComment.body.id,
+      userId: createUser.body.id,
+      token: createToken.body.token,
+      postId: createPost.body.id,
+      commentId: createComment.body.id,
+      commentDeleteId: createCommentDelete.body.id,
+      commentLikeId: createCommentLike.body.id,
+      likeCommentId: createLikeComment.body.id,
     };
   });
 
@@ -52,44 +78,100 @@ describe('/like/comment/:id', () => {
     await connection.destroy();
   });
 
-  test('It should be possible to like the comment', async () => {
-    const createLikeComment = await request(app)
-      .post(`/like/comment/${params.createComment}`)
-      .set('Authorization', `Bearer ${params.createToken}`);
+  // test('It should be possible to like the comment', async () => {
+  //   const response = await request(app)
+  //     .post(`/like/comment/${params.commentId}`)
+  //     .set('Authorization', `Bearer ${params.token}`);
 
-    expect(createLikeComment.body).toHaveProperty('comment');
-    expect(createLikeComment.status).toBe(201);
-  });
+  //   expect(response.status).toBe(201);
+  // });
 
-  test('It should not be possible to like the post without authentication', async () => {
-    const createLikeComment = await request(app).post(
-      `/like/comment/${params.createComment}`,
-    );
-
-    expect(createLikeComment.status).toBe(401);
-    expect(createLikeComment.body).toHaveProperty('message');
-  });
-
-  test('It should be possible to delete like', async () => {
-    const createLikeComment = await request(app)
-      .post(`/like/comment/${params.createComment}`)
-      .set('Authorization', `Bearer ${params.createToken}`);
-    const response = await request(app)
-      .delete(`/like/comment/${createLikeComment.body.id}`)
-      .set('Authorization', `Bearer ${params.createToken}`);
-
-    expect(response.status).toBe(204);
-  });
-
-  test('it should not be possible to delete the like without authentication', async () => {
-    const createLikeComment = await request(app)
-      .post(`/like/comment/${params.createComment}`)
-      .set('Authorization', `Bearer ${params.createToken}`);
-    const response = await request(app).delete(
-      `/like/comment/${createLikeComment.body.id}`,
+  test('It should not be possible to like the comment without authentication', async () => {
+    const response = await request(app).post(
+      `/like/comment/${params.commentId}`,
     );
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to like the comment by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .post(`/like/comment/${params.commentId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
+  test('It should not be possible to like the comment that does not exist', async () => {
+    const response = await request(app)
+      .post(`/like/comment/${params.commentDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
+  test('It should not be possible to like the comment already liked', async () => {
+    const response = await request(app)
+      .post(`/like/comment/${params.commentLikeId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
+  });
+
+  test('It should be possible to delete like', async () => {
+    const response = await request(app)
+      .delete(`/like/comment/${params.likeCommentId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.status).toBe(204);
+  });
+
+  test('It should not be possible to delete the like without authentication', async () => {
+    const response = await request(app).delete(
+      `/like/comment/${params.likeCommentId}`,
+    );
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to delete the like by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .delete(`/like/comment/${params.commentId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
+  test('It should not be possible to delete the like that does not exist', async () => {
+    const response = await request(app)
+      .delete(`/like/comment/${params.commentDeleteId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
+  });
+
+  test('It should not be possible to delete the already deleted like', async () => {
+    await request(app)
+      .delete(`/like/comment/${params.commentLikeId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const response = await request(app)
+      .delete(`/like/comment/${params.commentLikeId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
   });
 });

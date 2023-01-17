@@ -26,6 +26,7 @@ postRouter.post(
 postRouter.patch(
   '/:id',
   ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   updatePostsController,
@@ -38,8 +39,18 @@ postRouter.get(
   listPostsController,
 );
 
-postRouter.delete('/:id', ensureAuthMiddleware, deletePostController);
+postRouter.delete(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  deletePostController,
+);
 
-postRouter.get('/:id', ensureAuthMiddleware, retrievePostController);
+postRouter.get(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  retrievePostController,
+);
 
 export default postRouter;

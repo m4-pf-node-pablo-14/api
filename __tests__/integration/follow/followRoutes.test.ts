@@ -3,6 +3,7 @@ import request from 'supertest';
 import {
   mockedLoginRequest,
   mockedLoginRequestAdm,
+  mockedLoginRequestTwo,
   mockedUserRequest,
   mockedUserRequestAdm,
   mockedUserRequestTwo,
@@ -16,6 +17,7 @@ interface IParams {
   userDeleteId: string;
   token: string;
   tokenAdm: string;
+  tokenDelete: string;
 }
 
 describe('/follow', () => {
@@ -44,6 +46,9 @@ describe('/follow', () => {
     const authorizationAdm = await request(app)
       .post('/login')
       .send(mockedLoginRequestAdm);
+    const authorizationDelete = await request(app)
+      .post('/login')
+      .send(mockedLoginRequestTwo);
     await request(app)
       .post(`/follow/${userAdm.body.id}`)
       .set('Authorization', `Bearer ${authorization.body.token}`);
@@ -57,6 +62,7 @@ describe('/follow', () => {
       userDeleteId: userDelete.body.id,
       token: authorization.body.token,
       tokenAdm: authorizationAdm.body.token,
+      tokenDelete: authorizationDelete.body.token,
     };
   });
 
@@ -80,6 +86,15 @@ describe('/follow', () => {
 
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(401);
+  });
+
+  test('Should not be able to follow user by a user that does not exist', async () => {
+    const response = await request(app)
+      .post(`/follow/${params.userAdmId}`)
+      .set('Authorization', `Bearer ${params.tokenDelete}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
   });
 
   test('Should not be able to follow user that does not exist', async () => {
@@ -124,6 +139,15 @@ describe('/follow', () => {
 
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(401);
+  });
+
+  test('Should not be able to unfollow user by a user that does not exist', async () => {
+    const response = await request(app)
+      .delete(`/follow/${params.userAdmId}`)
+      .set('Authorization', `Bearer ${params.tokenDelete}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(404);
   });
 
   test('Should not be able to unfollow user that does not exist', async () => {
