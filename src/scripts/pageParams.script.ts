@@ -23,8 +23,8 @@ const getPageParams = (
   let page: number = Number(queryParams.page) || 1;
   let limit: number = Number(queryParams.limit) || 10;
   let numberOfPages = Math.ceil(entityCount / limit);
-  const isLastPage = (queryParams.lastPage === 'true');
-  const isAll =( queryParams.all === 'true');
+  const isLastPage = queryParams.lastPage === 'true';
+  const isAll = queryParams.all === 'true';
 
   if (isLastPage) {
     page = numberOfPages;
