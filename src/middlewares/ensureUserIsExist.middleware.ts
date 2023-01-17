@@ -12,7 +12,7 @@ const ensureUserIsExistMiddleware = async (
     id: req.user.id,
   });
   if (!user) {
-    throw new AppError('User not found');
+    throw new AppError('User not found', 404);
   }
   return next();
 };

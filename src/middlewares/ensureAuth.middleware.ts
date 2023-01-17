@@ -10,7 +10,7 @@ const ensureAuthMiddleware = (
 ) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    throw new AppError('no token sent');
+    throw new AppError('no token sent', 401);
   }
   const token = authorization.split(' ')[1];
   return jwt.verify(
@@ -18,7 +18,7 @@ const ensureAuthMiddleware = (
     process.env.SECRET_KEY,
     (err: jwt.VerifyErrors, decoded: jwt.JwtPayload) => {
       if (err) {
-        throw new AppError(err.message);
+        throw new AppError(err.message, 401);
       }
       req.user = {
         id: decoded.sub,

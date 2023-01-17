@@ -131,7 +131,7 @@ describe('Tests routes /comments', () => {
       .send(mockedCommentRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to create a comment on the post by a user that does not exist', async () => {
@@ -195,7 +195,7 @@ describe('Tests routes /comments', () => {
     const response = await request(app).delete(`/comments/${params.commentId}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to delete the post comment from another user', async () => {
@@ -247,7 +247,7 @@ describe('Tests routes /comments', () => {
       .patch(`/comments/${params.commentId}`)
       .send(mockedCommentUpdateRequest);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -276,7 +276,7 @@ describe('Tests routes /comments', () => {
       .get(`/comments/post/${params.postId}`)
       .send();
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 

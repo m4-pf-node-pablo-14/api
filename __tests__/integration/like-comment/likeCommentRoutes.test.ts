@@ -52,7 +52,7 @@ describe('/like/comment/:id', () => {
     await connection.destroy();
   });
 
-  test('It should be possible to like the post', async () => {
+  test('It should be possible to like the comment', async () => {
     const createLikeComment = await request(app)
       .post(`/like/comment/${params.createComment}`)
       .set('Authorization', `Bearer ${params.createToken}`);
@@ -66,7 +66,7 @@ describe('/like/comment/:id', () => {
       `/like/comment/${params.createComment}`,
     );
 
-    expect(createLikeComment.status).toBe(400);
+    expect(createLikeComment.status).toBe(401);
     expect(createLikeComment.body).toHaveProperty('message');
   });
 
@@ -89,7 +89,7 @@ describe('/like/comment/:id', () => {
       `/like/comment/${createLikeComment.body.id}`,
     );
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 });

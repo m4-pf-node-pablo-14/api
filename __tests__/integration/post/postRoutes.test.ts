@@ -115,7 +115,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).post('/posts').send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to create a post by a user that does not exist', async () => {
@@ -128,7 +128,7 @@ describe('Tests routes /posts', () => {
       .send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
   });
 
   test('It should not be possible to create a post without an image or description, it must have one or the other', async () => {
@@ -145,7 +145,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).get('/posts').send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to list posts by a user that does not exist', async () => {
@@ -158,7 +158,7 @@ describe('Tests routes /posts', () => {
       .send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
   });
 
   test('It should be possible to update a post', async () => {
@@ -187,7 +187,7 @@ describe('Tests routes /posts', () => {
       .patch(`/posts/${params.postId}`)
       .send(mockedPostUpdateRequest);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -234,7 +234,7 @@ describe('Tests routes /posts', () => {
       .delete(`/posts/${params.postTwoId}`)
       .send();
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -286,7 +286,7 @@ describe('Tests routes /posts', () => {
     const response = await request(app).get(`/posts/${params.postId}`).send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 
   test('It should not be possible to retrieve a post by a user that does not exist', async () => {
