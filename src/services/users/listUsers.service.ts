@@ -16,26 +16,24 @@ interface IReturned {
   users: INewUser[];
 }
 
-const listUsersService = async (
-  queryParams: IQueryParams,
-): Promise<IReturned> => {
+const listUsersService = async (queryParams: IQueryParams): Promise<IReturned> => {
   const userRepository = AppDataSource.getRepository(User);
 
   const userCountObject = await userRepository
-    .createQueryBuilder('users')
-    .select('COUNT(*)', 'count')
+    .createQueryBuilder("users")
+    .select("COUNT(*)", "count")
     .getRawOne();
   const usersCount = Number(userCountObject.count);
 
   const pageParams = getPageParams(queryParams, usersCount);
 
   const users = await userRepository
-    .createQueryBuilder('users')
-    .innerJoinAndSelect('users.address', 'address')
-    .orderBy('users.createdAt')
+    .createQueryBuilder("users")
+    .innerJoinAndSelect("users.address", "address")
+    .orderBy("users.createdAt")
     .limit(pageParams.limit)
     .offset(pageParams.offset)
-    .select(['users', 'address'])
+    .select(["users", "address"])
     .getMany();
 
   const usersValidated = await listUsersSerializer.validate(users, {

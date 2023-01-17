@@ -12,6 +12,7 @@ const updateUserService = async (
   const userRepository = AppDataSource.getRepository(User);
   const addressRepository = AppDataSource.getRepository(Address);
 
+
   const userFind = await userRepository.findOne({
     where: { id: userToUpdateId },
     relations: { address: true },

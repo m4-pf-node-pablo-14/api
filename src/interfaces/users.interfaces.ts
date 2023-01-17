@@ -59,3 +59,4 @@ export interface INewUser extends IUserResponse {
   followingCount: number;
   postsCount: number;
 }
+
