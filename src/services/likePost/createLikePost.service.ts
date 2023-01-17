@@ -3,12 +3,17 @@ import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
+import { responseCreateLikePostSerializer } from '../../serializers/posts.serializers';
+import { IResponseCreateLike } from '../../interfaces/posts.interfaces';
 
 const createLikePostService = async (
   userId: string,
   postId: string,
-): Promise<Likes> => {
-  const postFind = await AppDataSource.getRepository(Post).findOne({
+): Promise<IResponseCreateLike> => {
+  const postRepository = AppDataSource.getRepository(Post);
+  const likeRepository = AppDataSource.getRepository(Likes);
+
+  const postFind = await postRepository.findOne({
     where: {
       id: postId,
     },
@@ -27,8 +32,6 @@ const createLikePostService = async (
   if (!userfind) {
     throw new AppError('User not found', 404);
   }
-
-  const likeRepository = AppDataSource.getRepository(Likes);
 
   const postalreadyliked = await likeRepository
     .createQueryBuilder('likes')
@@ -49,7 +52,12 @@ const createLikePostService = async (
 
   await likeRepository.save(likePost);
 
-  return likePost;
+  const validatedResponseCreatedLike =
+    await responseCreateLikePostSerializer.validate(likePost, {
+      stripUnknown: true,
+    });
+
+  return validatedResponseCreatedLike;
 };
 
 export default createLikePostService;

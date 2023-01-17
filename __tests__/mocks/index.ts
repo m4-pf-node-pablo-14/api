@@ -1,9 +1,9 @@
 import { ICommentRequest } from '../../src/interfaces/comments.interface';
-
 import { IPostRequest } from '../../src/interfaces/posts.interfaces';
 import {
   IUserLogin,
   IUserRequest,
+  IUserUpdate,
 } from '../../src/interfaces/users.interfaces';
 
 const mockedUserRequest: IUserRequest = {
@@ -87,6 +87,23 @@ const mockedCommentUpdateRequest: ICommentRequest = {
   text: 'Parabéns!',
 };
 
+const mockedUpdateUserRequest: IUserUpdate = {
+  bio: 'Hello',
+  address: {
+    city: 'Lucas City',
+    state: 'LS',
+  },
+};
+
+const mockedUpdateAdmUserRequest = {
+  bio: 'Hello',
+  isAdm: true,
+  address: {
+    city: 'Lucas City',
+    state: 'LS',
+  },
+};
+
 export {
   mockedUserRequest,
   mockedUserRequestTwo,
@@ -98,4 +115,6 @@ export {
   mockedPostUpdateRequest,
   mockedCommentRequest,
   mockedCommentUpdateRequest,
+  mockedUpdateUserRequest,
+  mockedUpdateAdmUserRequest,
 };

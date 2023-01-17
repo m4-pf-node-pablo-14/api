@@ -1,4 +1,5 @@
 import Post from '../entities/posts.entities';
+import { IUserResponse } from './users.interfaces';
 
 export interface IPostRequest {
   img?: string;
@@ -20,4 +21,15 @@ export interface IPost {
 export interface INewPost extends Post {
   likesCount: number;
   commentsCount: number;
+}
+
+export interface IResponseCreateLike {
+  user: IUserResponse;
+  post: {
+    description?: string;
+    img?: string;
+    id: string;
+  };
+  id: string;
+  createdAt: Date;
 }

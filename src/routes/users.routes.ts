@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createUserController,
+  retrieveUserController,
   deleteUserController,
   listPostsLikedController,
   listUserCommentsController,
@@ -12,6 +13,7 @@ import {
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import ensureUpdateDataIsValidMiddleware from '../middlewares/ensureUpdateDataIsValid.middleware';
 import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
 import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
 import {
@@ -32,6 +34,13 @@ userRouter.get(
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listUsersController,
+);
+
+userRouter.get(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserIsExistMiddleware,
+  retrieveUserController,
 );
 
 userRouter.get(
@@ -72,7 +81,7 @@ userRouter.get(
 userRouter.patch(
   '',
   ensureAuthMiddleware,
-  ensureDataIsValidMiddleware(userUpdateSerializer),
+  ensureUpdateDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
 

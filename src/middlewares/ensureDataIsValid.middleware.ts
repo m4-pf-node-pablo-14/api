@@ -1,20 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import { AnySchema } from 'yup';
-import AppError from '../errors/AppError';
 
 const ensureDataIsValidMiddleware =
   (schema: AnySchema) =>
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const message = req.body;
-        if (!message) {
-          throw new AppError('message was not sent');
-        }
-        const messageValidated = await schema.validate(message, {
+        const bodyValidated = await schema.validate(req.body, {
           abortEarly: false,
           stripUnknown: true,
         });
-        req.body = messageValidated;
+
+        req.body = bodyValidated;
+
         return next();
       } catch (err) {
         return res.status(400).json({ error: err.errors });
