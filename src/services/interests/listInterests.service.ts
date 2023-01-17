@@ -1,6 +1,8 @@
+import { group } from 'console';
 import AppDataSource from '../../data-source';
 import Interest from '../../entities/interests.entitie';
 import InterestsPost from '../../entities/interestsPost.entities';
+import Post from '../../entities/posts.entities';
 import { mergeInterestsAndRows } from '../../scripts/interests.scripts';
 import { getPageParams } from '../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
@@ -9,6 +11,7 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
 
     const interestsRepository = AppDataSource.getRepository(Interest)
     const interestPostRepository = AppDataSource.getRepository(InterestsPost)
+    const postsRepository = AppDataSource.getRepository(Post)
 
     const interestsCountObject = await interestsRepository
     .createQueryBuilder('interests')
@@ -20,11 +23,26 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
 
     const interests = await interestsRepository
     .createQueryBuilder('interests')
-    .leftJoinAndSelect('interests.interestsPost', 'interestspost')
-    /* .leftJoinAndSelect('interestspost.post', 'posts') */
-    /* .orderBy('interests.name') */
-    /* .limit(pageParams.limit)
+    .leftJoinAndSelect(InterestsPost, 'interestspost', 'interestspost.interestId = interests.id')
+    /* .leftJoinAndSelect('interests.interestsPost', 'interestspost') */
+    .leftJoinAndSelect(Post, 'post', 'interestspost.postId = post.id')
+    /* .orderBy('interests.name')
+    .limit(pageParams.limit)
     .offset(pageParams.offset) */
+    .getMany()
+
+    const interestsPost = await interestPostRepository
+    .createQueryBuilder('interestsPost')
+    .leftJoinAndSelect('interestsPost.interest', 'interest')
+    .leftJoinAndSelect('interestsPost.post', 'post')
+    /* .select('interest.id') */
+    /* .groupBy('interest.id') */
+    .getMany()
+
+    const posts = await postsRepository
+    .createQueryBuilder('posts')
+    .leftJoinAndSelect('posts.interestsPost', 'interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interests')
     .getMany()
 
     //LUCAS NÃO APAGA POR ENQUANTO
@@ -52,6 +70,8 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
         numberOfPages: pageParams.numberOfPages,
         interests: interests
     }
+
+    console.log(interests)
 
     return returnedObject
 }

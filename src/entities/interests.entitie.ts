@@ -10,6 +10,7 @@ class Interest {
     name: string;
 
   @OneToMany(() => InterestsPost, (interestPost) => interestPost.post)
+  @JoinTable()
     interestsPost: InterestsPost[];
 }
 

@@ -29,7 +29,7 @@ const responseCreateLikePostSerializer: SchemaOf<IResponseCreateLike> = yup
       username: yup.string(),
       email: yup.string().email(),
       id: yup.string().uuid(),
-      bio: yup.string(),
+      bio: yup.string().nullable(),
     }),
     post: yup.object().shape({
       description: yup.string().nullable(),
