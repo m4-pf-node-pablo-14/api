@@ -23,10 +23,13 @@ export interface INewPost extends Post {
   commentsCount: number;
 }
 
-
 export interface IResponseCreateLike {
   user: IUserResponse;
-  post: IPost;
+  post: {
+    description?: string;
+    img?: string;
+    id: string;
+  };
   id: string;
-  createdAt: string;
+  createdAt: Date;
 }

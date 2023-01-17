@@ -1,45 +1,21 @@
-import { NextFunction, Request, Response } from "express";
-import { AnySchema } from "yup";
-import AppError from "../errors/AppError";
-import { IUserUpdate } from "../interfaces/users.interfaces";
+import { NextFunction, Request, Response } from 'express';
+import { AnySchema } from 'yup';
 
 const ensureDataIsValidMiddleware =
-  (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const message = req.body
+  (schema: AnySchema) =>
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const bodyValidated = await schema.validate(req.body, {
+          abortEarly: false,
+          stripUnknown: true,
+        });
 
-      const messageValidated = await schema.validate(message, {
-        abortEarly: false,
-        stripUnknown: true,
-      });
-      req.body = messageValidated;
-      return next();
-    } catch (err) {
-      return res.status(400).json({ error: err.errors });
-    }
-  };
+        req.body = bodyValidated;
 
-const ensureUpdateDataIsValidMiddleware =
-  (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction) => {
+        return next();
+      } catch (err) {
+        return res.status(400).json({ error: err.errors });
+      }
+    };
 
-    const userData: IUserUpdate = req.body;
-    const keys = Object.keys(userData);
-  
-    if (!keys[0]) {
-      throw new AppError('body must be passed');
-    }
-
-    try {
-      const messageValidated = await schema.validate(userData, {
-        abortEarly: false,
-        stripUnknown: false,
-      });
-      req.body = messageValidated;
-
-      return next();
-    } catch (err) {
-      return res.status(400).json({ error: err.errors });
-    }
-  };
-
-export { ensureDataIsValidMiddleware, ensureUpdateDataIsValidMiddleware };
+export default ensureDataIsValidMiddleware;

@@ -8,17 +8,17 @@ import listUserPostsService from '../services/users/listUserPosts.service';
 import listUsersFollowerService from '../services/users/listUsersFollower.service';
 import listUsersFollowingService from '../services/users/listUsersFollowing.service';
 import updateUserService from '../services/users/updateUser.service';
-import dataProfileUserService from '../services/users/dataProfileUser.service';
+import retrieveUserService from '../services/users/retrieveUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
   const user = await createUserService(req.body);
   return res.status(201).json(user);
 };
 
-const dataProfileUserController = async (req:Request,res:Response) => {
-  const user = await dataProfileUserService(req.params.id)
-  return res.json(user)
-}
+const retrieveUserController = async (req: Request, res: Response) => {
+  const user = await retrieveUserService(req.params.id);
+  return res.json(user);
+};
 
 const listUsersController = async (req: Request, res: Response) => {
   const users = await listUsersService(req.query);
@@ -63,7 +63,7 @@ const deleteUserController = async (req: Request, res: Response) => {
 
 export {
   createUserController,
-  dataProfileUserController,
+  retrieveUserController,
   listUsersController,
   listUserCommentsController,
   listUsersFollowerController,

@@ -6,9 +6,8 @@ import {
   updateCommentController,
 } from '../controllers/comments.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
-import { ensureDataIsValidMiddleware } from '../middlewares/ensureDataIsValid.middleware';
+import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import { commentRequestSerializer } from '../serializers/comments.serializers';
-
 
 const commentRouter = Router();
 
