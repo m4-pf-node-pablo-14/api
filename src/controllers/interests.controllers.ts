@@ -1,3 +1,4 @@
+import { removeInterestsToPostService } from './../services/posts/removeInterestsToPost.service';
 import { listInterestsService } from './../services/interests/listInterests.service';
 import { IQueryParams } from './../interfaces/queryParams.interface';
 import { createInterestService } from './../services/interests/createInterest.service';

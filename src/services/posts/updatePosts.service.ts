@@ -1,9 +1,12 @@
+import { insertInterestsToPostService } from './insertInterestsToPost.service';
+import { removeInterestsToPostService } from './removeInterestsToPost.service';
 import { IPost } from './../../interfaces/posts.interfaces';
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
 import { IPostRequest } from '../../interfaces/posts.interfaces';
 import { postSerializar } from '../../serializers/posts.serializers';
+import { getInterests } from '../../scripts/interests.scripts';
 
 const updatePostsService = async (
   postData: IPostRequest,
@@ -26,11 +29,17 @@ const updatePostsService = async (
     throw new AppError('You don\'t have permission', 401);
   }
 
+  await removeInterestsToPostService(postToUpdate.id)
+
   const newPost = await postsRepository.save({ ...postToUpdate, ...postData });
 
   const validatedPost = await postSerializar.validate(newPost, {
     stripUnknown: true,
   });
+
+  const interestsArray = getInterests(validatedPost.description)
+
+  await insertInterestsToPostService(interestsArray, validatedPost.id)
 
   return validatedPost;
 };
