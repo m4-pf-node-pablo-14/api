@@ -9,7 +9,7 @@ class Interest {
   @Column({ length: 60 })
     name: string;
 
-  @OneToMany(() => InterestsPost, (interestPost) => interestPost.post)
+  @OneToMany(() => InterestsPost, (interestPost) => interestPost.interest)
   @JoinTable()
     interestsPost: InterestsPost[];
 }

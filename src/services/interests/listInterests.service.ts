@@ -18,8 +18,6 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
 
   const interests = await interestsRepository
     .createQueryBuilder('interest')
-    .leftJoinAndSelect('interest.interestsPost', 'interestsPost')
-    .leftJoinAndSelect('interestsPost.post', 'post')
     .getMany()
 
 

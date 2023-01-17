@@ -1,3 +1,4 @@
+import { listPostsByInterestService } from './../services/posts/listPostsByInterest.service';
 import { Request, Response } from 'express';
 import createPostsService from '../services/posts/createPosts.service';
 import updatePostsService from '../services/posts/updatePosts.service';
@@ -30,10 +31,16 @@ const retrievePostController = async (req: Request, res: Response) => {
   return res.json(post);
 };
 
+const listPostsByInterestController = async (req: Request, res: Response) => {
+  const posts = await listPostsByInterestService(req.params.interestName, req.query)
+  return res.status(200).json(posts)
+}
+
 export {
   createPostsController,
   updatePostsController,
   listPostsController,
   deletePostController,
   retrievePostController,
+  listPostsByInterestController,
 };

@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-import { removeInterestsToPostService } from './../services/posts/removeInterestsToPost.service';
-import { listInterestsService } from './../services/interests/listInterests.service';
-=======
->>>>>>> 9f8ac5fce2d6e219fd530b6c41375dd0c101da12
 import { IQueryParams } from './../interfaces/queryParams.interface';
 import { IInterestRequets } from './../interfaces/interests.interfaces';
 import { Request, Response } from 'express';
 import createInterestService from '../services/interests/createInterest.service';
 import deleteInterestService from '../services/interests/deleteInterest.service';
-import listInterestsService from '../services/interests/listInterests.service';
+import { listInterestsService } from '../services/interests/listInterests.service';
 
 const createInterestController = async (req: Request, res: Response) => {
   const interestData: IInterestRequets = req.body;
