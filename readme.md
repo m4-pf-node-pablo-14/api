@@ -14,7 +14,7 @@ Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma Rede So
 
 A API tem um total de 06 endpoints, sendo em volta principalmente do usuário (dev) - podendo cadastrar seu perfil, seguir outros usuários, criar postagens, fazer comentários em postagens e curtir os comentários e postagens realizadas. <br/>
 
-<a style="display:flex; justify-content:center" href="https://insomnia.rest/run/?label=Kenzie%20Hub&uri=https%3A%2F%2Fgithub.com%2FKenzie-Academy-Brasil-Developers%2Fkenziehub-api%2Fblob%2Fmaster%2FInsomnia_kenzie_hub.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
+<a href="https://insomnia.rest/run/?label=m4-pf-node-pablo-14%20-%20Rede%20Social&uri=https%3A%2F%2F1drv.ms%2Fu%2Fs!Ai3UBiWWhoUyq9o_mVRGZkZm19STyA" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
 
 <blockquote> Para importar o JSON no Insomnia é só clicar no botão "Run in Insomnia". Depois é só seguir os passos que ele irá importar todos os endpoints em seu insomnia.
 </blockquote>
@@ -99,12 +99,47 @@ Email ou Username já cadastrado:
 
 Nessa aplicação o usuário sem fazer login pode fazer o seu login para acessar a plataforma, na API podemos fazer o login dessa forma:
 
-`POST /users - FORMATO DA RESPOSTA - STATUS 201`
+`POST /login - FORMATO DA REQUISIÇÃO`
 
 ```json
 {
   "email": "bruno@mail.com",
   "password": "1234"
+}
+```
+
+Caso dê tudo certo, a resposta será assim:
+
+`POST /login - FORMATO DA RESPOSTA - STATUS 201`
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzM5MDQ1NzgsImV4cCI6MTY3Mzk5MDk3OCwic3ViIjoiNGFhMjY2NmQtZTcxMi00MTFlLTliNWEtNWVmNmFhOTYzNTNhIn0.E9bZ-U7emEPdrnnXPXeHZD-U3-v0MDqE56eV0U9cbgw"
+}
+```
+
+<h2 align ='center'> Possíveis erros </h2>
+
+Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
+No exemplo a requisição foi feita faltando o campo "password".
+
+`POST /login - `
+` FORMATO DA RESPOSTA - STATUS 400`
+
+```json
+{
+  "error": ["password is a required field"]
+}
+```
+
+Email ou Password incorretos:
+
+`POST /login - `
+` FORMATO DA RESPOSTA - STATUS 404`
+
+```json
+{
+	"message": "wrong email or password"
 }
 ```
 
