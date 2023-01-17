@@ -22,21 +22,15 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
     const pageParams = getPageParams(queryParams, interestsCount)
 
     const interests = await interestsRepository
-    .createQueryBuilder('interests')
-    .leftJoinAndSelect(InterestsPost, 'interestspost', 'interestspost.interestId = interests.id')
-    /* .leftJoinAndSelect('interests.interestsPost', 'interestspost') */
-    .leftJoinAndSelect(Post, 'post', 'interestspost.postId = post.id')
-    /* .orderBy('interests.name')
-    .limit(pageParams.limit)
-    .offset(pageParams.offset) */
+    .createQueryBuilder('interest')
+    .leftJoinAndSelect('interest.interestsPost', 'interestsPost')
+    .leftJoinAndSelect('interestsPost.post', 'post')
     .getMany()
 
     const interestsPost = await interestPostRepository
     .createQueryBuilder('interestsPost')
     .leftJoinAndSelect('interestsPost.interest', 'interest')
     .leftJoinAndSelect('interestsPost.post', 'post')
-    /* .select('interest.id') */
-    /* .groupBy('interest.id') */
     .getMany()
 
     const posts = await postsRepository

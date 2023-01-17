@@ -31,17 +31,17 @@ const listUserCommentsController = async (req: Request, res: Response) => {
 };
 
 const listUsersFollowerController = async (req: Request, res: Response) => {
-  const followers = await listUsersFollowerService(req.user.id, req.query);
+  const followers = await listUsersFollowerService(req.params.id, req.query);
   return res.json(followers);
 };
 
 const listUsersFollowingController = async (req: Request, res: Response) => {
-  const following = await listUsersFollowingService(req.user.id, req.query);
+  const following = await listUsersFollowingService(req.params.id, req.query);
   return res.json(following);
 };
 
 const listUserPostsController = async (req: Request, res: Response) => {
-  const posts = await listUserPostsService(req.user.id, req.query);
+  const posts = await listUserPostsService(req.params.id, req.query);
   return res.json(posts);
 };
 

@@ -72,7 +72,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/postsLiked',
+  '/liked/posts',
   ensureAuthMiddleware,
   ensureUserIsExistMiddleware,
   listPostsLikedController,
