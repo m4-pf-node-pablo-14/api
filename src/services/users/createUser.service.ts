@@ -2,10 +2,12 @@ import AppDataSource from '../../data-source';
 import Address from '../../entities/address.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
-import { IUserRequest } from '../../interfaces/users.interfaces';
+import { IUserRequest, IUserResponse } from '../../interfaces/users.interfaces';
 import { userResponserSerializer } from '../../serializers/user.serializes';
 
-const createUserService = async (userData: IUserRequest) => {
+const createUserService = async (
+  userData: IUserRequest,
+): Promise<IUserResponse> => {
   const userRepository = AppDataSource.getRepository(User);
   const addressRepository = AppDataSource.getRepository(Address);
 

@@ -4,6 +4,7 @@ import updatePostsService from '../services/posts/updatePosts.service';
 import listPostsService from '../services/posts/listPosts.service';
 import deletePostService from '../services/posts/deletePosts.service';
 import retrievePostService from '../services/posts/retrievePost.service';
+import listPostsByInterestService from '../services/posts/listPostsByInterest.service';
 
 const createPostsController = async (req: Request, res: Response) => {
   const post = await createPostsService(req.body, req.user.id);
@@ -30,10 +31,19 @@ const retrievePostController = async (req: Request, res: Response) => {
   return res.json(post);
 };
 
+const listPostsByInterestController = async (req: Request, res: Response) => {
+  const posts = await listPostsByInterestService(
+    req.params.interestName,
+    req.query,
+  );
+  return res.json(posts);
+};
+
 export {
   createPostsController,
   updatePostsController,
   listPostsController,
   deletePostController,
   retrievePostController,
+  listPostsByInterestController,
 };

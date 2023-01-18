@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { AnySchema } from 'yup';
 
-const ensureDataIsValidMiddleware =
+const ensureParamsIdIsValidMiddleware =
   (schema: AnySchema) =>
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const bodyValidated = await schema.validate(req.body, {
+        const idValidated = await schema.validate(req.params.id, {
           abortEarly: false,
           stripUnknown: true,
         });
 
-        req.body = bodyValidated;
+        req.params.id = idValidated;
 
         return next();
       } catch (err) {
@@ -18,4 +18,4 @@ const ensureDataIsValidMiddleware =
       }
     };
 
-export default ensureDataIsValidMiddleware;
+export default ensureParamsIdIsValidMiddleware;

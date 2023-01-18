@@ -128,7 +128,7 @@ describe('Tests routes /posts', () => {
       .send(mockedPostRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be possible to create a post without an image or description, it must have one or the other', async () => {
@@ -158,7 +158,7 @@ describe('Tests routes /posts', () => {
       .send();
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be possible to list posts that does not exist', async () => {
@@ -221,7 +221,7 @@ describe('Tests routes /posts', () => {
       .send(mockedPostUpdateRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be possible to update a post that does not exist', async () => {
@@ -280,7 +280,7 @@ describe('Tests routes /posts', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be possible to delete a post that does not exist', async () => {
@@ -333,7 +333,7 @@ describe('Tests routes /posts', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be possible to retrieve a post that does not exist', async () => {

@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import request from 'supertest';
+import AppDataSource from '../../../src/data-source';
+import app from '../../../src/app';
 import {
   mockedLoginRequest,
   mockedLoginRequestAdm,
@@ -8,8 +10,6 @@ import {
   mockedUserRequestAdm,
   mockedUserRequestTwo,
 } from '../../mocks';
-import AppDataSource from '../../../src/data-source';
-import app from '../../../src/app';
 
 interface IParams {
   userId: string;
@@ -70,7 +70,7 @@ describe('/follow', () => {
     await connection.destroy();
   });
 
-  test('Should be able to follow the user', async () => {
+  test('It should be able to follow the user', async () => {
     const response = await request(app)
       .post(`/follow/${params.userId}`)
       .set('Authorization', `Bearer ${params.tokenAdm}`);
@@ -79,25 +79,32 @@ describe('/follow', () => {
     expect(response.status).toBe(201);
   });
 
-  test('Must not be able to follow the user without authentication', async () => {
+  test('It should not be able to follow the user with the invalid parameter', async () => {
     const response = await request(app)
-      .post(`/follow/${params.userAdmId}`)
-      .send();
+      .post('/follow/123')
+      .set('Authorization', `Bearer ${params.tokenAdm}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
+  });
+
+  test('It should not be able to follow the user without authentication', async () => {
+    const response = await request(app).post(`/follow/${params.userAdmId}`);
 
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(401);
   });
 
-  test('Should not be able to follow user by a user that does not exist', async () => {
+  test('It should not be able to follow the user by a user that does not exist', async () => {
     const response = await request(app)
       .post(`/follow/${params.userAdmId}`)
       .set('Authorization', `Bearer ${params.tokenDelete}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
-  test('Should not be able to follow user that does not exist', async () => {
+  test('It should not be able to follow the user that does not exist', async () => {
     const response = await request(app)
       .post(`/follow/${params.userDeleteId}`)
       .set('Authorization', `Bearer ${params.token}`);
@@ -106,7 +113,7 @@ describe('/follow', () => {
     expect(response.status).toBe(404);
   });
 
-  test('Should not be able to follow the user they already follow', async () => {
+  test('It should not be able to follow the user they already follow', async () => {
     const response = await request(app)
       .post(`/follow/${params.userAdmId}`)
       .set('Authorization', `Bearer ${params.token}`);
@@ -115,7 +122,7 @@ describe('/follow', () => {
     expect(response.status).toBe(404);
   });
 
-  test('You must not be able to follow yourself', async () => {
+  test('It should not be able to follow yourself', async () => {
     const response = await request(app)
       .post(`/follow/${params.userAdmId}`)
       .set('Authorization', `Bearer ${params.tokenAdm}`);
@@ -124,33 +131,40 @@ describe('/follow', () => {
     expect(response.status).toBe(403);
   });
 
-  test('It must be possible to unfollow the user', async () => {
-    const responseTwo = await request(app)
+  test('It should be able to unfollow the user', async () => {
+    const response = await request(app)
       .delete(`/follow/${params.userId}`)
       .set('Authorization', `Bearer ${params.tokenAdm}`);
 
-    expect(responseTwo.status).toBe(204);
+    expect(response.status).toBe(204);
   });
 
-  test('Must not be able to unfollow the user without authentication', async () => {
+  test('It should not be able to unfollow the user with the invalid parameter', async () => {
     const response = await request(app)
-      .delete(`/follow/${params.userAdmId}`)
-      .send();
+      .delete('/follow/123')
+      .set('Authorization', `Bearer ${params.tokenAdm}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
+  });
+
+  test('It should not be able to unfollow the user without authentication', async () => {
+    const response = await request(app).delete(`/follow/${params.userAdmId}`);
 
     expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(401);
   });
 
-  test('Should not be able to unfollow user by a user that does not exist', async () => {
+  test('It should not be able to unfollow the user by a user that does not exist', async () => {
     const response = await request(app)
       .delete(`/follow/${params.userAdmId}`)
       .set('Authorization', `Bearer ${params.tokenDelete}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
-  test('Should not be able to unfollow user that does not exist', async () => {
+  test('It should not be able to unfollow the user that does not exist', async () => {
     const response = await request(app)
       .delete(`/follow/${params.userDeleteId}`)
       .set('Authorization', `Bearer ${params.token}`);
@@ -159,7 +173,7 @@ describe('/follow', () => {
     expect(response.status).toBe(404);
   });
 
-  test('You must not be able to unfollow the user you do not follow', async () => {
+  test('It should not be able to unfollow the user you do not follow', async () => {
     const response = await request(app)
       .delete(`/follow/${params.userId}`)
       .set('Authorization', `Bearer ${params.tokenAdm}`);
@@ -168,7 +182,7 @@ describe('/follow', () => {
     expect(response.status).toBe(404);
   });
 
-  test('You must not be able to unfollow yourself', async () => {
+  test('It should not not be able to unfollow yourself', async () => {
     const response = await request(app)
       .delete(`/follow/${params.userAdmId}`)
       .set('Authorization', `Bearer ${params.tokenAdm}`);

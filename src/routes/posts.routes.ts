@@ -2,22 +2,25 @@ import { Router } from 'express';
 import {
   createPostsController,
   deletePostController,
+  listPostsByInterestController,
   listPostsController,
   retrievePostController,
   updatePostsController,
 } from '../controllers/posts.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import ensurePostDataExistsMiddleware from '../middlewares/ensurePostDataExists.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
+import { idSerializer } from '../serializers/params.serializers';
 import { postRequestSerializer } from '../serializers/posts.serializers';
 
-const postRouter = Router();
+const postRouter: Router = Router();
 
 postRouter.post(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   createPostsController,
@@ -25,8 +28,9 @@ postRouter.post(
 
 postRouter.patch(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   updatePostsController,
@@ -35,22 +39,31 @@ postRouter.patch(
 postRouter.get(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listPostsController,
 );
 
 postRouter.delete(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   deletePostController,
 );
 
 postRouter.get(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   retrievePostController,
+);
+
+postRouter.get(
+  '/interest/:interestName',
+  ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
+  listPostsByInterestController,
 );
 
 export default postRouter;

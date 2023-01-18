@@ -165,7 +165,7 @@ describe('Tests routes /users', () => {
       .send(mockedUpdateAdmUserRequest);
 
     expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
   });
 
   it('It should not be able to update user without authentication', async () => {
@@ -200,7 +200,7 @@ describe('Tests routes /users', () => {
       .delete(`/users/${dataUser.id}`)
       .set('Authorization', `Bearer ${dataUser.token}`);
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty('message');
   });
 });

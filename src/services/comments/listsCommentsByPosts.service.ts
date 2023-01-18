@@ -5,7 +5,7 @@ import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';
 import { getPageParams } from '../../scripts/pageParams.script';
 
-export const listCommentsByPostService = async (
+const listCommentsByPostService = async (
   postId: string,
   queryParams: IQueryParams,
 ) => {
@@ -49,3 +49,5 @@ export const listCommentsByPostService = async (
 
   return returnedObject;
 };
+
+export default listCommentsByPostService;

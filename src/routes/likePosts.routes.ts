@@ -1,32 +1,29 @@
 import { Router } from 'express';
 import {
-  deleteFollowController,
-  followController,
-} from '../controllers/follow.controller';
+  createLikePostController,
+  deslikePostController,
+} from '../controllers/likePost.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
-import ensureFollowIsPermitMiddleware from '../middlewares/ensureFollowIsPermit.middleware';
 import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
 import { idSerializer } from '../serializers/params.serializers';
 
-const followRouter: Router = Router();
+const likePostRouter: Router = Router();
 
-followRouter.post(
+likePostRouter.post(
   '/:id',
   ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
-  ensureFollowIsPermitMiddleware,
-  followController,
+  createLikePostController,
 );
 
-followRouter.delete(
+likePostRouter.delete(
   '/:id',
   ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
-  ensureFollowIsPermitMiddleware,
-  deleteFollowController,
+  deslikePostController,
 );
 
-export default followRouter;
+export default likePostRouter;

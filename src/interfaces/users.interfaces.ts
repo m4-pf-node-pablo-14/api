@@ -52,6 +52,8 @@ export interface IUserResponse {
   email: string;
   username: string;
   bio: string;
+  mainInterest?: string;
+  recentInterest?: string;
 }
 
 export interface INewUser extends IUserResponse {

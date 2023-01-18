@@ -28,8 +28,9 @@ const listUsersFollowingService = async (
 
   const follows = await followsRepository
     .createQueryBuilder('follows')
-    .innerJoinAndSelect('follows.following', 'following')
-    .where('following.id = :userId', { userId: userId })
+    .innerJoin('follows.following', 'followingUser')
+    .innerJoinAndSelect('follows.followers', 'following')
+    .where('followingUser.id = :userId', { userId: userId })
     .select(['follows', 'following.id', 'following.username'])
     .orderBy('follows.id')
     .limit(pageParams.limit)
