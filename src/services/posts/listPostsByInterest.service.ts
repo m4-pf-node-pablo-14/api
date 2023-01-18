@@ -1,33 +1,24 @@
 import { IQueryParams } from './../../interfaces/queryParams.interface';
+import AppDataSource from '../../data-source';
 import { getPageParams } from '../../scripts/pageParams.script';
 import {
   mergePostCountArrays,
   mergePostsAndRows,
-} from './../../scripts/posts.scripts';
-import AppDataSource from '../../data-source';
-import { INewPost } from '../../interfaces/posts.interfaces';
+} from '../../scripts/posts.scripts';
 import Post from '../../entities/posts.entities';
 
-interface IReturned {
-  page: number;
-  postsCount: number;
-  numberOfPages: number;
-  postsLiked: INewPost[];
-}
-
-const listPostsLikedService = async (
-  requesterUserId: string,
+export const listPostsByInterestService = async (
+  interestName: string,
   queryParams: IQueryParams,
-): Promise<IReturned> => {
+) => {
   const postsRepository = AppDataSource.getRepository(Post);
 
   const postsCountObject = await postsRepository
     .createQueryBuilder('posts')
-    .innerJoinAndSelect('posts.user', 'user')
-    .leftJoinAndSelect('posts.likes', 'likes')
-    .innerJoinAndSelect('likes.user', 'userLike')
-    .where('userLike.id = :userId', { userId: requesterUserId })
-    .select('COUNT(*)', 'count')
+    .leftJoinAndSelect('posts.interestsPost', 'interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interest')
+    .where('interest.name = :interestName', { interestName: interestName })
+    .select('COUNT(posts)', 'count')
     .getRawOne();
   const postsCount = Number(postsCountObject.count);
 
@@ -35,57 +26,57 @@ const listPostsLikedService = async (
 
   const posts = await postsRepository
     .createQueryBuilder('posts')
+    .leftJoinAndSelect('posts.interestsPost', 'interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interest')
+    .where('interest.name = :interestName', { interestName: interestName })
     .innerJoinAndSelect('posts.user', 'user')
-    .leftJoinAndSelect('posts.likes', 'likes')
-    .innerJoinAndSelect('likes.user', 'userLike')
-    .where('userLike.id = :userId', { userId: requesterUserId })
-    .orderBy('posts.id')
+    .orderBy('posts.createdAt')
+    .select(['posts', 'user.id', 'user.username'])
     .limit(pageParams.limit)
     .offset(pageParams.offset)
-    .select(['posts', 'user.id', 'user.username'])
     .getMany();
 
   const likesCount = await postsRepository
     .createQueryBuilder('posts')
+    .leftJoinAndSelect('posts.interestsPost', 'interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interest')
+    .where('interest.name = :interestName', { interestName: interestName })
     .innerJoinAndSelect('posts.user', 'user')
     .leftJoinAndSelect('posts.likes', 'likes')
-    .innerJoinAndSelect('likes.user', 'userLike')
-    .where('userLike.id = :userId', { userId: requesterUserId })
-    .orderBy('posts.id')
-    .limit(pageParams.limit)
-    .offset(pageParams.offset)
+    .orderBy('posts.createdAt')
     .select('posts.id')
     .addSelect('COUNT(likes)', 'likesCount')
     .groupBy('posts.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
     .getRawMany();
 
   const commentsCount = await postsRepository
     .createQueryBuilder('posts')
+    .leftJoinAndSelect('posts.interestsPost', 'interestspost')
+    .leftJoinAndSelect('interestspost.interest', 'interest')
+    .where('interest.name = :interestName', { interestName: interestName })
     .innerJoinAndSelect('posts.user', 'user')
-    .leftJoinAndSelect('posts.likes', 'likes')
-    .innerJoinAndSelect('likes.user', 'userLike')
     .leftJoinAndSelect('posts.comments', 'comments')
-    .where('userLike.id = :userId', { userId: requesterUserId })
-    .orderBy('posts.id')
-    .limit(pageParams.limit)
-    .offset(pageParams.offset)
+    .orderBy('posts.createdAt')
     .select('posts.id')
     .addSelect('COUNT(comments)', 'commentsCount')
     .groupBy('posts.id')
+    .limit(pageParams.limit)
+    .offset(pageParams.offset)
     .getRawMany();
 
-  const rowsOfCounts = mergePostCountArrays(likesCount, commentsCount);
+  const rawsOfCounts = mergePostCountArrays(likesCount, commentsCount);
 
-  const newPosts = mergePostsAndRows(posts, rowsOfCounts);
+  const newPosts = mergePostsAndRows(posts, rawsOfCounts);
 
   const returnedObject = {
     page: pageParams.page,
     postsCount: postsCount,
     numberOfPages: pageParams.numberOfPages,
-    postsLiked: newPosts,
+    interest: interestName,
+    posts: newPosts,
   };
 
   return returnedObject;
 };
-
-export default listPostsLikedService;

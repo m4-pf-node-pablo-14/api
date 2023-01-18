@@ -1,6 +1,6 @@
 import { IInterestRequets } from './../../interfaces/interests.interfaces';
 import AppDataSource from '../../data-source';
-import Interest from '../../entities/interests.entitie';
+import Interest from '../../entities/interests.entities';
 import AppError from '../../errors/AppError';
 import { ILike } from 'typeorm';
 

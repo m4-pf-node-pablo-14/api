@@ -1,3 +1,3 @@
 export interface IInterestRequets {
-    name: string
+  name: string;
 }

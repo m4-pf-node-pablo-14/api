@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createPostsController,
   deletePostController,
+  listPostsByInterestController,
   listPostsController,
   retrievePostController,
   updatePostsController,
@@ -51,6 +52,13 @@ postRouter.get(
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   retrievePostController,
+);
+
+postRouter.get(
+  '/interest/:interestName',
+  ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
+  listPostsByInterestController,
 );
 
 export default postRouter;

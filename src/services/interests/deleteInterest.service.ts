@@ -1,5 +1,5 @@
 import AppDataSource from '../../data-source';
-import Interest from '../../entities/interests.entitie';
+import Interest from '../../entities/interests.entities';
 import AppError from '../../errors/AppError';
 
 const deleteInterestService = async (interestId: string) => {

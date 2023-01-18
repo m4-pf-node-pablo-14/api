@@ -1,5 +1,5 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import Interest from './interests.entitie';
+import Interest from './interests.entities';
 import Post from './posts.entities';
 
 @Entity('interests_post')

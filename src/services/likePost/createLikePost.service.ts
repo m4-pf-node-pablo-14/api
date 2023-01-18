@@ -1,10 +1,11 @@
 import AppDataSource from '../../data-source';
-import Likes from '../../entities/likes.entities';
-import Post from '../../entities/posts.entities';
-import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
 import { responseCreateLikePostSerializer } from '../../serializers/posts.serializers';
 import { IResponseCreateLike } from '../../interfaces/posts.interfaces';
+import Post from '../../entities/posts.entities';
+import Likes from '../../entities/likes.entities';
+import User from '../../entities/user.entities';
+import setUserInterestsService from '../users/setUserInterests.service';
 
 const createLikePostService = async (
   userId: string,
@@ -56,6 +57,8 @@ const createLikePostService = async (
     await responseCreateLikePostSerializer.validate(likePost, {
       stripUnknown: true,
     });
+
+  await setUserInterestsService(userId);
 
   return validatedResponseCreatedLike;
 };

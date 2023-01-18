@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { SchemaOf } from 'yup';
+import { SchemaOf, string } from 'yup';
 import {
   IUserLogin,
   IUserRequest,
@@ -58,6 +58,8 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
     state: yup.string().max(2),
     zipCode: yup.string().max(8),
   }),
+  recentInterest: yup.string().nullable(),
+  mainInterest: yup.string().nullable(),
   bio: yup.string().nullable(),
   last_name: yup.string(),
   name: yup.string(),

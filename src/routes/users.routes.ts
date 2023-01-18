@@ -65,7 +65,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  '/comments',
+  '/comments/list',
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   listUserCommentsController,
