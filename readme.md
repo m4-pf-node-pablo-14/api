@@ -1,6 +1,6 @@
 # Api - TreeNetwork
 
-Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma API desenvolvidapor  estudantes programadores da Kenzie! O objetivo dessa aplicação é conseguir colocar em prática o que foi ensinado no quarto módulo do curso (M4) - E desenvolver hard skills e soft skills.
+Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma API desenvolvida por estudantes programadores da Kenzie! O objetivo dessa aplicação é conseguir colocar em prática o que foi ensinado no quarto módulo do curso (M4) - E desenvolver hard skills e soft skills.
 
 ## 🚀 Começando
 
