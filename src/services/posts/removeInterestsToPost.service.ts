@@ -1,20 +1,18 @@
-import AppDataSource from "../../data-source"
-import InterestsPost from "../../entities/interestsPost.entities"
-import Post from "../../entities/posts.entities"
+import AppDataSource from '../../data-source';
+import InterestsPost from '../../entities/interestsPost.entities';
 
-export const removeInterestsToPostService = async (postId: string) => {
+const removeInterestsToPostService = async (postId: string) => {
+  const interestsPostRepository = AppDataSource.getRepository(InterestsPost);
 
-    const postsRepository = AppDataSource.getRepository(Post)
-    const interestsPostRepository = AppDataSource.getRepository(InterestsPost)
-
-    const interestsPostArray = await interestsPostRepository
+  const interestsPostArray = await interestsPostRepository
     .createQueryBuilder('interestsPost')
     .leftJoin('interestsPost.post', 'post')
-    .where('post.id = :postId', {postId: postId}) 
-    .getMany()
+    .where('post.id = :postId', { postId: postId })
+    .getMany();
 
-    interestsPostArray.forEach(async interestPost => {
+  interestsPostArray.forEach(async (interestPost) => {
+    await interestsPostRepository.remove(interestPost);
+  });
+};
 
-        await interestsPostRepository.remove(interestPost)
-    })
-}
+export default removeInterestsToPostService;
