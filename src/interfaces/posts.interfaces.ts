@@ -1,4 +1,4 @@
-import Post from '../entities/posts.entities';
+import Post from "../entities/posts.entities";
 
 export interface IPostRequest {
   img?: string;
@@ -30,6 +30,19 @@ export interface IResponseCreateLike {
   post: {
     description?: string;
     img?: string;
+    id: string;
+  };
+  id: string;
+  createdAt: Date;
+}
+
+export interface IResponseCreateLikeComment {
+  user: {
+    id: string;
+    username: string;
+  };
+  comment: {
+    text: string;
     id: string;
   };
   id: string;
