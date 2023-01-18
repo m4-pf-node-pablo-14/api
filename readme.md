@@ -29,8 +29,6 @@ yarn test
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
-
 * [TypeScript]() - linguagem de programção 
 * [Express]() - Framework web
 * [Postegresql]() - Banco de dados
