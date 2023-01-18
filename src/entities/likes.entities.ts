@@ -27,5 +27,5 @@ class Likes {
   })
     post: Post;
 }
-
+ 
 export default Likes;

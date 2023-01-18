@@ -1,5 +1,7 @@
+import { setUserInterestsService } from './../users/setUserInterests.service';
 import AppDataSource from '../../data-source';
 import Interest from '../../entities/interests.entitie';
+import Likes from '../../entities/likes.entities';
 import { mergeInterestsAndRows } from '../../scripts/interests.scripts';
 import { getPageParams } from '../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
@@ -38,7 +40,7 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
         page: pageParams.page,
         interestsCount: interestsCount,
         numberOfPages: pageParams.numberOfPages,
-        interests: newInterests
+        interests: newInterests,
     }
 
     return returnedObject;

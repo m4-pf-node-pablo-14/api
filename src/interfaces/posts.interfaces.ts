@@ -24,7 +24,10 @@ export interface INewPost extends Post {
 }
 
 export interface IResponseCreateLike {
-  user: IUserResponse;
+  user: {
+    id: string;
+    username: string;
+  };
   post: {
     description?: string;
     img?: string;

@@ -5,6 +5,16 @@ interface IRowsOfCounts {
   interests_id: string;
 }
 
+interface IMainInterests {
+  mainInterestName: any,
+  mainInterestCount: number | unknown
+}
+
+interface IRecentInterests {
+  recentInterestName: any,
+  recentInterestCount: number | unknown
+}
+
 const mergeInterestsAndRows = (
   interests: Interest[],
   rowsOfCounts: IRowsOfCounts[],
@@ -41,4 +51,55 @@ const getInterests = (text: string) => {
   return interestsArray;
 };
 
-export { mergeInterestsAndRows, getInterests };
+const countInterests = (latestLikes) => {
+  let count = {};
+  let countRecent = {}
+
+
+  latestLikes.forEach((like, index) => {
+      like.post.interestsPost.forEach(interestPost => {
+          count[interestPost.interest.name] = (count[interestPost.interest.name] || 0) + 1
+      })
+
+      if(index < 5){
+          like.post.interestsPost.forEach(interestPost => {
+              countRecent[interestPost.interest.name] = (countRecent[interestPost.interest.name] || 0) + 1
+          })
+      }
+  })
+
+  const mainInterest: IMainInterests = {
+      mainInterestName: null,
+      mainInterestCount: 0
+  }
+
+  const recentInterest: IRecentInterests = {
+      recentInterestName: null,
+      recentInterestCount: 0
+  }
+
+  Object.entries(count).forEach(([key, value]) => {
+      if(value > mainInterest.mainInterestCount){ 
+          mainInterest.mainInterestCount = value
+          mainInterest.mainInterestName = key
+      }
+  })
+
+  Object.entries(countRecent).forEach(([key, value]) => {
+      if(value > recentInterest.recentInterestCount){
+          recentInterest.recentInterestCount = value
+          recentInterest.recentInterestName = key
+      }
+  })
+
+  const interests = {
+      mainInterest,
+      recentInterest
+  }
+
+          
+
+  return interests;
+}
+
+export { mergeInterestsAndRows, getInterests, countInterests };

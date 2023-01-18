@@ -1,3 +1,4 @@
+import { setUserInterestsService } from './../users/setUserInterests.service';
 import AppDataSource from '../../data-source';
 import Likes from '../../entities/likes.entities';
 import Post from '../../entities/posts.entities';
@@ -56,6 +57,8 @@ const createLikePostService = async (
     await responseCreateLikePostSerializer.validate(likePost, {
       stripUnknown: true,
     });
+
+  await setUserInterestsService(userId)
 
   return validatedResponseCreatedLike;
 };
