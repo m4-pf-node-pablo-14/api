@@ -1,7 +1,5 @@
-import { setUserInterestsService } from './../users/setUserInterests.service';
 import AppDataSource from '../../data-source';
-import Interest from '../../entities/interests.entitie';
-import Likes from '../../entities/likes.entities';
+import Interest from '../../entities/interests.entities';
 import { mergeInterestsAndRows } from '../../scripts/interests.scripts';
 import { getPageParams } from '../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
@@ -19,10 +17,9 @@ const listInterestsService = async (queryParams: IQueryParams) => {
 
   const interests = await interestsRepository
     .createQueryBuilder('interest')
-    .getMany()
+    .getMany();
 
-
-    const rowsOfCount = await interestsRepository
+  const rowsOfCount = await interestsRepository
     .createQueryBuilder('interests')
     .leftJoinAndSelect('interests.interestsPost', 'interestspost')
     .orderBy('interests.name')

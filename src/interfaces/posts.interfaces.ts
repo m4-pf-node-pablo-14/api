@@ -1,5 +1,4 @@
 import Post from '../entities/posts.entities';
-import { IUserResponse } from './users.interfaces';
 
 export interface IPostRequest {
   img?: string;

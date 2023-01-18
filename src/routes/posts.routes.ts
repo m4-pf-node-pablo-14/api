@@ -58,7 +58,7 @@ postRouter.get(
   '/interest/:interestName',
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
-  listPostsByInterestController
-)
+  listPostsByInterestController,
+);
 
 export default postRouter;

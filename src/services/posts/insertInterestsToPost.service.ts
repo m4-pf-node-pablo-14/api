@@ -1,5 +1,5 @@
 import AppDataSource from '../../data-source';
-import Interest from '../../entities/interests.entitie';
+import Interest from '../../entities/interests.entities';
 import InterestsPost from '../../entities/interestsPost.entities';
 import Post from '../../entities/posts.entities';
 import AppError from '../../errors/AppError';

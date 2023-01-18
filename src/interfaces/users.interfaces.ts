@@ -1,4 +1,3 @@
-import { string } from 'yup';
 export interface IReqUser {
   id: string;
   isAdm: boolean;
@@ -54,7 +53,7 @@ export interface IUserResponse {
   username: string;
   bio: string;
   mainInterest?: string;
-  recentInterest?: string; 
+  recentInterest?: string;
 }
 
 export interface INewUser extends IUserResponse {

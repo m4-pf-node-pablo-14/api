@@ -32,9 +32,12 @@ const retrievePostController = async (req: Request, res: Response) => {
 };
 
 const listPostsByInterestController = async (req: Request, res: Response) => {
-  const posts = await listPostsByInterestService(req.params.interestName, req.query)
-  return res.status(200).json(posts)
-}
+  const posts = await listPostsByInterestService(
+    req.params.interestName,
+    req.query,
+  );
+  return res.status(200).json(posts);
+};
 
 export {
   createPostsController,

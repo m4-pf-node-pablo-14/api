@@ -1,4 +1,10 @@
-import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import InterestsPost from './interestsPost.entities';
 
 @Entity('interests')
@@ -15,4 +21,3 @@ class Interest {
 }
 
 export default Interest;
- 
