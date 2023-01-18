@@ -84,7 +84,7 @@ describe('/follow', () => {
       .post('/follow/123')
       .set('Authorization', `Bearer ${params.tokenAdm}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -144,7 +144,7 @@ describe('/follow', () => {
       .delete('/follow/123')
       .set('Authorization', `Bearer ${params.tokenAdm}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 

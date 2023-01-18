@@ -131,7 +131,7 @@ describe('Tests routes /comments', () => {
       .set('Authorization', `Bearer ${params.token}`)
       .send(mockedCommentRequest);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -205,7 +205,7 @@ describe('Tests routes /comments', () => {
       .delete('/comments/123')
       .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -278,7 +278,7 @@ describe('Tests routes /comments', () => {
       .set('Authorization', `Bearer ${params.token}`)
       .send(mockedCommentUpdateRequest);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -330,7 +330,7 @@ describe('Tests routes /comments', () => {
       .set('Authorization', `Bearer ${params.token}`)
       .send();
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -339,7 +339,7 @@ describe('Tests routes /comments', () => {
       .get('/comments/post/123')
       .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 

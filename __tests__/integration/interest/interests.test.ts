@@ -113,7 +113,7 @@ describe('Tests routes /interests', () => {
       .post('/interests')
       .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -130,7 +130,7 @@ describe('Tests routes /interests', () => {
       .delete('/interests/123')
       .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
