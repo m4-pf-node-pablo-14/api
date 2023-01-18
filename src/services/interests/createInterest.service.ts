@@ -2,6 +2,7 @@ import { IInterestRequets } from './../../interfaces/interests.interfaces';
 import AppDataSource from '../../data-source';
 import Interest from '../../entities/interests.entitie';
 import AppError from '../../errors/AppError';
+import { ILike } from 'typeorm';
 
 const createInterestService = async (
   interestData: IInterestRequets,
@@ -9,11 +10,11 @@ const createInterestService = async (
   const interestsRepository = AppDataSource.getRepository(Interest);
 
   const interestCheck = await interestsRepository.findOneBy({
-    name: interestData.name,
+    name: ILike(interestData.name),
   });
 
   if (interestCheck) {
-    throw new AppError('interest already exists', 400);
+    throw new AppError('interest already exists');
   }
 
   const interest = interestsRepository.create(interestData);
