@@ -14,8 +14,8 @@ import {
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensureUpdateDataIsValidMiddleware from '../middlewares/ensureUpdateDataIsValid.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
 import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
+import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
 import {
   userSerializer,
   userUpdateSerializer,
@@ -32,55 +32,56 @@ userRouter.post(
 userRouter.get(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listUsersController,
 );
 
 userRouter.get(
   '/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   retrieveUserController,
 );
 
 userRouter.get(
   '/followers/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listUsersFollowerController,
 );
 
 userRouter.get(
   '/following/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listUsersFollowingController,
 );
 
 userRouter.get(
   '/posts/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listUserPostsController,
 );
 
 userRouter.get(
   '/comments',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listUserCommentsController,
 );
 
 userRouter.get(
   '/liked/posts',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listPostsLikedController,
 );
 
 userRouter.patch(
   '',
   ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureUpdateDataIsValidMiddleware(userUpdateSerializer),
   updateUserController,
 );
@@ -88,8 +89,8 @@ userRouter.patch(
 userRouter.delete(
   '/:id',
   ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureUserIsPermitMiddleware,
-  ensureUserIsExistMiddleware,
   deleteUserController,
 );
 

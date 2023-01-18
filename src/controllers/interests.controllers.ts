@@ -3,7 +3,7 @@ import { IInterestRequets } from './../interfaces/interests.interfaces';
 import { Request, Response } from 'express';
 import createInterestService from '../services/interests/createInterest.service';
 import deleteInterestService from '../services/interests/deleteInterest.service';
-import { listInterestsService } from '../services/interests/listInterests.service';
+import listInterestsService from '../services/interests/listInterests.service';
 
 const createInterestController = async (req: Request, res: Response) => {
   const interestData: IInterestRequets = req.body;
@@ -20,7 +20,7 @@ const deleteInterestController = async (req: Request, res: Response) => {
 const listInterestsController = async (req: Request, res: Response) => {
   const queryParams: IQueryParams = req.query;
   const interests = await listInterestsService(queryParams);
-  return res.status(200).json(interests);
+  return res.json(interests);
 };
 
 export {

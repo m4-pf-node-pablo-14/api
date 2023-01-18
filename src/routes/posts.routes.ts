@@ -10,7 +10,7 @@ import {
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensurePostDataExistsMiddleware from '../middlewares/ensurePostDataExists.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
 import { postRequestSerializer } from '../serializers/posts.serializers';
 
 const postRouter = Router();
@@ -18,7 +18,7 @@ const postRouter = Router();
 postRouter.post(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   createPostsController,
@@ -27,7 +27,7 @@ postRouter.post(
 postRouter.patch(
   '/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   updatePostsController,
@@ -36,28 +36,28 @@ postRouter.patch(
 postRouter.get(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listPostsController,
 );
 
 postRouter.delete(
   '/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   deletePostController,
 );
 
 postRouter.get(
   '/:id',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   retrievePostController,
 );
 
 postRouter.get(
   '/interest/:interestName',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listPostsByInterestController
 )
 

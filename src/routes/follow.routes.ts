@@ -6,22 +6,26 @@ import {
 
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureFollowIsPermitMiddleware from '../middlewares/ensureFollowIsPermit.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
+import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
+import { idSerializer } from '../serializers/params.serializers';
 
 const followRouter = Router();
 
 followRouter.post(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureFollowIsPermitMiddleware,
   followController,
 );
 
 followRouter.delete(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureFollowIsPermitMiddleware,
   deleteFollowController,
 );

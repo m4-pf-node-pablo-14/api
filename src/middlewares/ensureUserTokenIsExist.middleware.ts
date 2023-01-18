@@ -3,7 +3,7 @@ import AppDataSource from '../data-source';
 import User from '../entities/user.entities';
 import AppError from '../errors/AppError';
 
-const ensureUserIsExistMiddleware = async (
+const ensureUserTokenIsExistMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -12,9 +12,9 @@ const ensureUserIsExistMiddleware = async (
     id: req.user.id,
   });
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('user does not have permission', 403);
   }
   return next();
 };
 
-export default ensureUserIsExistMiddleware;
+export default ensureUserTokenIsExistMiddleware;

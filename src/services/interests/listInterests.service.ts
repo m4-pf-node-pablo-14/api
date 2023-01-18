@@ -6,9 +6,8 @@ import { mergeInterestsAndRows } from '../../scripts/interests.scripts';
 import { getPageParams } from '../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
 
-export const listInterestsService = async (queryParams: IQueryParams) => {
-
-    const interestsRepository = AppDataSource.getRepository(Interest)
+const listInterestsService = async (queryParams: IQueryParams) => {
+  const interestsRepository = AppDataSource.getRepository(Interest);
 
   const interestsCountObject = await interestsRepository
     .createQueryBuilder('interests')
@@ -32,17 +31,18 @@ export const listInterestsService = async (queryParams: IQueryParams) => {
     .limit(pageParams.limit)
     .offset(pageParams.offset)
     .groupBy('interests.id')
-    .getRawMany()
+    .getRawMany();
 
-    const newInterests = mergeInterestsAndRows(interests, rowsOfCount)
+  const newInterests = mergeInterestsAndRows(interests, rowsOfCount);
 
-    const returnedObject = {
-        page: pageParams.page,
-        interestsCount: interestsCount,
-        numberOfPages: pageParams.numberOfPages,
-        interests: newInterests,
-    }
+  const returnedObject = {
+    page: pageParams.page,
+    interestsCount: interestsCount,
+    numberOfPages: pageParams.numberOfPages,
+    interests: newInterests,
+  };
 
-    return returnedObject;
+  return returnedObject;
 };
- 
+
+export default listInterestsService;

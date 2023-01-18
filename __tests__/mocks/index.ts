@@ -1,4 +1,5 @@
 import { ICommentRequest } from '../../src/interfaces/comments.interface';
+import { IInterestRequets } from '../../src/interfaces/interests.interfaces';
 import { IPostRequest } from '../../src/interfaces/posts.interfaces';
 import {
   IUserLogin,
@@ -87,6 +88,8 @@ const mockedCommentUpdateRequest: ICommentRequest = {
   text: 'Parabéns!',
 };
 
+const mockedInterestRequest: IInterestRequets = { name: 'JavaScript' };
+
 const mockedUpdateUserRequest: IUserUpdate = {
   bio: 'Hello',
   address: {
@@ -115,6 +118,7 @@ export {
   mockedPostUpdateRequest,
   mockedCommentRequest,
   mockedCommentUpdateRequest,
+  mockedInterestRequest,
   mockedUpdateUserRequest,
   mockedUpdateAdmUserRequest,
 };
