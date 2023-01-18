@@ -8,7 +8,7 @@ const ensurePostDataExistsMiddleware = (
   next: NextFunction,
 ) => {
   const postData: IPostRequest = req.body;
-  const keys = Object.keys(postData);
+  const keys: string[] = Object.keys(postData);
 
   if (!keys[0]) {
     throw new AppError('img or description fild needs to have content', 400);
