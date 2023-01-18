@@ -3,11 +3,13 @@ import Comment from '../../entities/comments.entities';
 import CommentToLikes from '../../entities/commentToLikes.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
+import { responseCreateLikeCommentSerializer } from '../../serializers/posts.serializers';
+import { IResponseCreateLikeComment } from '../../interfaces/posts.interfaces';
 
 const createLikeCommentService = async (
   commentId: string,
   requesterUserId: string,
-): Promise<CommentToLikes> => {
+): Promise<IResponseCreateLikeComment> => {
   const commentRepository = AppDataSource.getRepository(Comment);
   const likesCommentsRepository = AppDataSource.getRepository(CommentToLikes);
 
@@ -38,7 +40,12 @@ const createLikeCommentService = async (
   });
   await likesCommentsRepository.save(likeToComment);
 
-  return likeToComment;
+  const validatedResponseCreatedLike =
+    await responseCreateLikeCommentSerializer.validate(likeToComment, {
+      stripUnknown: true,
+    });
+
+  return validatedResponseCreatedLike;
 };
 
 export default createLikeCommentService;

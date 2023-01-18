@@ -35,3 +35,16 @@ export interface IResponseCreateLike {
   id: string;
   createdAt: Date;
 }
+
+export interface IResponseCreateLikeComment {
+  user: {
+    id: string;
+    username: string;
+  };
+  comment: {
+    text: string;
+    id: string;
+  };
+  id: string;
+  createdAt: Date;
+}
