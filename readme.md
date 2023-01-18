@@ -342,7 +342,7 @@ Podemos acessar um usuário específico utilizando o endpoint:
 }
 ```
 
-<h2 align='center'> Possiveis erros <h2/>
+<h2 align='center'> Possiveis erros </h2>
 
 `POST /follow/:user_id - FORMATO DA RESPOSTA - STATUS 404`
 
@@ -609,34 +609,39 @@ caso seja passado um PostId o usuario tera a seguinte reposta
   "message": "Not found!"
 }
 ```
+
 <strong>Editar comentarios nas postagens</strong>
 
 `PATCH comments/:coment_id FORMATO DA REQUISICÂO STATUS 200`
+
 ```json
 {
-	"text":"update coment"
+  "text": "update coment"
 }
 ```
+
 `PATCH comments/:coment_id FORMATO DA RESPOSTA STATUS 200`
+
 ```json
 {
-	"id": "16230f79-7471-4f98-8c78-ac6e23eb014f",
-	"text": "update coment",
-	"createdAt": "2023-01-17T19:05:02.037Z",
-	"updatedAt": "2023-01-17T19:23:06.528Z",
-	"user": {
-		"id": "b571bcb4-a946-44f1-85dc-6fd3d08c56fa",
-		"username": "joao"
-	},
-	"post": {
-		"img": "https://img.freepik.com/fotos-gratis/praia-tropical_74190-188.jpg?w=900&t=st=1673629540~exp=1673630140~hmac=819788b872002748d8b66b63ff8250376c321454fb496254632bf8d0b7ac3855",
-		"description": "Olá,Mundo!",
-		"id": "e380c482-cf52-4d8e-8c86-b8d626bc4e57"
-	}
+  "id": "16230f79-7471-4f98-8c78-ac6e23eb014f",
+  "text": "update coment",
+  "createdAt": "2023-01-17T19:05:02.037Z",
+  "updatedAt": "2023-01-17T19:23:06.528Z",
+  "user": {
+    "id": "b571bcb4-a946-44f1-85dc-6fd3d08c56fa",
+    "username": "joao"
+  },
+  "post": {
+    "img": "https://img.freepik.com/fotos-gratis/praia-tropical_74190-188.jpg?w=900&t=st=1673629540~exp=1673630140~hmac=819788b872002748d8b66b63ff8250376c321454fb496254632bf8d0b7ac3855",
+    "description": "Olá,Mundo!",
+    "id": "e380c482-cf52-4d8e-8c86-b8d626bc4e57"
+  }
 }
 ```
+
 <strong>Deletar comentarios nas postagens</strong>
- é nessecario passar o id do comentario na url da requisição
+é nessecario passar o id do comentario na url da requisição
 
 `DELETE /commnets/:coment_id FORMATO DA RESPOSTA STATUS 200`
 
@@ -648,10 +653,9 @@ caso seja passado um id de um comentario invalido teremos a seguinte resposta:
 
 ```json
 {
-	"message": "comment not found"
+  "message": "comment not found"
 }
 ```
----
 
 <h2>Curtir e deixar de curtir comentarios em posts</h2>
 È nescessario passar o id do comentario na url
@@ -686,11 +690,8 @@ caso seja passado um id de um comentario invalido teremos a seguinte resposta:
 }
 ```
 
-
 <blockquote >Para deixar de curtir um comentario devemosinformar o id do like na url da requição
 </blockquote>
-
-` `
 
 `DELETE /like/comment/:like_id - FORMATO DA RESPOSTA STATUS 404`
 
@@ -732,12 +733,7 @@ caso seja passado um like_id invalido o usuario tera o seguinte retorno:
 
 `DELETE /user/:user_id - FORMATO  DA REQUISICÃO`
 
-` `
-
 <blockquote>È nescessario passar o id do usuario na url</blockquote>
-
-` `
-
 `DELETE /user/:user_id - FORMATO DA RESPOSTA - STATUS 200`
 
 <h2 align='center'>Possiveis erros</h2>
