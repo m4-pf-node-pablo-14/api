@@ -6,8 +6,7 @@ Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma API des
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-Consulte **[Documentaçâo](4h38
-https://m4-pf-node-pablo-14.github.io/Doc-Api-TreeNetwork/)** para saber como ultilizar a API
+Consulte **[Documentaçâo](https://m4-pf-node-pablo-14.github.io/Doc-Api-TreeNetwork/)** para saber como ultilizar a API
 
 ### 📋 Pré-requisitos
 
@@ -35,7 +34,6 @@ Mencione as ferramentas que você usou para criar seu projeto
 * [TypeScript]() - linguagem de programção 
 * [Express]() - Framework web
 * [Postegresql]() - Banco de dados
-* [Postegresql]() - Banco de dados
 * [Render]() - Plataforma de deploy 
 
 
@@ -47,12 +45,12 @@ Mencione as ferramentas que você usou para criar seu projeto
 
 
 * **Rafael Gomes** - *Desenvolvedor* - [Likedin](https://github.com/linkParaPerfil)
-* **Vinicius Quirino** - *Desenvolvedor* - [Linkedin](https://www.linkedin.com/in/viniciusquirino/)
+* **Vinicius Quirino** - *Scrum master* - [Linkedin](https://www.linkedin.com/in/viniciusquirino/)
 * **Pedro Nogueira** - *Desenvolvedor* - [Git Hub](https://github.com/PedroHPNogueira)
 * **Lucas Bueno** - *Desenvolvedor* - [Linkedin](https://www.linkedin.com/in/lugabusi/)
-* **Lucas Soares** - *Desenvolvedor* - [Linkedin](linkedin.com/in/lucassoaresolv)
-* **Bruno Campos** - *Desenvolvedor* - [link](https://github.com/linkParaPerfil)
-* **Gabriel Augusto ** - *Desenvolvedor* - [link](https://github.com/linkParaPerfil)
+* **Lucas Soares** - *Tech Leader* - [Linkedin](linkedin.com/in/lucassoaresolv)
+* **Bruno Campos** - *product owner* - [link](https://github.com/linkParaPerfil)
+* **Gabriel Augusto** - *Desenvolvedor* - [link](https://github.com/linkParaPerfil)
 
 
 ---
