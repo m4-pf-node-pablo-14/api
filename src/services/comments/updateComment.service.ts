@@ -27,7 +27,7 @@ const updateCommentService = async (
   }
 
   if (commentToUpdate.user.id !== requesterUserId) {
-    throw new AppError('user does not have permission', 401);
+    throw new AppError('user does not have permission', 403);
   }
 
   const updatedComment = await commentsRepository.save({

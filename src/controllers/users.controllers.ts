@@ -8,10 +8,16 @@ import listUserPostsService from '../services/users/listUserPosts.service';
 import listUsersFollowerService from '../services/users/listUsersFollower.service';
 import listUsersFollowingService from '../services/users/listUsersFollowing.service';
 import updateUserService from '../services/users/updateUser.service';
+import retrieveUserService from '../services/users/retrieveUser.service';
 
 const createUserController = async (req: Request, res: Response) => {
   const user = await createUserService(req.body);
   return res.status(201).json(user);
+};
+
+const retrieveUserController = async (req: Request, res: Response) => {
+  const user = await retrieveUserService(req.params.id);
+  return res.json(user);
 };
 
 const listUsersController = async (req: Request, res: Response) => {
@@ -25,17 +31,17 @@ const listUserCommentsController = async (req: Request, res: Response) => {
 };
 
 const listUsersFollowerController = async (req: Request, res: Response) => {
-  const followers = await listUsersFollowerService(req.user.id, req.query);
+  const followers = await listUsersFollowerService(req.params.id, req.query);
   return res.json(followers);
 };
 
 const listUsersFollowingController = async (req: Request, res: Response) => {
-  const following = await listUsersFollowingService(req.user.id, req.query);
+  const following = await listUsersFollowingService(req.params.id, req.query);
   return res.json(following);
 };
 
 const listUserPostsController = async (req: Request, res: Response) => {
-  const posts = await listUserPostsService(req.user.id, req.query);
+  const posts = await listUserPostsService(req.params.id, req.query);
   return res.json(posts);
 };
 
@@ -57,6 +63,7 @@ const deleteUserController = async (req: Request, res: Response) => {
 
 export {
   createUserController,
+  retrieveUserController,
   listUsersController,
   listUserCommentsController,
   listUsersFollowerController,

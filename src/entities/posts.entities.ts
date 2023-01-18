@@ -11,6 +11,7 @@ import {
 import User from './user.entities';
 import Likes from './likes.entities';
 import Comment from './comments.entities';
+import InterestsPost from './interestsPost.entities';
 
 @Entity('posts')
 class Post {
@@ -43,6 +44,10 @@ class Post {
   @OneToMany(() => Comment, (comment) => comment.post)
   @JoinTable()
     comments: Comment[];
+
+  @OneToMany(() => InterestsPost, (interestPost) => interestPost.post)
+  @JoinTable()
+    interestsPost: InterestsPost[];
 }
 
 export default Post;

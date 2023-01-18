@@ -1,6 +1,7 @@
 import AppDataSource from '../../data-source';
 import Likes from '../../entities/likes.entities';
 import AppError from '../../errors/AppError';
+import setUserInterestsService from '../users/setUserInterests.service';
 
 const deslikePostService = async (
   userId: string,
@@ -22,6 +23,8 @@ const deslikePostService = async (
   }
 
   await likeRepository.remove(likePost);
+
+  await setUserInterestsService(userId);
 };
 
 export default deslikePostService;

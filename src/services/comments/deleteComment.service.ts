@@ -25,7 +25,7 @@ const deleteCommentService = async (
 
   if (commentToDelete.user.id !== reqUser.id) {
     if (!(commentToDelete.post.user.id === reqUser.id)) {
-      throw new AppError('user does not have permission', 401);
+      throw new AppError('user does not have permission', 403);
     }
   }
 

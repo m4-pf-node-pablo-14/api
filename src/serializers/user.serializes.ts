@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { SchemaOf } from 'yup';
+import { SchemaOf, string } from 'yup';
 import {
   IUserLogin,
   IUserRequest,
@@ -29,21 +29,25 @@ const userLoginSerializer: SchemaOf<IUserLogin> = yup.object().shape({
   password: yup.string().required(),
 });
 
-const userUpdateSerializer: SchemaOf<IUserUpdate> = yup.object().shape({
-  bio: yup.string(),
-  email: yup.string().email(),
-  last_name: yup.string(),
-  name: yup.string(),
-  password: yup.string(),
-  username: yup.string(),
-  address: yup.object().shape({
-    district: yup.string().notRequired(),
-    zipCode: yup.string().max(8).notRequired(),
-    number: yup.string().notRequired(),
-    city: yup.string().notRequired(),
-    state: yup.string().max(2).notRequired(),
-  }),
-});
+const userUpdateSerializer: SchemaOf<IUserUpdate> = yup
+  .object()
+  .shape({
+    bio: yup.string(),
+    email: yup.string().email(),
+    last_name: yup.string(),
+    name: yup.string(),
+    password: yup.string(),
+    username: yup.string(),
+    address: yup.object().shape({
+      district: yup.string().notRequired(),
+      zipCode: yup.string().max(8).notRequired(),
+      number: yup.string().notRequired(),
+      city: yup.string().notRequired(),
+      state: yup.string().max(2).notRequired(),
+    }),
+  })
+  .noUnknown(true)
+  .nullable();
 
 const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
   address: yup.object().shape({
@@ -54,6 +58,8 @@ const userResponserSerializer: SchemaOf<IUserResponse> = yup.object().shape({
     state: yup.string().max(2),
     zipCode: yup.string().max(8),
   }),
+  recentInterest: yup.string().nullable(),
+  mainInterest: yup.string().nullable(),
   bio: yup.string().nullable(),
   last_name: yup.string(),
   name: yup.string(),

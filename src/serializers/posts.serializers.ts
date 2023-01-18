@@ -1,4 +1,4 @@
-import { IPost } from './../interfaces/posts.interfaces';
+import { IPost, IResponseCreateLike } from './../interfaces/posts.interfaces';
 import { IPostRequest } from '../interfaces/posts.interfaces';
 import * as yup from 'yup';
 import { SchemaOf } from 'yup';
@@ -20,4 +20,24 @@ const postSerializar: SchemaOf<IPost> = yup.object().shape({
   id: yup.string().required(),
 });
 
-export { postRequestSerializer, postSerializar };
+const responseCreateLikePostSerializer: SchemaOf<IResponseCreateLike> = yup
+  .object()
+  .shape({
+    user: yup.object().shape({
+      username: yup.string(),
+      id: yup.string().uuid(),
+    }),
+    post: yup.object().shape({
+      description: yup.string().nullable(),
+      img: yup.string().nullable(),
+      id: yup.string().required(),
+    }),
+    id: yup.string().required(),
+    createdAt: yup.date().required(),
+  });
+
+export {
+  postRequestSerializer,
+  postSerializar,
+  responseCreateLikePostSerializer,
+};

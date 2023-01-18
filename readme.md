@@ -14,7 +14,7 @@ Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma Rede So
 
 A API tem um total de 06 endpoints, sendo em volta principalmente do usuário (dev) - podendo cadastrar seu perfil, seguir outros usuários, criar postagens, fazer comentários em postagens e curtir os comentários e postagens realizadas. <br/>
 
-<a style="display:flex; justify-content:center" href="https://insomnia.rest/run/?label=Kenzie%20Hub&uri=https%3A%2F%2Fgithub.com%2FKenzie-Academy-Brasil-Developers%2Fkenziehub-api%2Fblob%2Fmaster%2FInsomnia_kenzie_hub.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
+<a href="https://insomnia.rest/run/?label=m4-pf-node-pablo-14%20-%20Rede%20Social&uri=https%3A%2F%2F1drv.ms%2Fu%2Fs!Ai3UBiWWhoUyq9o_mVRGZkZm19STyA" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
 
 <blockquote> Para importar o JSON no Insomnia é só clicar no botão "Run in Insomnia". Depois é só seguir os passos que ele irá importar todos os endpoints em seu insomnia.
 </blockquote>
@@ -24,80 +24,132 @@ A url base da API é https://m4-pf-node-pablo-14.onrender.com
 
 ## Rotas que não precisam de autenticação
 
-<h2 align ='center'> Listando usuários </h2>
+<h2 align ='center'> Criação de usuário </h2>
 
-Nessa aplicação o usuário sem fazer login ou se cadastrar pode ver os devs já cadastrados na plataforma, na API podemos acessar a lista dessa forma:
-Aqui conseguimos ver os usuários, suas tecnologias e seus trabalhos cadastrados.
+Nessa aplicação o usuário sem fazer login pode fazer o seu cadastro para acessar a plataforma, na API podemos fazer o cadastro dessa forma:
 
-`GET /users - FORMATO DA RESPOSTA - STATUS 200`
+`POST /users - FORMATO DA REQUISIÇÃO`
 
 ```json
-[
-  {
-    "id": "8b8e50a6-50c2-4718-b817-2d38cad0c8f4",
-    "name": "Gabriel Araujo",
-    "email": "gabriel@gmail.com",
-    "course_module": "2o Módulo (Frontend avançado)",
-    "bio": "Lorem ipsum dolor emet",
-    "contact": "linkedin/araujooj",
-    "techs": [
-      {
-        "id": "55126701-18ac-40df-aab9-3a88657db446",
-        "title": "React",
-        "status": "Avançado",
-        "created_at": "2020-11-30T16:26:53.953Z",
-        "updated_at": "2020-11-30T16:26:53.953Z"
-      },
-      {
-        "id": "af06a853-c1fb-4a94-960d-1c6caa8d2b5c",
-        "title": "Typescript",
-        "status": "Avançado",
-        "created_at": "2020-11-30T18:40:08.316Z",
-        "updated_at": "2020-11-30T18:40:08.316Z"
-      }
-    ],
-    "works": [
-      {
-        "id": "0cd019b5-10c5-4eb4-9781-5dff577cfd9e",
-        "title": "KenzieHub",
-        "description": "I was the backend developer of this project, and i did it using Typescript and NodeJS",
-        "deploy_url": "https://kenziehub.me",
-        "created_at": "2020-12-03T01:13:44.720Z",
-        "updated_at": "2020-12-03T01:13:44.720Z"
-      }
-    ],
-    "created_at": "2020-11-27T00:01:13.789Z",
-    "updated_at": "2020-12-05T13:59:22.632Z",
-    "avatar_url": "https://kenziehub.s3.amazonaws.com/4ff1e3c6c082ff67af7c-IMG_20200610_110518_522.jpg"
-  },
-  {
-    "id": "863a5291-d6c8-4869-8461-db0dcf4f176b",
-    "name": "Filipe Gutierry",
-    "email": "filipe@gmail.com",
-    "course_module": "2o Módulo (Frontend avançado)",
-    "bio": "Lorem ipsum dolor emet",
-    "contact": "123456789",
-    "techs": [],
-    "works": [],
-    "created_at": "2020-11-27T11:35:18.768Z",
-    "updated_at": "2020-11-27T11:36:04.490Z",
-    "avatar_url": "https://kenziehub.s3.amazonaws.com/2a3a2542031902a9aa00-kenzie_academy_logo.jpg"
-  },
-  {
-    "id": "7c8c65dd-d83b-465d-a074-acfb6535076c",
-    "name": "Filipe Gutierry",
-    "email": "fili2pe@gmail.com",
-    "course_module": "2o Módulo (Frontend avançado)",
-    "bio": "Lorem ipsum dolor emet",
-    "contact": "123456789",
-    "techs": [],
-    "works": [],
-    "created_at": "2020-11-27T11:41:58.779Z",
-    "updated_at": "2020-11-27T11:41:58.779Z",
-    "avatar_url": null
+{
+  "name": "Bruno",
+  "last_name": "Campos",
+  "email": "bruno@mail.com",
+  "password": "1234",
+  "username": "bruno",
+  "address": {
+    "city": "Bruno City",
+    "district": "Street Bruno",
+    "number": "00",
+    "state": "BR",
+    "zipCode": "12345678"
   }
-]
+}
 ```
+
+Caso dê tudo certo, a resposta será assim:
+
+`POST /users - FORMATO DA RESPOSTA - STATUS 201`
+
+```json
+{
+  "id": "d77ea5e2-0199-4930-897d-b08ffd9739eb",
+  "email": "bruno@mail.com",
+  "username": "bruno",
+  "name": "Bruno",
+  "last_name": "Campos",
+  "bio": null,
+  "address": {
+    "id": "a5694187-5bd0-4777-9b59-dd9eae198cae",
+    "district": "Street Bruno",
+    "zipCode": "12345678",
+    "number": "00",
+    "city": "Bruno City",
+    "state": "BR"
+  }
+}
+```
+
+<h2 align ='center'> Possíveis erros </h2>
+
+Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
+No exemplo a requisição foi feita faltando o campo "last_name".
+
+`POST /users - `
+` FORMATO DA RESPOSTA - STATUS 400`
+
+```json
+{
+  "error": ["last_name is a required field"]
+}
+```
+
+Email ou Username já cadastrado:
+
+`POST /users - `
+` FORMATO DA RESPOSTA - STATUS 400`
+
+```json
+{
+  "message": "user already exists"
+}
+```
+
+<h2 align = "center"> Login </h2>
+
+Nessa aplicação o usuário sem fazer login pode fazer o seu login para acessar a plataforma, na API podemos fazer o login dessa forma:
+
+`POST /login - FORMATO DA REQUISIÇÃO`
+
+```json
+{
+  "email": "bruno@mail.com",
+  "password": "1234"
+}
+```
+
+Caso dê tudo certo, a resposta será assim:
+
+`POST /login - FORMATO DA RESPOSTA - STATUS 201`
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzM5MDQ1NzgsImV4cCI6MTY3Mzk5MDk3OCwic3ViIjoiNGFhMjY2NmQtZTcxMi00MTFlLTliNWEtNWVmNmFhOTYzNTNhIn0.E9bZ-U7emEPdrnnXPXeHZD-U3-v0MDqE56eV0U9cbgw"
+}
+```
+
+<h2 align ='center'> Possíveis erros </h2>
+
+Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
+No exemplo a requisição foi feita faltando o campo "password".
+
+`POST /login - `
+` FORMATO DA RESPOSTA - STATUS 400`
+
+```json
+{
+  "error": ["password is a required field"]
+}
+```
+
+Email ou Password incorretos:
+
+`POST /login - `
+` FORMATO DA RESPOSTA - STATUS 404`
+
+```json
+{
+	"message": "wrong email or password"
+}
+```
+
+## Rotas que necessitam de autorização
+
+Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
+
+> Authorization: Bearer {token}
+
+Após o usuário estar logado, ele deve conseguir informar as tecnologias que ele aprendeu até agora.
 
 Podemos utilizar os query params para mudar a lista, mudando a paginação, podemos alterar quantos usuários queremos no perPage, e alterar a página no parâmetro page. Uma requisição apenas no /users irá trazer 15 usuários na página 1.
 Com o parâmetro tech, podemos filtrar por tecnologia.

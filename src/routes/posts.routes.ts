@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createPostsController,
   deletePostController,
+  listPostsByInterestController,
   listPostsController,
   retrievePostController,
   updatePostsController,
@@ -9,7 +10,7 @@ import {
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
 import ensurePostDataExistsMiddleware from '../middlewares/ensurePostDataExists.middleware';
-import ensureUserIsExistMiddleware from '../middlewares/ensureUserIsExist.middleware';
+import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
 import { postRequestSerializer } from '../serializers/posts.serializers';
 
 const postRouter = Router();
@@ -17,7 +18,7 @@ const postRouter = Router();
 postRouter.post(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   createPostsController,
@@ -26,6 +27,7 @@ postRouter.post(
 postRouter.patch(
   '/:id',
   ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
   ensurePostDataExistsMiddleware,
   updatePostsController,
@@ -34,12 +36,29 @@ postRouter.patch(
 postRouter.get(
   '',
   ensureAuthMiddleware,
-  ensureUserIsExistMiddleware,
+  ensureUserTokenIsExistMiddleware,
   listPostsController,
 );
 
-postRouter.delete('/:id', ensureAuthMiddleware, deletePostController);
+postRouter.delete(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
+  deletePostController,
+);
 
-postRouter.get('/:id', ensureAuthMiddleware, retrievePostController);
+postRouter.get(
+  '/:id',
+  ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
+  retrievePostController,
+);
+
+postRouter.get(
+  '/interest/:interestName',
+  ensureAuthMiddleware,
+  ensureUserTokenIsExistMiddleware,
+  listPostsByInterestController,
+);
 
 export default postRouter;

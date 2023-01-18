@@ -21,3 +21,17 @@ export interface INewPost extends Post {
   likesCount: number;
   commentsCount: number;
 }
+
+export interface IResponseCreateLike {
+  user: {
+    id: string;
+    username: string;
+  };
+  post: {
+    description?: string;
+    img?: string;
+    id: string;
+  };
+  id: string;
+  createdAt: Date;
+}
