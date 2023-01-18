@@ -49,7 +49,7 @@ Mencione as ferramentas que você usou para criar seu projeto
 * **Pedro Nogueira** - *Desenvolvedor* - [Git Hub](https://github.com/PedroHPNogueira)
 * **Lucas Bueno** - *Desenvolvedor* - [Linkedin](https://www.linkedin.com/in/lugabusi/)
 * **Lucas Soares** - *Tech Leader* - [Linkedin](linkedin.com/in/lucassoaresolv)
-* **Bruno Campos** - *product owner* - [link](https://github.com/linkParaPerfil)
+* **Bruno Campos** - *product owner* - [linkendin](https://www.linkedin.com/mwlite/in/bruno-campos-04ab65194)
 * **Gabriel Augusto** - *Desenvolvedor* - [link](https://github.com/linkParaPerfil)
 
 
