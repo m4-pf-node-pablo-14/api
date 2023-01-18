@@ -20,7 +20,7 @@ const deleteInterestController = async (req: Request, res: Response) => {
 const listInterestsController = async (req: Request, res: Response) => {
   const queryParams: IQueryParams = req.query;
   const interests = await listInterestsService(queryParams);
-  return res.status(200).json(interests);
+  return res.json(interests);
 };
 
 export {
