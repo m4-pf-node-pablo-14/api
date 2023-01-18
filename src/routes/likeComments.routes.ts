@@ -8,7 +8,7 @@ import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsEx
 import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import { idSerializer } from '../serializers/params.serializers';
 
-const likeCommentRouter = Router();
+const likeCommentRouter: Router = Router();
 
 likeCommentRouter.post(
   '/:id',

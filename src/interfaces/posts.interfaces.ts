@@ -1,4 +1,4 @@
-import Post from "../entities/posts.entities";
+import Post from '../entities/posts.entities';
 
 export interface IPostRequest {
   img?: string;

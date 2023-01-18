@@ -7,7 +7,8 @@ const ensureUpdateDataIsValidMiddleware =
   (schema: AnySchema) =>
     async (req: Request, res: Response, next: NextFunction) => {
       const userData: IUserUpdate = req.body;
-      const keys = Object.keys(userData);
+
+      const keys: string[] = Object.keys(userData);
 
       if (!keys[0]) {
         throw new AppError('body must be passed');
@@ -18,11 +19,12 @@ const ensureUpdateDataIsValidMiddleware =
           abortEarly: false,
           stripUnknown: false,
         });
+
         req.body = userValidated;
 
         return next();
       } catch (err) {
-        return res.status(400).json({ error: err.errors });
+        return res.status(400).json({ message: err.errors });
       }
     };
 

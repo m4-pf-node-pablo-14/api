@@ -12,7 +12,7 @@ import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsEx
 import { commentRequestSerializer } from '../serializers/comments.serializers';
 import { idSerializer } from '../serializers/params.serializers';
 
-const commentRouter = Router();
+const commentRouter: Router = Router();
 
 commentRouter.post(
   '/:id',

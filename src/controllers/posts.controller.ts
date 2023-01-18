@@ -1,10 +1,10 @@
-import { listPostsByInterestService } from './../services/posts/listPostsByInterest.service';
 import { Request, Response } from 'express';
 import createPostsService from '../services/posts/createPosts.service';
 import updatePostsService from '../services/posts/updatePosts.service';
 import listPostsService from '../services/posts/listPosts.service';
 import deletePostService from '../services/posts/deletePosts.service';
 import retrievePostService from '../services/posts/retrievePost.service';
+import listPostsByInterestService from '../services/posts/listPostsByInterest.service';
 
 const createPostsController = async (req: Request, res: Response) => {
   const post = await createPostsService(req.body, req.user.id);
@@ -36,7 +36,7 @@ const listPostsByInterestController = async (req: Request, res: Response) => {
     req.params.interestName,
     req.query,
   );
-  return res.status(200).json(posts);
+  return res.json(posts);
 };
 
 export {
