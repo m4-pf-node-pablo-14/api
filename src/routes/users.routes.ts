@@ -13,15 +13,17 @@ import {
 } from '../controllers/users.controllers';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import ensureUpdateDataIsValidMiddleware from '../middlewares/ensureUpdateDataIsValid.middleware';
 import ensureUserIsPermitMiddleware from '../middlewares/ensureUserIsPermit.middleware';
 import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
+import { idSerializer } from '../serializers/params.serializers';
 import {
   userSerializer,
   userUpdateSerializer,
 } from '../serializers/user.serializes';
 
-const userRouter = Router();
+const userRouter: Router = Router();
 
 userRouter.post(
   '',
@@ -38,6 +40,7 @@ userRouter.get(
 
 userRouter.get(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   retrieveUserController,
@@ -45,6 +48,7 @@ userRouter.get(
 
 userRouter.get(
   '/followers/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   listUsersFollowerController,
@@ -52,6 +56,7 @@ userRouter.get(
 
 userRouter.get(
   '/following/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   listUsersFollowingController,
@@ -59,6 +64,7 @@ userRouter.get(
 
 userRouter.get(
   '/posts/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   listUserPostsController,
@@ -88,6 +94,7 @@ userRouter.patch(
 
 userRouter.delete(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   ensureUserIsPermitMiddleware,

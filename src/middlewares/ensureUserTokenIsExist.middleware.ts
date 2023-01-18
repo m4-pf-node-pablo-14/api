@@ -11,9 +11,11 @@ const ensureUserTokenIsExistMiddleware = async (
   const user = await AppDataSource.getRepository(User).findOneBy({
     id: req.user.id,
   });
+
   if (!user) {
     throw new AppError('user does not have permission', 403);
   }
+
   return next();
 };
 

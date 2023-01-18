@@ -7,7 +7,7 @@ import {
 } from '../../scripts/posts.scripts';
 import Post from '../../entities/posts.entities';
 
-export const listPostsByInterestService = async (
+const listPostsByInterestService = async (
   interestName: string,
   queryParams: IQueryParams,
 ) => {
@@ -80,3 +80,5 @@ export const listPostsByInterestService = async (
 
   return returnedObject;
 };
+
+export default listPostsByInterestService;

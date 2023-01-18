@@ -3,14 +3,13 @@ import {
   deleteFollowController,
   followController,
 } from '../controllers/follow.controller';
-
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureFollowIsPermitMiddleware from '../middlewares/ensureFollowIsPermit.middleware';
 import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
 import { idSerializer } from '../serializers/params.serializers';
 
-const followRouter = Router();
+const followRouter: Router = Router();
 
 followRouter.post(
   '/:id',

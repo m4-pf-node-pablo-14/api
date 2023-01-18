@@ -9,11 +9,13 @@ import {
 } from '../controllers/posts.controller';
 import ensureAuthMiddleware from '../middlewares/ensureAuth.middleware';
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware';
+import ensureParamsIdIsValidMiddleware from '../middlewares/ensureParamsIdIsValid.middleware';
 import ensurePostDataExistsMiddleware from '../middlewares/ensurePostDataExists.middleware';
 import ensureUserTokenIsExistMiddleware from '../middlewares/ensureUserTokenIsExist.middleware';
+import { idSerializer } from '../serializers/params.serializers';
 import { postRequestSerializer } from '../serializers/posts.serializers';
 
-const postRouter = Router();
+const postRouter: Router = Router();
 
 postRouter.post(
   '',
@@ -26,6 +28,7 @@ postRouter.post(
 
 postRouter.patch(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   ensureDataIsValidMiddleware(postRequestSerializer),
@@ -42,6 +45,7 @@ postRouter.get(
 
 postRouter.delete(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   deletePostController,
@@ -49,6 +53,7 @@ postRouter.delete(
 
 postRouter.get(
   '/:id',
+  ensureParamsIdIsValidMiddleware(idSerializer),
   ensureAuthMiddleware,
   ensureUserTokenIsExistMiddleware,
   retrievePostController,
