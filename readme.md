@@ -44,14 +44,14 @@ Mencione as ferramentas que você usou para criar seu projeto
 ## ✒️ Autores
 
 
-* **Rafael Gomes** - *Desenvolvedor* - [Likedin](https://github.com/linkParaPerfil)
+* **Rafael Gomes** - *Desenvolvedor* - [Likedin](https://www.linkedin.com/in/rafael-gomes-dos-santos-8b411a144)
 * **Vinicius Quirino** - *Scrum master* - [Linkedin](https://www.linkedin.com/in/viniciusquirino/)
 * **Pedro Nogueira** - *Desenvolvedor* - [Git Hub](https://github.com/PedroHPNogueira)
 * **Lucas Bueno** - *Desenvolvedor* - [Linkedin](https://www.linkedin.com/in/lugabusi/)
 * **Lucas Soares** - *Tech Leader* - [Linkedin](linkedin.com/in/lucassoaresolv)
 * **Bruno Campos** - *product owner* - [Linkendin](https://www.linkedin.com/mwlite/in/bruno-campos-04ab65194)
-* **Gabriel Augusto** - *Desenvolvedor* - [link](https://github.com/linkParaPerfil)
+* **Gabriel Augusto** - *Desenvolvedor* - [link](https://www.linkedin.com/in/gabriel-augusto-5aab41236)
 
 
 ---
-⌨️ com ❤️ por [Rafael ]() 😊
+⌨️ com ❤️ por [Rafael ](https://www.linkedin.com/in/rafael-gomes-dos-santos-8b411a144) 😊
