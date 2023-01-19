@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { SchemaOf, string } from 'yup';
+import { SchemaOf } from 'yup';
 import {
   IUserLogin,
   IUserRequest,

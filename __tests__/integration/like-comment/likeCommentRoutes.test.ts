@@ -14,6 +14,8 @@ import AppDataSource from '../../../src/data-source';
 
 interface IParams {
   userId: string;
+  username: string;
+  textComment: string;
   postId: string;
   token: string;
   tokenDelete: string;
@@ -67,6 +69,8 @@ describe('/like/comment/:id', () => {
 
     params = {
       userId: createUser.body.id,
+      username: createUser.body.username,
+      textComment: createComment.body.text,
       postId: createPost.body.id,
       token: createToken.body.token,
       tokenDelete: createTokenDelete.body.token,
@@ -85,6 +89,19 @@ describe('/like/comment/:id', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('comment');
+    expect(response.body).toHaveProperty('user');
+    expect(response.body).toHaveProperty('createdAt');
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.comment).toHaveProperty('id');
+    expect(response.body.comment).toHaveProperty('text');
+    expect(response.body.user).toHaveProperty('id');
+    expect(response.body.user).toHaveProperty('username');
+    expect(response.body.user).not.toHaveProperty('password');
+    expect(response.body.comment.id).toEqual(params.commentId);
+    expect(response.body.comment.text).toEqual(params.textComment);
+    expect(response.body.user.id).toEqual(params.userId);
+    expect(response.body.user.username).toEqual(params.username);
   });
 
   test('It should not be possible to like the comment with the invalid parameter', async () => {
@@ -132,7 +149,7 @@ describe('/like/comment/:id', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(403);
   });
 
   test('It should be possible to delete like', async () => {
@@ -189,6 +206,6 @@ describe('/like/comment/:id', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 });

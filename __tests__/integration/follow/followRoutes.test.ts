@@ -119,7 +119,7 @@ describe('/follow', () => {
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not be able to follow yourself', async () => {
@@ -179,7 +179,7 @@ describe('/follow', () => {
       .set('Authorization', `Bearer ${params.tokenAdm}`);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(403);
   });
 
   test('It should not not be able to unfollow yourself', async () => {

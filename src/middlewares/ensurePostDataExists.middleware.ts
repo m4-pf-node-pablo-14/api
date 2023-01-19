@@ -11,7 +11,7 @@ const ensurePostDataExistsMiddleware = (
   const keys: string[] = Object.keys(postData);
 
   if (!keys[0]) {
-    throw new AppError('img or description fild needs to have content', 400);
+    throw new AppError('img or description fild needs to have content');
   }
 
   return next();

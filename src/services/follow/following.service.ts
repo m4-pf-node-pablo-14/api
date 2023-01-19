@@ -1,32 +1,36 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Follow from '../../entities/follow.entities';
 import User from '../../entities/user.entities';
 import AppError from '../../errors/AppError';
-import { followRequest } from '../../interfaces/follow.interfaces';
 
-const followService = async (data: followRequest): Promise<void> => {
-  const followRepository = AppDataSource.getRepository(Follow);
+const followService = async (
+  followingId: string,
+  followersId: string,
+): Promise<void> => {
+  const followRepository: Repository<Follow> =
+    AppDataSource.getRepository(Follow);
 
-  const find = await followRepository.findOne({
+  const find: Follow = await followRepository.findOne({
     where: {
-      following: { id: data.following },
-      followers: { id: data.followers },
+      following: { id: followingId },
+      followers: { id: followersId },
     },
   });
 
   if (find) {
-    throw new AppError('You already follow this user', 404);
+    throw new AppError('You already follow this user', 403);
   }
 
-  const userRepository = AppDataSource.getRepository(User);
-  const userFollowing = await userRepository.findOneBy({ id: data.following });
-  const userFollowers = await userRepository.findOneBy({ id: data.followers });
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
+  const userFollowing: User = await userRepository.findOneBy({
+    id: followingId,
+  });
+  const userFollowers: User = await userRepository.findOneBy({
+    id: followersId,
+  });
 
-  if (!userFollowing || !userFollowers) {
-    throw new AppError('User not found', 404);
-  }
-
-  const newFollow = followRepository.create({
+  const newFollow: Follow = followRepository.create({
     following: userFollowing,
     followers: userFollowers,
   });

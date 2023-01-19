@@ -7,6 +7,7 @@ import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Post from '../../entities/posts.entities';
 import { INewPost } from '../../interfaces/posts.interfaces';
+import { Repository } from 'typeorm';
 
 interface IReturned {
   page: number;
@@ -18,7 +19,7 @@ interface IReturned {
 const listPostsService = async (
   queryParams: IQueryParams,
 ): Promise<IReturned> => {
-  const postsRepository = AppDataSource.getRepository(Post);
+  const postsRepository: Repository<Post> = AppDataSource.getRepository(Post);
 
   const postsCountObject = await postsRepository
     .createQueryBuilder('posts')
@@ -29,7 +30,7 @@ const listPostsService = async (
 
   const pageParams = getPageParams(queryParams, postsCount);
 
-  const posts = await postsRepository
+  const posts: Post[] = await postsRepository
     .createQueryBuilder('posts')
     .innerJoinAndSelect('posts.user', 'user')
     .leftJoinAndSelect('posts.comments', 'comments')
@@ -67,16 +68,14 @@ const listPostsService = async (
 
   const rawsOfCounts = mergePostCountArrays(likesCount, commentsCount);
 
-  const newPosts = mergePostsAndRows(posts, rawsOfCounts);
+  const newPosts: INewPost[] = mergePostsAndRows(posts, rawsOfCounts);
 
-  const returnedObject = {
+  return {
     page: pageParams.page,
     postsCount: postsCount,
     numberOfPages: pageParams.numberOfPages,
     posts: newPosts,
   };
-
-  return returnedObject;
 };
 
 export default listPostsService;

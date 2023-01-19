@@ -172,7 +172,7 @@ describe('Tests routes /comments', () => {
       .post(`/comments/${params.postId}`)
       .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.body).toHaveProperty('error');
+    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(400);
   });
 
@@ -230,7 +230,7 @@ describe('Tests routes /comments', () => {
       .delete(`/users/${params.userId}`)
       .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
-      .delete(`/comments/${params.postId}`)
+      .delete(`/comments/${params.commentId}`)
       .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.body).toHaveProperty('message');
@@ -306,7 +306,7 @@ describe('Tests routes /comments', () => {
       .delete(`/users/${params.userId}`)
       .set('Authorization', `Bearer ${params.token}`);
     const response = await request(app)
-      .patch(`/comments/${params.postId}`)
+      .patch(`/comments/${params.commentId}`)
       .set('Authorization', `Bearer ${params.token}`)
       .send(mockedCommentUpdateRequest);
 
@@ -326,7 +326,7 @@ describe('Tests routes /comments', () => {
 
   test('It should not be possible to update a comment on the post without an text', async () => {
     const response = await request(app)
-      .patch(`/comments/${params.postId}`)
+      .patch(`/comments/${params.commentId}`)
       .set('Authorization', `Bearer ${params.token}`)
       .send();
 

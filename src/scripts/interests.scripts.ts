@@ -1,4 +1,5 @@
 import Interest from '../entities/interests.entities';
+import { IInterst } from '../interfaces/interests.interfaces';
 
 interface IRowsOfCounts {
   postsCount: string;
@@ -18,8 +19,8 @@ interface IRecentInterests {
 const mergeInterestsAndRows = (
   interests: Interest[],
   rowsOfCounts: IRowsOfCounts[],
-) => {
-  const newInterests = [];
+): IInterst[] => {
+  const newInterests: IInterst[] = [];
 
   interests.forEach((interest) => {
     rowsOfCounts.forEach((row) => {
@@ -37,10 +38,10 @@ const mergeInterestsAndRows = (
   return newInterests;
 };
 
-const getInterests = (text: string) => {
-  const interestsArray = [];
+const getInterests = (text: string): string[] => {
+  const interestsArray: string[] = [];
 
-  const splitedText = text.split('#');
+  const splitedText: string[] = text.split('#');
 
   splitedText.forEach((elem, index) => {
     if (index > 0) {
@@ -51,9 +52,14 @@ const getInterests = (text: string) => {
   return interestsArray;
 };
 
-const countInterests = (latestLikes) => {
-  let count = {};
-  let countRecent = {};
+const countInterests = (
+  latestLikes,
+): {
+  mainInterest: IMainInterests;
+  recentInterest: IRecentInterests;
+} => {
+  const count = {};
+  const countRecent = {};
 
   latestLikes.forEach((like, index) => {
     like.post.interestsPost.forEach((interestPost) => {

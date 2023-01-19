@@ -14,6 +14,7 @@ interface IParams {
   token: string;
   tokenDelete: string;
   interestId: string;
+  interestTwoId: string;
   interestDeleteId: string;
 }
 
@@ -44,6 +45,10 @@ describe('Tests routes /interests', () => {
       .post('/interests')
       .set('Authorization', `Bearer ${authorization.body.token}`)
       .send(mockedInterestRequest);
+    const interestTwo = await request(app)
+      .post('/interests')
+      .set('Authorization', `Bearer ${authorization.body.token}`)
+      .send({ name: 'Kenzie' });
     const interestDelete = await request(app)
       .post('/interests')
       .set('Authorization', `Bearer ${authorization.body.token}`)
@@ -59,6 +64,7 @@ describe('Tests routes /interests', () => {
       token: authorization.body.token,
       tokenDelete: authorizationDelete.body.token,
       interestId: interest.body.id,
+      interestTwoId: interestTwo.body.id,
       interestDeleteId: interestDelete.body.id,
     };
   });
@@ -105,7 +111,7 @@ describe('Tests routes /interests', () => {
       .send(mockedInterestRequest);
 
     expect(response.body).toHaveProperty('message');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(409);
   });
 
   test('It should not be possible to create a interest without an name', async () => {
@@ -136,7 +142,7 @@ describe('Tests routes /interests', () => {
 
   test('It should not be possible to delete a interest without authentication', async () => {
     const response = await request(app).delete(
-      `/interests/${params.interestId}`,
+      `/interests/${params.interestTwoId}`,
     );
 
     expect(response.body).toHaveProperty('message');
@@ -145,7 +151,7 @@ describe('Tests routes /interests', () => {
 
   test('It should not be possible to delete a interest by user that does not exist', async () => {
     const response = await request(app)
-      .delete(`/interests/${params.interestId}`)
+      .delete(`/interests/${params.interestTwoId}`)
       .set('Authorization', `Bearer ${params.tokenDelete}`);
 
     expect(response.body).toHaveProperty('message');

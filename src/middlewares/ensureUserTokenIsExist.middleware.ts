@@ -8,7 +8,7 @@ const ensureUserTokenIsExistMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const user = await AppDataSource.getRepository(User).findOneBy({
+  const user: User = await AppDataSource.getRepository(User).findOneBy({
     id: req.user.id,
   });
 

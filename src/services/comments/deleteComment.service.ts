@@ -1,3 +1,4 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Comment from '../../entities/comments.entities';
 import AppError from '../../errors/AppError';
@@ -7,16 +8,13 @@ const deleteCommentService = async (
   commentToDeleteId: string,
   reqUser: IReqUser,
 ): Promise<{}> => {
-  const commentsRepository = AppDataSource.getRepository(Comment);
+  const commentsRepository: Repository<Comment> =
+    AppDataSource.getRepository(Comment);
 
-  const commentToDelete = await commentsRepository.findOne({
+  const commentToDelete: Comment = await commentsRepository.findOne({
     where: { id: commentToDeleteId },
     relations: { user: true, post: { user: true } },
   });
-
-  if (!commentToDelete) {
-    throw new AppError('comment not found', 404);
-  }
 
   if (reqUser.isAdm) {
     await commentsRepository.remove(commentToDelete);

@@ -6,35 +6,29 @@ import Post from '../../entities/posts.entities';
 import Likes from '../../entities/likes.entities';
 import User from '../../entities/user.entities';
 import setUserInterestsService from '../users/setUserInterests.service';
+import { Repository } from 'typeorm';
 
 const createLikePostService = async (
   userId: string,
   postId: string,
 ): Promise<IResponseCreateLike> => {
-  const postRepository = AppDataSource.getRepository(Post);
-  const likeRepository = AppDataSource.getRepository(Likes);
+  const postRepository: Repository<Post> = AppDataSource.getRepository(Post);
 
-  const postFind = await postRepository.findOne({
+  const likeRepository: Repository<Likes> = AppDataSource.getRepository(Likes);
+
+  const postFind: Post = await postRepository.findOne({
     where: {
       id: postId,
     },
   });
 
-  if (!postFind) {
-    throw new AppError('Post not found', 404);
-  }
-
-  const userfind = await AppDataSource.getRepository(User).findOne({
+  const userfind: User = await AppDataSource.getRepository(User).findOne({
     where: {
       id: userId,
     },
   });
 
-  if (!userfind) {
-    throw new AppError('User not found', 404);
-  }
-
-  const postalreadyliked = await likeRepository
+  const postalreadyliked: Likes = await likeRepository
     .createQueryBuilder('likes')
     .innerJoinAndSelect('likes.post', 'post')
     .innerJoinAndSelect('likes.user', 'user')
@@ -43,24 +37,21 @@ const createLikePostService = async (
     .getOne();
 
   if (postalreadyliked) {
-    throw new AppError('Post already liked', 400);
+    throw new AppError('Post already liked', 403);
   }
 
-  const likePost = likeRepository.create({
+  const likePost: Likes = likeRepository.create({
     post: postFind,
     user: userfind,
   });
 
   await likeRepository.save(likePost);
 
-  const validatedResponseCreatedLike =
-    await responseCreateLikePostSerializer.validate(likePost, {
-      stripUnknown: true,
-    });
-
   await setUserInterestsService(userId);
 
-  return validatedResponseCreatedLike;
+  return await responseCreateLikePostSerializer.validate(likePost, {
+    stripUnknown: true,
+  });
 };
 
 export default createLikePostService;

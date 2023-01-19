@@ -5,12 +5,10 @@ export interface IPostRequest {
   description?: string;
 }
 
-export interface IPost {
+export interface IPost extends IPostRequest {
   id: string;
-  img?: string;
-  description?: string;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
   user: {
     id: string;
     username: string;

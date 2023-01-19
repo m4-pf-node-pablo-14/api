@@ -1,27 +1,27 @@
-import { INewUser } from './../../interfaces/users.interfaces';
+import { INewUser, IUserResponse } from './../../interfaces/users.interfaces';
 import AppDataSource from '../../data-source';
 import User from '../../entities/user.entities';
-import AppError from '../../errors/AppError';
 import {
   mergeUserCountArrays,
   mergeUsersAndRows,
 } from '../../scripts/users.scripts';
 import { userResponserSerializer } from '../../serializers/user.serializes';
+import { Repository } from 'typeorm';
 
 const retrieveUserService = async (userId: string): Promise<INewUser> => {
-  const userRepository = AppDataSource.getRepository(User);
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-  const find = await userRepository.findOne({
+  const find: User = await userRepository.findOne({
     where: { id: userId },
     relations: { address: true },
   });
 
-  if (!find) {
-    throw new AppError('User not found');
-  }
-  const validatedUser = await userResponserSerializer.validate(find, {
-    stripUnknown: true,
-  });
+  const validatedUser: IUserResponse = await userResponserSerializer.validate(
+    find,
+    {
+      stripUnknown: true,
+    },
+  );
 
   const postsCount = await userRepository
     .createQueryBuilder('users')
@@ -63,7 +63,7 @@ const retrieveUserService = async (userId: string): Promise<INewUser> => {
     followingCount,
   );
 
-  const newUser = mergeUsersAndRows([validatedUser], rowsOfCount);
+  const newUser: INewUser[] = mergeUsersAndRows([validatedUser], rowsOfCount);
 
   return newUser[0];
 };

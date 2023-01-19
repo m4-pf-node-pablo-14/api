@@ -44,7 +44,7 @@ const getPageParams = (
   }
 
   if (limit < 1) {
-    throw new AppError('page can not be bellow 1', 400);
+    throw new AppError('page can not be bellow 1');
   }
 
   if (numberOfPages === 0) {
@@ -57,7 +57,7 @@ const getPageParams = (
 
   const offset = Number(page) * limit - limit || 0;
 
-  const returnedObject = {
+  return {
     page: page,
     limit: limit,
     numberOfPages: numberOfPages,
@@ -65,8 +65,6 @@ const getPageParams = (
     isAll: isAll,
     offset: offset,
   };
-
-  return returnedObject;
 };
 
 export { getPageParams };

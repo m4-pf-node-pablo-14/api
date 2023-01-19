@@ -17,7 +17,7 @@ const postSerializar: SchemaOf<IPost> = yup.object().shape({
     username: yup.string().required(),
     id: yup.string().required(),
   }),
-  updateAt: yup.date().required(),
+  updatedAt: yup.date().required(),
   createdAt: yup.date().required(),
   description: yup.string().nullable(),
   img: yup.string().nullable(),

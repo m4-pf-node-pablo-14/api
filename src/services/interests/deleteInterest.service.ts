@@ -1,17 +1,14 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Interest from '../../entities/interests.entities';
-import AppError from '../../errors/AppError';
 
-const deleteInterestService = async (interestId: string) => {
-  const interestsRepository = AppDataSource.getRepository(Interest);
+const deleteInterestService = async (interestId: string): Promise<void> => {
+  const interestsRepository: Repository<Interest> =
+    AppDataSource.getRepository(Interest);
 
-  const interestToDelete = await interestsRepository.findOneBy({
+  const interestToDelete: Interest = await interestsRepository.findOneBy({
     id: interestId,
   });
-
-  if (!interestToDelete) {
-    throw new AppError('error not found', 404);
-  }
 
   await interestsRepository.remove(interestToDelete);
 };
