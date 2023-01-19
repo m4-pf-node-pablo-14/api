@@ -9,7 +9,7 @@ import { IUserLogin } from '../../interfaces/users.interfaces';
 const createLoginService = async (
   userData: IUserLogin,
 ): Promise<{ token: string }> => {
-  const user = await AppDataSource.getRepository(User).findOneBy({
+  const user: User = await AppDataSource.getRepository(User).findOneBy({
     email: userData.email,
   });
 
@@ -17,16 +17,20 @@ const createLoginService = async (
     throw new AppError('wrong email or password', 404);
   }
 
-  const passwordMatch = compareSync(userData.password, user.password);
+  const passwordMatch: boolean = compareSync(userData.password, user.password);
 
   if (!passwordMatch) {
     throw new AppError('wrong email or password', 404);
   }
 
-  const token = jwt.sign({ isAdm: user.isAdm }, process.env.SECRET_KEY, {
-    expiresIn: '24h',
-    subject: user.id,
-  });
+  const token: string = jwt.sign(
+    { isAdm: user.isAdm },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: '24h',
+      subject: user.id,
+    },
+  );
 
   return { token };
 };

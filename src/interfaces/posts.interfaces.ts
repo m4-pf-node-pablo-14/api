@@ -5,12 +5,10 @@ export interface IPostRequest {
   description?: string;
 }
 
-export interface IPost {
+export interface IPost extends IPostRequest {
   id: string;
-  img?: string;
-  description?: string;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
   user: {
     id: string;
     username: string;
@@ -30,6 +28,19 @@ export interface IResponseCreateLike {
   post: {
     description?: string;
     img?: string;
+    id: string;
+  };
+  id: string;
+  createdAt: Date;
+}
+
+export interface IResponseCreateLikeComment {
+  user: {
+    id: string;
+    username: string;
+  };
+  comment: {
+    text: string;
     id: string;
   };
   id: string;

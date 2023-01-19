@@ -1,14 +1,13 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Likes from '../../entities/likes.entities';
 import User from '../../entities/user.entities';
-import AppError from '../../errors/AppError';
 import { countInterests } from '../../scripts/interests.scripts';
 
-const setUserInterestsService = async (userId: string) => {
-  const likesToPostsRepository = AppDataSource.getRepository(Likes);
-  const userRepository = AppDataSource.getRepository(User);
+const setUserInterestsService = async (userId: string): Promise<void> => {
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-  const latestLikes = await likesToPostsRepository
+  const latestLikes: Likes[] = await AppDataSource.getRepository(Likes)
     .createQueryBuilder('likes')
     .innerJoin('likes.user', 'user')
     .innerJoinAndSelect('likes.post', 'post')
@@ -21,13 +20,9 @@ const setUserInterestsService = async (userId: string) => {
 
   const userInterests = countInterests(latestLikes);
 
-  const user = await userRepository.findOneBy({
+  const user: User = await userRepository.findOneBy({
     id: userId,
   });
-
-  if (!user) {
-    throw new AppError('user not found', 404);
-  }
 
   user.mainInterest = userInterests.mainInterest.mainInterestName;
   user.recentInterest = userInterests.recentInterest.recentInterestName;

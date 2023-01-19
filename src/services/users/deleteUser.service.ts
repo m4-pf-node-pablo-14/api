@@ -1,10 +1,11 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import User from '../../entities/user.entities';
 
 const deleteUserService = async (userId: string): Promise<void> => {
-  const userRepository = AppDataSource.getRepository(User);
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-  const deletedUser = await userRepository.findOneBy({
+  const deletedUser: User = await userRepository.findOneBy({
     id: userId,
   });
 

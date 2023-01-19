@@ -1,3 +1,4 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Likes from '../../entities/likes.entities';
 import AppError from '../../errors/AppError';
@@ -7,9 +8,9 @@ const deslikePostService = async (
   userId: string,
   likePostID: string,
 ): Promise<void> => {
-  const likeRepository = AppDataSource.getRepository(Likes);
+  const likeRepository: Repository<Likes> = AppDataSource.getRepository(Likes);
 
-  const likePost = await likeRepository.findOne({
+  const likePost: Likes = await likeRepository.findOne({
     where: {
       id: likePostID,
       user: {
@@ -19,7 +20,7 @@ const deslikePostService = async (
   });
 
   if (!likePost) {
-    throw new AppError('post not liked ', 404);
+    throw new AppError('it is not allowed to dislike the post', 403);
   }
 
   await likeRepository.remove(likePost);

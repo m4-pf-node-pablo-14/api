@@ -3,34 +3,27 @@ import AppDataSource from '../../data-source';
 import Comment from '../../entities/comments.entities';
 import User from '../../entities/user.entities';
 import Post from '../../entities/posts.entities';
-import AppError from '../../errors/AppError';
 import { ICommentRequest } from '../../interfaces/comments.interface';
 import { commentSerializer } from '../../serializers/comments.serializers';
+import { Repository } from 'typeorm';
 
 const createCommentService = async (
   postId: string,
   commentData: ICommentRequest,
   userId: string,
 ): Promise<IComment> => {
-  const user = await AppDataSource.getRepository(User).findOneBy({
+  const user: User = await AppDataSource.getRepository(User).findOneBy({
     id: userId,
   });
 
-  const findPost = await AppDataSource.getRepository(Post).findOneBy({
+  const findPost: Post = await AppDataSource.getRepository(Post).findOneBy({
     id: postId,
   });
 
-  if (!user) {
-    throw new AppError('User not found', 404);
-  }
+  const commentRepository: Repository<Comment> =
+    AppDataSource.getRepository(Comment);
 
-  if (!findPost) {
-    throw new AppError('Not found!', 404);
-  }
-
-  const commentRepository = AppDataSource.getRepository(Comment);
-
-  const comment = commentRepository.create({
+  const comment: Comment = commentRepository.create({
     ...commentData,
     user,
     post: findPost,
@@ -38,11 +31,9 @@ const createCommentService = async (
 
   await commentRepository.save(comment);
 
-  const validatedComment = await commentSerializer.validate(comment, {
+  return await commentSerializer.validate(comment, {
     stripUnknown: true,
   });
-
-  return validatedComment;
 };
 
 export default createCommentService;

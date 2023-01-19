@@ -8,9 +8,8 @@ export interface INewComment extends Comment {
   likesCount: number;
 }
 
-export interface IComment {
+export interface IComment extends ICommentRequest {
   id: string;
-  text: string;
   createdAt: Date;
   updatedAt: Date;
   user: {

@@ -28,7 +28,7 @@ class Post {
     createdAt: Date;
 
   @UpdateDateColumn()
-    updateAt: Date;
+    updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.posts, {
     cascade: true,

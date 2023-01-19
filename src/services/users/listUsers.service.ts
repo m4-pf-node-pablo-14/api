@@ -7,7 +7,8 @@ import {
   mergeUserCountArrays,
   mergeUsersAndRows,
 } from '../../scripts/users.scripts';
-import { INewUser } from '../../interfaces/users.interfaces';
+import { INewUser, IUserResponse } from '../../interfaces/users.interfaces';
+import { Repository } from 'typeorm';
 
 interface IReturned {
   page: number;
@@ -19,7 +20,7 @@ interface IReturned {
 const listUsersService = async (
   queryParams: IQueryParams,
 ): Promise<IReturned> => {
-  const userRepository = AppDataSource.getRepository(User);
+  const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
   const userCountObject = await userRepository
     .createQueryBuilder('users')
@@ -29,7 +30,7 @@ const listUsersService = async (
 
   const pageParams = getPageParams(queryParams, usersCount);
 
-  const users = await userRepository
+  const users: User[] = await userRepository
     .createQueryBuilder('users')
     .innerJoinAndSelect('users.address', 'address')
     .orderBy('users.createdAt')
@@ -38,9 +39,12 @@ const listUsersService = async (
     .select(['users', 'address'])
     .getMany();
 
-  const usersValidated = await listUsersSerializer.validate(users, {
-    stripUnknown: true,
-  });
+  const usersValidated: IUserResponse[] = await listUsersSerializer.validate(
+    users,
+    {
+      stripUnknown: true,
+    },
+  );
 
   const postsCount = await userRepository
     .createQueryBuilder('users')
@@ -85,16 +89,14 @@ const listUsersService = async (
     followingCount,
   );
 
-  const newUsers = mergeUsersAndRows(usersValidated, rowsOfCount);
+  const newUsers: INewUser[] = mergeUsersAndRows(usersValidated, rowsOfCount);
 
-  const returnedObject = {
+  return {
     page: pageParams.page,
     usersCount: usersCount,
     numberOfPages: pageParams.numberOfPages,
     users: newUsers,
   };
-
-  return returnedObject;
 };
 
 export default listUsersService;

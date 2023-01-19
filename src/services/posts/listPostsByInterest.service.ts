@@ -6,12 +6,22 @@ import {
   mergePostsAndRows,
 } from '../../scripts/posts.scripts';
 import Post from '../../entities/posts.entities';
+import { Repository } from 'typeorm';
+import { INewPost } from '../../interfaces/posts.interfaces';
 
-export const listPostsByInterestService = async (
+interface IReturned {
+  page: number;
+  postsCount: number;
+  numberOfPages: number;
+  interest: string;
+  posts: INewPost[];
+}
+
+const listPostsByInterestService = async (
   interestName: string,
   queryParams: IQueryParams,
-) => {
-  const postsRepository = AppDataSource.getRepository(Post);
+): Promise<IReturned> => {
+  const postsRepository: Repository<Post> = AppDataSource.getRepository(Post);
 
   const postsCountObject = await postsRepository
     .createQueryBuilder('posts')
@@ -24,7 +34,7 @@ export const listPostsByInterestService = async (
 
   const pageParams = getPageParams(queryParams, postsCount);
 
-  const posts = await postsRepository
+  const posts: Post[] = await postsRepository
     .createQueryBuilder('posts')
     .leftJoinAndSelect('posts.interestsPost', 'interestspost')
     .leftJoinAndSelect('interestspost.interest', 'interest')
@@ -68,15 +78,15 @@ export const listPostsByInterestService = async (
 
   const rawsOfCounts = mergePostCountArrays(likesCount, commentsCount);
 
-  const newPosts = mergePostsAndRows(posts, rawsOfCounts);
+  const newPosts: INewPost[] = mergePostsAndRows(posts, rawsOfCounts);
 
-  const returnedObject = {
+  return {
     page: pageParams.page,
     postsCount: postsCount,
     numberOfPages: pageParams.numberOfPages,
     interest: interestName,
     posts: newPosts,
   };
-
-  return returnedObject;
 };
+
+export default listPostsByInterestService;

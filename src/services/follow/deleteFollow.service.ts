@@ -1,17 +1,18 @@
+import { Repository } from 'typeorm';
 import AppDataSource from '../../data-source';
 import Follow from '../../entities/follow.entities';
 import AppError from '../../errors/AppError';
-import { followRequest } from '../../interfaces/follow.interfaces';
 
-const deleteFollowService = async (data: followRequest): Promise<void> => {
-  const followRepository = AppDataSource.getRepository(Follow);
+const deleteFollowService = async (followersId: string): Promise<void> => {
+  const followRepository: Repository<Follow> =
+    AppDataSource.getRepository(Follow);
 
-  const find = await followRepository.findOne({
-    where: { followers: { id: data.followers } },
+  const find: Follow = await followRepository.findOne({
+    where: { followers: { id: followersId } },
   });
 
   if (!find) {
-    throw new AppError('User not found', 404);
+    throw new AppError('You do not follow this user', 403);
   }
 
   await followRepository.remove(find);

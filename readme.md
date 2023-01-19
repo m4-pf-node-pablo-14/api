@@ -1,509 +1,55 @@
-<h1 align="center">
-  m4-pf-node-pablo-14 - Rede Social
-</h1>
+# Api - TreeNetwork
 
-<p align = "center">
-Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma Rede Social desenvolvida por estudantes programadores da Kenzie! O objetivo dessa aplicação é conseguir colocar em prática o que foi ensinado no quarto módulo do curso (M4) - E desenvolver hard skills e soft skills.
-</p>
+Este é o backend da aplicação m4-pf-node-pablo-14 - Rede Social - Uma API desenvolvida por estudantes programadores da Kenzie! O objetivo dessa aplicação é conseguir colocar em prática o que foi ensinado no quarto módulo do curso (M4) - E desenvolver hard skills e soft skills.
 
-<p align="center">
-  <a href="#endpoints">Endpoints</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
+## 🚀 Começando
 
-## **Endpoints**
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-A API tem um total de 06 endpoints, sendo em volta principalmente do usuário (dev) - podendo cadastrar seu perfil, seguir outros usuários, criar postagens, fazer comentários em postagens e curtir os comentários e postagens realizadas. <br/>
+Consulte **[Documentaçâo](https://m4-pf-node-pablo-14.github.io/Doc-Api-TreeNetwork/)** para saber como ultilizar a API
 
-<a href="https://insomnia.rest/run/?label=m4-pf-node-pablo-14%20-%20Rede%20Social&uri=https%3A%2F%2F1drv.ms%2Fu%2Fs!Ai3UBiWWhoUyq9o_mVRGZkZm19STyA" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
+### 📋 Pré-requisitos
 
-<blockquote> Para importar o JSON no Insomnia é só clicar no botão "Run in Insomnia". Depois é só seguir os passos que ele irá importar todos os endpoints em seu insomnia.
-</blockquote>
-<br>
-
-A url base da API é https://m4-pf-node-pablo-14.onrender.com
-
-## Rotas que não precisam de autenticação
-
-<h2 align ='center'> Criação de usuário </h2>
-
-Nessa aplicação o usuário sem fazer login pode fazer o seu cadastro para acessar a plataforma, na API podemos fazer o cadastro dessa forma:
-
-`POST /users - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "name": "Bruno",
-  "last_name": "Campos",
-  "email": "bruno@mail.com",
-  "password": "1234",
-  "username": "bruno",
-  "address": {
-    "city": "Bruno City",
-    "district": "Street Bruno",
-    "number": "00",
-    "state": "BR",
-    "zipCode": "12345678"
-  }
-}
-```
-
-Caso dê tudo certo, a resposta será assim:
-
-`POST /users - FORMATO DA RESPOSTA - STATUS 201`
-
-```json
-{
-  "id": "d77ea5e2-0199-4930-897d-b08ffd9739eb",
-  "email": "bruno@mail.com",
-  "username": "bruno",
-  "name": "Bruno",
-  "last_name": "Campos",
-  "bio": null,
-  "address": {
-    "id": "a5694187-5bd0-4777-9b59-dd9eae198cae",
-    "district": "Street Bruno",
-    "zipCode": "12345678",
-    "number": "00",
-    "city": "Bruno City",
-    "state": "BR"
-  }
-}
-```
-
-<h2 align ='center'> Possíveis erros </h2>
-
-Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
-No exemplo a requisição foi feita faltando o campo "last_name".
-
-`POST /users - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "error": ["last_name is a required field"]
-}
-```
-
-Email ou Username já cadastrado:
-
-`POST /users - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "message": "user already exists"
-}
-```
-
-<h2 align = "center"> Login </h2>
-
-Nessa aplicação o usuário sem fazer login pode fazer o seu login para acessar a plataforma, na API podemos fazer o login dessa forma:
-
-`POST /login - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "email": "bruno@mail.com",
-  "password": "1234"
-}
-```
-
-Caso dê tudo certo, a resposta será assim:
-
-`POST /login - FORMATO DA RESPOSTA - STATUS 201`
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzM5MDQ1NzgsImV4cCI6MTY3Mzk5MDk3OCwic3ViIjoiNGFhMjY2NmQtZTcxMi00MTFlLTliNWEtNWVmNmFhOTYzNTNhIn0.E9bZ-U7emEPdrnnXPXeHZD-U3-v0MDqE56eV0U9cbgw"
-}
-```
-
-<h2 align ='center'> Possíveis erros </h2>
-
-Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
-No exemplo a requisição foi feita faltando o campo "password".
-
-`POST /login - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "error": ["password is a required field"]
-}
-```
-
-Email ou Password incorretos:
-
-`POST /login - `
-` FORMATO DA RESPOSTA - STATUS 404`
-
-```json
-{
-	"message": "wrong email or password"
-}
-```
-
-## Rotas que necessitam de autorização
-
-Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
-
-> Authorization: Bearer {token}
-
-Após o usuário estar logado, ele deve conseguir informar as tecnologias que ele aprendeu até agora.
-
-Podemos utilizar os query params para mudar a lista, mudando a paginação, podemos alterar quantos usuários queremos no perPage, e alterar a página no parâmetro page. Uma requisição apenas no /users irá trazer 15 usuários na página 1.
-Com o parâmetro tech, podemos filtrar por tecnologia.
-
-`GET /users?perPage=15&page=1&tech=React - FORMATO DA RESPOSTA - STATUS 200`
-
-```json
-[
-  {
-    "id": "8b8e50a6-50c2-4718-b817-2d38cad0c8f4",
-    "name": "Gabriel Araujo",
-    "email": "gabriel@gmail.com",
-    "course_module": "2o Módulo (Frontend avançado)",
-    "bio": "Lorem ipsum dolor emet",
-    "contact": "linkedin/araujooj",
-    "techs": [
-      {
-        "id": "55126701-18ac-40df-aab9-3a88657db446",
-        "title": "React",
-        "status": "Avançado",
-        "created_at": "2020-11-30T16:26:53.953Z",
-        "updated_at": "2020-11-30T16:26:53.953Z"
-      },
-      {
-        "id": "af06a853-c1fb-4a94-960d-1c6caa8d2b5c",
-        "title": "Typescript",
-        "status": "Avançado",
-        "created_at": "2020-11-30T18:40:08.316Z",
-        "updated_at": "2020-11-30T18:40:08.316Z"
-      }
-    ],
-    "works": [
-      {
-        "id": "0cd019b5-10c5-4eb4-9781-5dff577cfd9e",
-        "title": "KenzieHub",
-        "description": "I was the backend developer of this project, and i did it using Typescript and NodeJS",
-        "deploy_url": "https://kenziehub.me",
-        "created_at": "2020-12-03T01:13:44.720Z",
-        "updated_at": "2020-12-03T01:13:44.720Z"
-      }
-    ],
-    "created_at": "2020-11-27T00:01:13.789Z",
-    "updated_at": "2020-12-05T13:59:22.632Z",
-    "avatar_url": "https://kenziehub.s3.amazonaws.com/4ff1e3c6c082ff67af7c-IMG_20200610_110518_522.jpg"
-  }
-]
-```
-
-Lembrando que no cabeçalho da resposta, temos as informações sobre a paginação, e o nextUrl para acessar a próxima página.
-
-Cabeçalho da resposta:
-
-> nextUrl: https://kenziehub.herokuapp.com/users?perPage=15&page=2 <br/>
-> page: 1 <br/>
-> perPage: 15
-
-Podemos acessar um usuário específico utilizando o endpoint:
-
-`GET /users/:user_id - FORMATO DA RESPOSTA - STATUS 200`
-
-```json
-{
-  "id": "8b8e50a6-50c2-4718-b817-2d38cad0c8f4",
-  "name": "Gabriel Araujo",
-  "email": "gabriel@gmail.com",
-  "course_module": "2o Módulo (Frontend avançado)",
-  "bio": "Lorem ipsum dolor emet",
-  "contact": "linkedin/araujooj",
-  "techs": [
-    {
-      "id": "55126701-18ac-40df-aab9-3a88657db446",
-      "title": "React",
-      "status": "Avançado",
-      "created_at": "2020-11-30T16:26:53.953Z",
-      "updated_at": "2020-11-30T16:26:53.953Z"
-    },
-    {
-      "id": "af06a853-c1fb-4a94-960d-1c6caa8d2b5c",
-      "title": "Typescript",
-      "status": "Avançado",
-      "created_at": "2020-11-30T18:40:08.316Z",
-      "updated_at": "2020-11-30T18:40:08.316Z"
-    }
-  ],
-  "works": [
-    {
-      "id": "0cd019b5-10c5-4eb4-9781-5dff577cfd9e",
-      "title": "KenzieHub",
-      "description": "I was the backend developer of this project, and i did it using Typescript and NodeJS",
-      "deploy_url": "https://kenziehub.me",
-      "created_at": "2020-12-03T01:13:44.720Z",
-      "updated_at": "2020-12-03T01:13:44.720Z"
-    }
-  ],
-  "created_at": "2020-11-27T00:01:13.789Z",
-  "updated_at": "2020-12-05T13:59:22.632Z",
-  "avatar_url": "https://kenziehub.s3.amazonaws.com/4ff1e3c6c082ff67af7c-IMG_20200610_110518_522.jpg"
-}
-```
-
-<h2 align ='center'> Criação de usuário </h2>
-
-`POST /users - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "email": "johndoe@email.com",
-  "password": "123456",
-  "name": "John Doe",
-  "bio": "Lorem ipsum dolor emet",
-  "contact": "linkedin/in/johndoe",
-  "course_module": "Segundo Módulo (Frontend avançado)"
-}
-```
-
-Caso dê tudo certo, a resposta será assim:
-
-`POST /users - FORMATO DA RESPOSTA - STATUS 201`
-
-```json
-{
-  "id": "c110dbb6-beb9-4682-ab63-2c12a570d66b",
-  "name": "John Doe",
-  "email": "johndoe@email.com",
-  "course_module": "Segundo Módulo (Frontend avançado)",
-  "bio": "Lorem ipsum dolor emet",
-  "contact": "linkedin/in/johndoe",
-  "created_at": "2020-12-05T14:38:02.019Z",
-  "updated_at": "2020-12-05T14:38:02.019Z",
-  "avatar_url": null
-}
-```
-
-1. O campo - "contact": Pode receber as redes sociais da pessoa, ou numero de telefone, algum método de contato fora da aplicação.
-
-2. O campo - "course_module" deve receber respectivamente os 4 módulos do curso da kenzie, devendo ser escritos dessa forma:
-   1. "Primeiro módulo (Introdução ao Frontend)"
-   2. "Segundo módulo (Frontend Avançado)"
-   3. "Terceiro módulo (Introdução ao Backend)"
-   4. "Quarto módulo (Backend Avançado)"
-
-<h2 align ='center'> Possíveis erros </h2>
-
-Caso você acabe errando e mandando algum campo errado, a resposta de erro será assim:
-No exemplo a requisição foi feita faltando o campo "contact" e "course_module".
-
-`POST /users - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "status": "error",
-  "message": ["contact is required", "course_module is required"]
-}
-```
-
-A senha necessita de 6 caracteres.
-
-`POST /users - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "status": "error",
-  "message": ["password: minimum is 6 characters"]
-}
-```
-
-Email já cadastrado:
-
-`POST /users - `
-` FORMATO DA RESPOSTA - STATUS 400`
-
-```json
-{
-  "status": "error",
-  "message": "Email already exists"
-}
-```
-
-<h2 align = "center"> Login </h2>
-
-`POST /sessions - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "email": "johndoe@email.com",
-  "password": "123456"
-}
-```
-
-Caso dê tudo certo, a resposta será assim:
-
-`POST /sessions - FORMATO DA RESPOSTA - STATUS 201`
-
-```json
-{
-  "user": {
-    "id": "2a75e12d-fd1c-481d-ba88-4d8b17103b2a",
-    "name": "John Doe",
-    "email": "johndoe@email.com",
-    "course_module": "Segundo Módulo (Frontend avançado)",
-    "bio": "Lorem ipsum dolor emet",
-    "contact": "linkedin/in/johndoe",
-    "created_at": "2020-12-05T17:45:04.207Z",
-    "updated_at": "2020-12-05T17:45:04.207Z",
-    "techs": [],
-    "works": [],
-    "avatar_url": null
-  },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
-}
-```
-
-Com essa resposta, vemos que temos duas informações, o user e o token respectivo, dessa forma você pode guardar o token e o usuário logado no localStorage para fazer a gestão do usuário no seu frontend.
-
-## Rotas que necessitam de autorização
-
-Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
-
-> Authorization: Bearer {token}
-
-Após o usuário estar logado, ele deve conseguir informar as tecnologias que ele aprendeu até agora.
-
-<h2 align ='center'> Buscar Perfil do usuário logado (token) </h2>
-
-`GET /profile - FORMATO DA REQUISIÇÃO`
-
-<blockquote>Na requisição apenas é necessário o TOKEN, a aplicação ficará responsável em buscar o id do usuário no token e retorna ele.</blockquote>
-
-<br>
-
-`GET /profile - FORMATO DA RESPOSTA - STATUS 200`
-
-```json
-{
-  "id": "1f4b83fe-c3df-4818-8356-c8d4dedeb49b",
-  "name": "Teste",
-  "email": "teste@gmail.com",
-  "course_module": "m3",
-  "bio": "Teste",
-  "contact": "linkedin/in/teste",
-  "techs": [],
-  "works": [],
-  "created_at": "2022-08-08T00:08:22.920Z",
-  "updated_at": "2022-08-08T00:08:22.920Z",
-  "avatar_url": null
-}
-```
-
-<h2 align ='center'> Criar tecnologias para o seu perfil </h2>
-
-`POST /users/techs - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "title": "React",
-  "status": "Iniciante"
-}
-```
-
-1. O campo - "status" deve receber respectivamente os 3 níveis de habilidade:
-   - "Iniciante"
-   - "Intermediário"
-   - "Avançado"
-
-Caso você tente criar uma tecnologia com o mesmo nome para o seu perfil, receberá este erro:
-
-`POST /users/techs - FORMATO DA RESPOSTA - STATUS 401`
-
-```json
-{
-  "status": "error",
-  "message": "User Already have this technology created, you can only update it"
-}
-```
-
-Ou seja, você pode apenas dar update em quanto você avançou nas tecnologias que já está no seu perfil. Utilizando este endpoint:
-
-`PUT /users/techs/:tech_id - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "status": "Avançado"
-}
-```
-
-Também é possível deletar uma tecnologia, utilizando este endpoint:
-
-`DELETE /users/techs/:tech_id`
+De que coisas você precisa para instalar o software e como instalá-lo?
 
 ```
-Não é necessário um corpo da requisição.
+yarn version  1.22.5 ou superior
+nodeJs 16.19.0 ou superior
 ```
 
-<h2 align ='center'> Criar trabalhos para o seu perfil </h2>
 
-Da mesma forma de criar tecnologias, conseguimos criar trabalhos, dessa forma:
 
-`POST /users/works - FORMATO DA REQUISIÇÃO`
+## ⚙️ Executando os testes
 
-```json
-{
-  "title": "KenzieHub",
-  "description": "I was the backend developer of this project, and i did it using Typescript and NodeJS",
-  "deploy_url": "https://kenziehub.me"
-}
-```
-
-Conseguimos atualizar o titulo, a descrição ou o deploy_url, qualquer uma das informações do respectivo trabalho.
-Utilizando este endpoint:
-
-`PUT /users/works/:work_id - FORMATO DA REQUISIÇÃO`
-
-```json
-{
-  "title": "KenzieHub Atualizado",
-  "description": "Nova descrição."
-}
-```
-
-Também é possível deletar um trabalho do seu perfil, utilizando este endpoint:
-
-`DELETE /users/works/:work_id`
+Para executar os testes das rotas basta executar o comando abaixo no terminal 
 
 ```
-Não é necessário um corpo da requisição.
+yarn test
 ```
 
-<h2 align ='center'> Atualizando os dados do perfil </h2>
+## 🛠️ Construído com
 
-Assim como os endpoints de tecnologias e trabalhos, nesse precisamos estar logados, com o token no cabeçalho da requisição. Estes endpoints são para atualizar seus dados como, foto de perfil, nome, ou qualquer outra informação em relação ao que foi utilizado na criação do usuário.
+* [TypeScript]() - linguagem de programção 
+* [Express]() - Framework web
+* [Postegresql]() - Banco de dados
+* [Render]() - Plataforma de deploy 
 
-Endpoint para atualizar a foto de perfil:
 
-`PATCH /users/avatar - FORMATO DA REQUISIÇÃO`
 
-```multipart
-avatar: <Arquivo de imagem>
-```
 
-Nesse endpoint podemos atualizar qualquer dado do usuário, e a senha também, porém é necessário enviar a antiga senha no campo "old_password" caso o usuário queira atualizar a senha.
+## 📌 Versão 1.0.0
 
-`PUT /profile - FORMATO DA REQUISIÇÃO`
+## ✒️ Autores
 
-```json
-{
-  "name": "Gabriel Araujo",
-  "contact": "linkedin/araujooj",
-  "old_password": "123456",
-  "password": "123456789"
-}
-```
+
+* **Rafael Gomes** - *Desenvolvedor* - [Likedin](https://www.linkedin.com/in/rafael-gomes-dos-santos-8b411a144)
+* **Vinicius Quirino** - *Scrum master* - [Linkedin](https://www.linkedin.com/in/viniciusquirino/)
+* **Pedro Nogueira** - *Desenvolvedor* - [Git Hub](https://github.com/PedroHPNogueira)
+* **Lucas Bueno** - *Desenvolvedor* - [Linkedin](https://www.linkedin.com/in/lugabusi/)
+* **Lucas Soares** - *Tech Leader* - [Linkedin](linkedin.com/in/lucassoaresolv)
+* **Bruno Campos** - *product owner* - [Linkendin](https://www.linkedin.com/mwlite/in/bruno-campos-04ab65194)
+* **Gabriel Augusto** - *Desenvolvedor* - [link](https://www.linkedin.com/in/gabriel-augusto-5aab41236)
+
 
 ---
-
-Feito com ♥ by araujooj :wave:
+⌨️ com ❤️ por [Rafael ](https://www.linkedin.com/in/rafael-gomes-dos-santos-8b411a144) 😊

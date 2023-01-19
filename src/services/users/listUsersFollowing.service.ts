@@ -2,6 +2,7 @@ import { getPageParams } from './../../scripts/pageParams.script';
 import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Follow from '../../entities/follow.entities';
+import { Repository } from 'typeorm';
 
 interface IReturned {
   page: number;
@@ -14,7 +15,8 @@ const listUsersFollowingService = async (
   userId: string,
   queryParams: IQueryParams,
 ): Promise<IReturned> => {
-  const followsRepository = AppDataSource.getRepository(Follow);
+  const followsRepository: Repository<Follow> =
+    AppDataSource.getRepository(Follow);
 
   const followingCountObject = await followsRepository
     .createQueryBuilder('follows')
@@ -26,7 +28,7 @@ const listUsersFollowingService = async (
 
   const pageParams = getPageParams(queryParams, followingCount);
 
-  const follows = await followsRepository
+  const follows: Follow[] = await followsRepository
     .createQueryBuilder('follows')
     .innerJoin('follows.following', 'followingUser')
     .innerJoinAndSelect('follows.followers', 'following')
@@ -37,14 +39,12 @@ const listUsersFollowingService = async (
     .offset(pageParams.offset)
     .getMany();
 
-  const returnedObject = {
+  return {
     page: pageParams.page,
     followersCount: followingCount,
     numberOfPages: pageParams.numberOfPages,
     followers: follows,
   };
-
-  return returnedObject;
 };
 
 export default listUsersFollowingService;

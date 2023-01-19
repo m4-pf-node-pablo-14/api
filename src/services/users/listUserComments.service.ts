@@ -4,6 +4,7 @@ import { IQueryParams } from './../../interfaces/queryParams.interface';
 import AppDataSource from '../../data-source';
 import Comment from '../../entities/comments.entities';
 import { INewComment } from '../../interfaces/comments.interface';
+import { Repository } from 'typeorm';
 
 interface IReturned {
   page: number;
@@ -16,7 +17,8 @@ const listUserCommentsService = async (
   userId: string,
   queryParams: IQueryParams,
 ): Promise<IReturned> => {
-  const commentsRepository = AppDataSource.getRepository(Comment);
+  const commentsRepository: Repository<Comment> =
+    AppDataSource.getRepository(Comment);
 
   const commentsCountObject = await commentsRepository
     .createQueryBuilder('comments')
@@ -28,7 +30,7 @@ const listUserCommentsService = async (
 
   const pageParams = getPageParams(queryParams, commentCount);
 
-  const comments = await commentsRepository
+  const comments: Comment[] = await commentsRepository
     .createQueryBuilder('comments')
     .innerJoinAndSelect('comments.user', 'user')
     .where('user.id = :userId', { userId: userId })
@@ -51,16 +53,17 @@ const listUserCommentsService = async (
     .offset(pageParams.offset)
     .getRawMany();
 
-  const newComments = mergeCommentsAndRows(comments, rowsOfCounts);
+  const newComments: INewComment[] = mergeCommentsAndRows(
+    comments,
+    rowsOfCounts,
+  );
 
-  const returnedObject = {
+  return {
     page: pageParams.page,
     commentsCount: commentCount,
     numberOfPages: pageParams.numberOfPages,
     users: newComments,
   };
-
-  return returnedObject;
 };
 
 export default listUserCommentsService;
