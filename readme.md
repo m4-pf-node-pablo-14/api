@@ -52,4 +52,3 @@ yarn test
 
 
 ---
-⌨️ com ❤️ por [Rafael ](https://www.linkedin.com/in/rafael-gomes-dos-santos-8b411a144) 😊
