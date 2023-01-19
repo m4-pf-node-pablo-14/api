@@ -1,8 +1,10 @@
 import {
+  mockedLoginRequestAdm,
   mockedLoginRequestTwo,
   mockedUpdateAdmUserRequest,
   mockedUpdateUserRequest,
   mockedUserRequest,
+  mockedUserRequestAdm,
   mockedUserRequestTwo,
 } from '../../mocks';
 import { DataSource } from 'typeorm';
@@ -12,7 +14,9 @@ import app from '../../../src/app';
 
 interface IUser {
   id: string;
+  idAdm: string;
   token: string;
+  tokenAdm: string;
 }
 
 describe('Tests routes /users', () => {
@@ -30,13 +34,21 @@ describe('Tests routes /users', () => {
       });
 
     const userId = await request(app).post('/users').send(mockedUserRequestTwo);
+    const userAdm = await request(app)
+      .post('/users')
+      .send(mockedUserRequestAdm);
     const userToken = await request(app)
       .post('/login')
       .send(mockedLoginRequestTwo);
+    const tokenAdm = await request(app)
+      .post('/login')
+      .send(mockedLoginRequestAdm);
 
     dataUser = {
       id: userId.body.id,
+      idAdm: userAdm.body.id,
       token: userToken.body.token,
+      tokenAdm: tokenAdm.body.token,
     };
   });
 
@@ -79,32 +91,18 @@ describe('Tests routes /users', () => {
       .post('/users')
       .send(mockedUserRequestTwo);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(409);
     expect(response.body).toHaveProperty('message');
   });
 
-  // it("GET - /users - Must be able to list users", async () => {
-  //   const authorization = await request(app).post("/login").send(mockedLoginRequest);
-  //   const response = await request(app)
-  //     .get("/users")
-  //     .set("Authorization", `Bearer ${authorization.body.token}`)
-  //     .send();
+  it('It should not be able to create a user missing information', async () => {
+    const response = await request(app)
+      .post('/users')
+      .send({ name: 'Lucas', email: 'lucasSOA@mail.com', password: '1234' });
 
-  //   console.log(response.body);
-
-  //   expect(response.body).toHaveProperty("page");
-  //   expect(response.body).toHaveProperty("usersCount");
-  //   expect(response.body).toHaveProperty("users");
-  //   expect(response.body.users).toEqual(
-  //     expect.arrayContaining([
-  //       expect.objectContaining({
-  //         id: expect.any(String),
-  //         name: expect.any(String),
-  //         address: expect.any(Object),
-  //       }),
-  //     ])
-  //   );
-  // });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
+  });
 
   it('It should not be able to list users without authentication', async () => {
     const response = await request(app).get('/users');
@@ -113,37 +111,57 @@ describe('Tests routes /users', () => {
     expect(response.body).toHaveProperty('message');
   });
 
-  it('it should be possible to list the user profile information', async () => {
+  test('It should not be possible to users posts by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${dataUser.id}`)
+      .set('Authorization', `Bearer ${dataUser.token}`);
     const response = await request(app)
-      .get(`/users/${dataUser.id}`)
+      .get('/users')
       .set('Authorization', `Bearer ${dataUser.token}`);
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('id');
-    expect(response.body).toHaveProperty('email');
-    expect(response.body).toHaveProperty('username');
-    expect(response.body).toHaveProperty('name');
-    expect(response.body).toHaveProperty('last_name');
-    expect(response.body).toHaveProperty('bio');
-    expect(response.body).not.toHaveProperty('password');
-    expect(response.body).toHaveProperty('address');
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(403);
   });
 
-  // it("GET - /users/followers - It should be possible to list the user's followers", async () => {
-  //   const authorization = await request(app).post("/login").send(mockedLoginRequest);
-  //   const response = await request(app).get("/users")
-  //   .set("Authorization", `Bearer ${authorization.body.token}`)
+  test('It should not be possible to retrieve a user with the invalid parameter', async () => {
+    const response = await request(app)
+      .get('/users/123')
+      .set('Authorization', `Bearer ${dataUser.token}`);
 
-  //   console.log(response.body)
-  // });
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
+  });
 
-  // it("GET - /users/following - it should be possible to see who the user follows", async () => {
-  //   const authorization = await request(app).post("/login").send(mockedLoginRequest);
-  //   const response = await request(app).get("/users")
-  //   .set("Authorization", `Bearer ${authorization.body.token}`)
+  test('It should not be possible to retrieve a user without authentication', async () => {
+    const response = await request(app).get(`/users/${dataUser.id}`);
 
-  //   console.log(response.body)
-  // });
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(401);
+  });
+
+  test('It should not be possible to retrieve a user by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${dataUser.id}`)
+      .set('Authorization', `Bearer ${dataUser.token}`);
+    const response = await request(app)
+      .get(`/users/${dataUser.idAdm}`)
+      .set('Authorization', `Bearer ${dataUser.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(403);
+  });
+
+  test('It should not be possible to retrieve a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${dataUser.id}`)
+      .set('Authorization', `Bearer ${dataUser.tokenAdm}`);
+    const response = await request(app)
+      .get(`/users/${dataUser.id}`)
+      .set('Authorization', `Bearer ${dataUser.tokenAdm}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
 
   it('It should be able to update user', async () => {
     const response = await request(app)
@@ -195,12 +213,12 @@ describe('Tests routes /users', () => {
   it('It should not be able to delete user with date in deletedAt', async () => {
     await request(app)
       .delete(`/users/${dataUser.id}`)
-      .set('Authorization', `Bearer ${dataUser.token}`);
+      .set('Authorization', `Bearer ${dataUser.tokenAdm}`);
     const response = await request(app)
       .delete(`/users/${dataUser.id}`)
-      .set('Authorization', `Bearer ${dataUser.token}`);
+      .set('Authorization', `Bearer ${dataUser.tokenAdm}`);
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
   });
 });

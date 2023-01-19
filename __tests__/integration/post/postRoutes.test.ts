@@ -11,6 +11,7 @@ import {
   mockedPostUpdateRequest,
   mockedUserRequestAdm,
   mockedLoginRequestAdm,
+  mockedInterestRequest,
 } from '../../mocks';
 
 interface IParams {
@@ -100,7 +101,7 @@ describe('Tests routes /posts', () => {
     expect(response.body).toHaveProperty('img');
     expect(response.body).toHaveProperty('createdAt');
     expect(response.body).toHaveProperty('description');
-    expect(response.body).toHaveProperty('updateAt');
+    expect(response.body).toHaveProperty('updatedAt');
     expect(response.body).toHaveProperty('user');
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
@@ -161,16 +162,6 @@ describe('Tests routes /posts', () => {
     expect(response.status).toBe(403);
   });
 
-  test('It should not be possible to list posts that does not exist', async () => {
-    const response = await request(app)
-      .get(`/posts/${params.postDeleteId}`)
-      .set('Authorization', `Bearer ${params.token}`)
-      .send();
-
-    expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty('message');
-  });
-
   test('It should be possible to update a post', async () => {
     const response = await request(app)
       .patch(`/posts/${params.postId}`)
@@ -182,7 +173,7 @@ describe('Tests routes /posts', () => {
     expect(response.body).toHaveProperty('img');
     expect(response.body).toHaveProperty('description');
     expect(response.body).toHaveProperty('createdAt');
-    expect(response.body).toHaveProperty('updateAt');
+    expect(response.body).toHaveProperty('updatedAt');
     expect(response.body).toHaveProperty('user');
     expect(response.body.user).toHaveProperty('id');
     expect(response.body.user).toHaveProperty('username');
@@ -190,6 +181,16 @@ describe('Tests routes /posts', () => {
     expect(response.body.description).toEqual('Olá,Mundo!');
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
+  });
+
+  test('It should not be possible to update a post with the invalid parameter', async () => {
+    const response = await request(app)
+      .patch('/posts/123')
+      .set('Authorization', `Bearer ${params.token}`)
+      .send(mockedPostUpdateRequest);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
   });
 
   test('It should not be possible to update a post without authentication', async () => {
@@ -207,11 +208,11 @@ describe('Tests routes /posts', () => {
       .set('Authorization', `Bearer ${params.token}`)
       .send(mockedPostUpdateRequest);
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty('message');
   });
 
-  test('It should not be possible to update a post by a user that does not exist', async () => {
+  test('It should not be possible to update a post by user that does not exist', async () => {
     await request(app)
       .delete(`/users/${params.userId}`)
       .set('Authorization', `Bearer ${params.token}`);
@@ -220,8 +221,8 @@ describe('Tests routes /posts', () => {
       .set('Authorization', `Bearer ${params.token}`)
       .send(mockedPostUpdateRequest);
 
-    expect(response.body).toHaveProperty('message');
     expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty('message');
   });
 
   test('It should not be possible to update a post that does not exist', async () => {
@@ -234,11 +235,20 @@ describe('Tests routes /posts', () => {
     expect(response.body).toHaveProperty('message');
   });
 
+  test('It should not be possible to update a post without an image or description, it must have one or the other', async () => {
+    const response = await request(app)
+      .patch(`/posts/${params.postId}`)
+      .set('Authorization', `Bearer ${params.token}`)
+      .send();
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
+  });
+
   test('It should be possible to delete a post', async () => {
     const response = await request(app)
       .delete(`/posts/${params.postId}`)
-      .set('Authorization', `Bearer ${params.token}`)
-      .send();
+      .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.status).toBe(204);
   });
@@ -246,16 +256,22 @@ describe('Tests routes /posts', () => {
   test('It must be possible for the admin user to delete the post', async () => {
     const response = await request(app)
       .delete(`/posts/${params.postId}`)
-      .set('Authorization', `Bearer ${params.tokenUserAdm}`)
-      .send();
+      .set('Authorization', `Bearer ${params.tokenUserAdm}`);
 
     expect(response.status).toBe(204);
   });
 
-  test('It should not be possible to delete a post without authentication', async () => {
+  test('It should not be possible to delete a post with the invalid parameter', async () => {
     const response = await request(app)
-      .delete(`/posts/${params.postTwoId}`)
-      .send();
+      .delete('/posts/123')
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to delete a post without authentication', async () => {
+    const response = await request(app).delete(`/posts/${params.postTwoId}`);
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty('message');
@@ -264,10 +280,9 @@ describe('Tests routes /posts', () => {
   test('It should not be possible to delete a post from another user', async () => {
     const response = await request(app)
       .delete(`/posts/${params.postTwoId}`)
-      .set('Authorization', `Bearer ${params.token}`)
-      .send();
+      .set('Authorization', `Bearer ${params.token}`);
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty('message');
   });
 
@@ -286,8 +301,7 @@ describe('Tests routes /posts', () => {
   test('It should not be possible to delete a post that does not exist', async () => {
     const response = await request(app)
       .delete(`/posts/${params.postDeleteId}`)
-      .set('Authorization', `Bearer ${params.token}`)
-      .send();
+      .set('Authorization', `Bearer ${params.token}`);
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
@@ -303,7 +317,7 @@ describe('Tests routes /posts', () => {
     expect(response.body).toHaveProperty('img');
     expect(response.body).toHaveProperty('description');
     expect(response.body).toHaveProperty('createdAt');
-    expect(response.body).toHaveProperty('updateAt');
+    expect(response.body).toHaveProperty('updatedAt');
     expect(response.body).toHaveProperty('user');
     expect(response.body).toHaveProperty('likes');
     expect(response.body).toHaveProperty('comments');
@@ -315,6 +329,15 @@ describe('Tests routes /posts', () => {
     expect(response.body.description).toEqual(params.postDescription);
     expect(response.body.user.id).toEqual(params.userId);
     expect(response.body.user.username).toEqual(params.username);
+  });
+
+  test('It should not be possible to retrieve a post with the invalid parameter', async () => {
+    const response = await request(app)
+      .get('/posts/123')
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(400);
   });
 
   test('It should not be possible to retrieve a post without authentication', async () => {
@@ -343,5 +366,34 @@ describe('Tests routes /posts', () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
+  });
+
+  test('It should not be possible to list posts by interest without authentication', async () => {
+    const interest = await request(app)
+      .post('/interests')
+      .set('Authorization', `Bearer ${params.token}`)
+      .send(mockedInterestRequest);
+    const response = await request(app).get(
+      `/posts/interest/${interest.body.name}`,
+    );
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(401);
+  });
+
+  test('It should not be possible to list posts by interest by a user that does not exist', async () => {
+    await request(app)
+      .delete(`/users/${params.userId}`)
+      .set('Authorization', `Bearer ${params.token}`);
+    const interest = await request(app)
+      .post('/interests')
+      .set('Authorization', `Bearer ${params.token}`)
+      .send(mockedInterestRequest);
+    const response = await request(app)
+      .get(`/posts/interest/${interest.body.name}`)
+      .set('Authorization', `Bearer ${params.token}`);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.status).toBe(403);
   });
 });

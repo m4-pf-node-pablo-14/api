@@ -62,4 +62,13 @@ describe('test routes /login', () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
   });
+
+  test('Should not be able to login with invalid email type', async () => {
+    const response = await request(app)
+      .post('/login')
+      .send({ email: 'lucas', password: '1234' });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message');
+  });
 });
